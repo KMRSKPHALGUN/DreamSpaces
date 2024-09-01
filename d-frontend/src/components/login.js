@@ -1,6 +1,6 @@
 import React from "react";
 import '../css/login_signup.css';
-import Loginn from '../images/loginn.jpg';
+import Loginn from '../images/loginn.jpeg';
 
 function Login() {
     return(

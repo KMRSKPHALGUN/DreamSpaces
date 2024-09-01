@@ -16,11 +16,15 @@ function LandingPage() {
                     <section className="flex">
                         <a href="/" className="logo">
                             <img 
+                                className="logo-img"
                                 src={Logo} 
                                 alt="Dream Spaces" 
-                                style={{height: '25px'}}
+                                style={{height: '85px'}}
                             />
+                            <div className="logo-text">
                             DreamSpaces
+                            </div>
+                            
                         </a>
                         <FontAwesomeIcon icon={faBars} className="mobile-view" />
                         <ul id="top-menu">

@@ -1,7 +1,7 @@
 import React from "react";
 import '../css/login_signup.css';
 import Eye from '../images/eye.svg';
-import Signupp from '../images/signupp.jpg';
+import Signupp from '../images/loginn.jpeg';
 
 function Signup() {
     return(

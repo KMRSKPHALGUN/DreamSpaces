@@ -32,7 +32,9 @@
   align-items: center;
   justify-content: center;
   transition: 0.5;
-  background-image: url("../images/background.jpg");
+  background-image: url("../images/background.jpeg");
+  /* opacity: 0.3px;
+  z-index: -1; */
   background-size: cover; /* Ensures the background image covers the entire container */
   background-position: center; /* Centers the background image within the container */
   background-repeat: no-repeat;
@@ -132,13 +134,13 @@
   border: none;
   outline: none;
   cursor: pointer;
-  background-color: var(--custom);
+  background-color: rgb(116, 168, 116);
   color: white;
   transition: 0.5s;
 }
 
 .section form .form-control:first-child input[type="submit"]:hover {
-  background-color: #694c32c7;
+  background-color: #154c12c7;
 }
 
 .section form .form-control:first-child h2 {

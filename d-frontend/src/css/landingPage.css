@@ -40,13 +40,16 @@ background-color: var(--light-bg);
    width: 100%;
    height: 100vh; /* Use viewport height for full screen */
    overflow: hidden;
-   background-image: url("../images/lp3.png");
+   background-image: url("../images/land-img.jpeg");
    background-repeat: no-repeat;
    background-size: 100% 100%;
    background-position: center;
    display: flex;
    justify-content: center;
    align-items: center;
+   opacity: 0.95;
+    /* Adjust the opacity (0 to 1) for transparency */
+   /* z-index: -1; */
 }
 
 @keyframes colanim {
@@ -65,19 +68,25 @@ background-color: var(--light-bg);
 
 .overlay {
    text-align: center;
-   color: #ffffff;
-   text-shadow: 0px 0px 10px cyan;
+   
+   text-shadow: 0px 0px 10px rgb(3, 4, 3);
 }
  
 .overlay h1 {
-   font-size: 40px; /* Adjust the font size */
+   font-size: 60px; /* Adjust the font size */
    margin: 0;
-   margin-right: -600px;
+   /* margin-right: -600px; */
+   padding-left:200px ;
+   padding-top: 80px;
+   color: rgb(250, 250, 250);
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
  
 .overlay p {
-   font-size: 70px; /* Adjust the font size */
+   font-size: 90px; /* Adjust the font size */
    margin-top: -200px;
+   padding-right:100px ;
+   color: white;
 }
 
 .center {
@@ -95,6 +104,17 @@ padding: 3rem 2rem;
 max-width: 1200px;
 margin: 0 auto;
 }
+.logo{
+   display: flex;
+}
+.logo-img{
+   border-radius: 50%;
+}
+.logo-text{
+   padding-top: 30px;
+   padding-left: 10px;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 .header{
    position: sticky;
    top: 0; left: 0; right: 0;
@@ -108,7 +128,8 @@ margin: 0 auto;
 }
  
 .header .navbar.nav{
-   background-color: var(--black);
+   background-color: #364b18;
+   /* background-color: #e2c7af; */
 }
  
  
@@ -143,12 +164,14 @@ margin: 0 auto;
     font-size: 1.8rem;
     margin-right: 0.8rem;
     color: var(--black);
-    background-color: var(--white);
+    background-color: rgb(245, 245, 245);
+    /* border-radius: 5px; */
  }
  
  .header .navbar .flex ul li a:hover{
-    background-color: var(--main-color);
+    background-color: rgb(4, 50, 5);
     color: var(--white);
+    border-radius: 0px;
  }
  
  .header .navbar .flex ul li a i{
@@ -336,7 +359,7 @@ font-size: 14px;
 color: #fff;
 width: 100px; /* Adjusted width for the button */
 height: 70px;
-background: #936c4ac7;
+background: #4a934fc7;
 text-transform: capitalize;
 border-radius: 3px;
 transition: 0.3s linear;
@@ -808,7 +831,7 @@ ul{
 	list-style: none;
 }
 .footer{
-	background-color: #24262b;
+	background-color: #162712;
     padding: 70px 0;
 }
 .footer-col{
@@ -828,7 +851,7 @@ ul{
 	position: absolute;
 	left:0;
 	bottom: -10px;
-	background-color: #936c4ac7;
+	background-color: #666;
 	height: 2px;
 	box-sizing: border-box;
 	width: 50px;
