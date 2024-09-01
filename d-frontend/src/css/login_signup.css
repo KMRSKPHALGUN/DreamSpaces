@@ -32,7 +32,7 @@
   align-items: center;
   justify-content: center;
   transition: 0.5;
-  background-image: url("C:/Users/Lenovo/Desktop/DreamSpaces/d-frontend/src/images/background.jpg");
+  background-image: url("../images/background.jpg");
   background-size: cover; /* Ensures the background image covers the entire container */
   background-position: center; /* Centers the background image within the container */
   background-repeat: no-repeat;
