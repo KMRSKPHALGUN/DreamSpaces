@@ -52,23 +52,8 @@ background-color: var(--light-bg);
    /* z-index: -1; */
 }
 
-@keyframes colanim {
-   0% {color: #ffffff;}
-   10% {color: rgb(201, 201, 240);}
-   20% {color: rgb(175, 175, 238);}
-   30% {color: rgb(126, 126, 232);}
-   40% {color: rgb(93, 93, 246);}
-   50% {color: rgb(81, 81, 232);}
-   60% {color: rgb(63, 63, 246);}
-   70% {color: rgb(43, 43, 236);}
-   80% {color: rgb(27, 27, 243);}
-   90% {color: rgb(16, 16, 251);}
-   100% {color: blue;}
-}
-
 .overlay {
    text-align: center;
-   
    text-shadow: 0px 0px 10px rgb(3, 4, 3);
 }
  
