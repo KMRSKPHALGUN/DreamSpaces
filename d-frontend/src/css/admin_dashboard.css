@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+      #sidebar .lni {
+        font-size: 20px; /* Adjust the size as needed */
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: white;
+        color: #0e2238;
+      }
+      .btn{
+        background-color:#0e2238 ;
+        color: white;
+      }
+      #sidebar {
+        width: 70px;
+        background-color: #0e2238;
+        color: white;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 20px;
+      }
+      #sidebar .sidebar-nav {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+      }
+      #sidebar .sidebar-item {
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      #sidebar .sidebar-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+      #sidebar .sidebar-link {
+        color: white;
+      }
+      #main {
+        margin-left: 70px; /* Same as sidebar width */
+        padding: 20px;
+      }
+      .content-section {
+        display: none;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .content-section.active {
+        display: block;
+      }
+
+/* CSS for Property Reports Section */
+#reports {
+    background-color: #ffffff; /* White background color */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+}
+
+#reports h3 {
+    color: #0e2238; /* Dark blue text color */
+    margin-bottom: 20px; /* Bottom margin below heading */
+}
+
+.list-group {
+    padding: 0; /* Remove default padding for list group */
+}
+
+.list-group-item {
+    padding: 20px;
+    border: 1px solid #dee2e6; /* Light gray border */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.list-group-item:hover {
+    background-color: #e0e2e4; /* Light gray background on hover */
+}
+
+.list-group-item h5 {
+    color: #0e2238; /* Dark blue text color for report titles */
+    margin-bottom: 10px;
+    font-size: 18px; /* Larger font size for titles */
+}
+
+.list-group-item p {
+    color: #575656; /* Dark text color */
+    margin-bottom: 8px;
+    font-size: 14px; /* Smaller font size for description */
+}
+
+.listings .box-container{
+	display: grid;
+	grid-template-columns: auto auto auto;
+	gap: 2rem;
+	justify-content: center;
+	align-items: flex-start;
+ }
+ 
+ 
+ .listings .box-container .box{
+	background-color: var(--white);
+	box-shadow: var(--box-shodow);
+	padding: 2rem;
+	overflow-x: hidden;
+ }
+ 
+ .listings .box-container .box .admin{
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+ }
+ 
+ .listings .box-container .box .admin h3{
+	height: 4.5rem;
+	line-height: 4.4rem;
+	width: 4.5rem;
+	border-radius: 50%;
+	font-size: 2rem;
+	color: var(--black);
+	background-color: var(--light-bg);
+	text-align:center;
+ }
+ 
+ .listings .box-container .box .admin p{
+	font-size: 1.7rem;
+	color: var(--black);
+	padding-bottom: .3rem;
+ }
+ 
+ .listings .box-container .box .admin span{
+	font-size: 1.5rem;
+	color: var(--light-color);
+ }
+ 
+ .listings .box-container .box .thumb{
+	position: relative;
+	height: 20rem;
+	overflow: hidden;
+	margin: 1.5rem 0;
+ }
+ 
+ .listings .box-container .box .thumb img{
+	height: 100%;
+	width: 100%;
+	transition: .2s linear;
+ }
+ 
+ .listings .box-container .box:hover .thumb img{
+	transform: scale(1.1);
+ }
+ 
+ .listings .box-container .box .thumb .total-images{
+	position: absolute;
+	top: 1rem; left: 1rem;
+	background-color: rgba(0,0,0,.3);
+	color: var(--white);
+	padding: .5rem 1.5rem;
+	font-size: 1.6rem;
+	z-index: 1;
+ }
+ 
+ .listings .box-container .box .thumb .total-images i{
+	margin-right: .7rem;
+ }
+ 
+ .listings .box-container .box .thumb .type{
+	position: absolute;
+	bottom: 1rem; left: .7rem;
+	z-index: 1;
+ }
+ 
+ .listings .box-container .box .thumb .type span{
+	margin-right: .7rem;
+	padding: .5rem 1.5rem;
+	color: var(--white);
+	background-color: var(--main-color);
+	font-size: 1.6rem;
+ }
+ 
+ .listings .box-container .box .thumb .save{
+	position: absolute;
+	top: 1rem; right: 1rem;
+	z-index: 1;
+ }
+ 
+ .listings .box-container .box .thumb .save button{
+	background-color: rgba(0,0,0,.3);
+	color: var(--white);
+	padding: .7rem 1rem;
+	font-size: 1.6rem;
+	cursor: pointer;
+ }
+ 
+ .listings .box-container .box .thumb .save button:hover{
+	background-color: var(--main-color);
+ }
+ 
+ .listings .box-container .box .name{
+	font-size: 2rem;
+	text-overflow: ellipsis;
+	overflow-x: hidden;
+	color: var(--black);
+	margin-bottom: .5rem;
+ }
+ 
+ .listings .box-container .box .location{
+	padding-top: 1rem;
+	font-size: 1.6rem;
+	color: var(--light-color);
+ }
+ 
+ .listings .box-container .box .location i{
+	margin-right: 1rem;
+	color: var(--main-color);
+ }
+ 
+ .listings .box-container .box .flex{
+	display: flex;
+	background-color: var(--light-bg);
+	padding: 1.5rem;
+	justify-content: space-between;
+	align-items: center;
+	margin: 1.5rem 0;
+	flex-wrap: wrap;
+	gap: 1.5rem;
+ }
+ 
+ .listings .box-container .box .flex p{
+	font-size: 1.6rem;
+	flex: 1 1 4rem;
+ }
+ 
+ .listings .box-container .box .flex p span{
+	color: var(--light-color);
+ }
+ 
+ .listings .box-container .box .flex p i{
+	margin-right: 1rem;
+	color: var(--main-color);
+ }
