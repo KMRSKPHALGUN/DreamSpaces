@@ -5,6 +5,7 @@ import Login from './components/login';
 import Signup from './components/signup';
 import AdminDashboard from './components/adminDashboard';
 import HomePage from './components/homePage';
+import PostYourProperty from './components/postYourProperty';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/signup' element={<Signup/>}></Route>
         <Route path='/admin' element={<AdminDashboard/>}></Route>
         <Route path='/home' element={<HomePage/>}></Route>
+        <Route path='/postYourProperty' element={<PostYourProperty/>}></Route>
       </Routes>
     </Router>
   );

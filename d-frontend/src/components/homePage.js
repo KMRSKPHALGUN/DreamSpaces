@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../css/homePage.css'; // Ensure the path is correct
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import Logo from '../images/Logo.jpg';
 
 function HomePage() {
@@ -59,6 +59,11 @@ function HomePage() {
                         </a>
                         <FontAwesomeIcon icon={faBars} className="mobile-view" />
                         <ul id="top-menu">
+                            <li>
+                                <a href="/postYourProperty"
+                                >Post Property<FontAwesomeIcon icon={faPaperPlane} /></a>
+                            </li>
+                            
                             <li>
                                 <a href="#">
                                     Dashboard
