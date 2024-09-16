@@ -6,6 +6,7 @@ import Signup from './components/signup';
 import AdminDashboard from './components/adminDashboard';
 import HomePage from './components/homePage';
 import PostYourProperty from './components/postYourProperty';
+import CommercialRent from './components/commercialRent';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/admin' element={<AdminDashboard/>}></Route>
         <Route path='/home' element={<HomePage/>}></Route>
         <Route path='/postYourProperty' element={<PostYourProperty/>}></Route>
+        <Route path='/commercialRent' element={<CommercialRent/>}></Route>
       </Routes>
     </Router>
   );
