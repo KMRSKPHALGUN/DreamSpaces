@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
 
 :root{
---main-color:#936c4ac7;
+--main-color:#507044c7;
 --light-color:#666;
 --light-bg:#eee;
 --white:#fff;
@@ -38,9 +38,9 @@ background-color: var(--light-bg);
 .home {
    position: relative;
    width: 100%;
-   height: 100vh; /* Use viewport height for full screen */
+   height: 87vh; /* Use viewport height for full screen */
    overflow: hidden;
-   background-image: url("../images/land-img.jpeg");
+   background-image: url("../images/home-background.png");
    background-repeat: no-repeat;
    background-size: 100% 100%;
    background-position: center;
@@ -92,7 +92,7 @@ margin: 0 auto;
 }
  
 .header .navbar.nav{
-   background-color: #364b18;
+   background-color: #1e3201;
    /* background-color: #e2c7af; */
 }
  

@@ -19,14 +19,15 @@
     text-decoration: none;
   
 }
-.search-form {
+.search-form-post {
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('../images/listings_bg1.jpg'); /* Replace 'your-background-image-url.jpg' with the URL of your background image */
+    background-image: url('../images/listings_bg1.jpg'); 
+    /* Replace 'your-background-image-url.jpg' with the URL of your background image */
     background-size: cover; /* Ensure the background covers the entire viewport */
     background-attachment: fixed; /* Fix the background to prevent scrolling */
     background-color: #EAEAEA; /* Fallback color */
@@ -47,7 +48,7 @@ html {
 
 
 
-.search-form {
+.search-form-post {
     margin: 0;
     padding: 0;
     display: flex;
@@ -59,7 +60,7 @@ html {
     background-attachment: fixed; /* Fix the background to prevent scrolling */
     background-color: #EAEAEA; /* Fallback color */
 }
-.section {
+.section{
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -247,7 +248,7 @@ html {
  }
  
  
-.search-form {
+.search-form-post {
    
     align-items: center;
     padding: 2rem;
@@ -257,7 +258,7 @@ html {
     margin-bottom: 200px;
 }
 
-.search-form select {
+.search-form-post select {
     padding: 0.5rem 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -270,7 +271,7 @@ html {
    
 }
 
-.search-form button {
+.search-form-post button {
     background-color: #936c4ac7;
     color: white;
     padding: 0.8rem 2rem;
@@ -282,11 +283,11 @@ html {
     transition: background-color 0.3s ease;
 }
 
-.search-form button:hover {
+.search-form-post button:hover {
     background-color:#936c4ac7;
 }
 
-.container {
+.container{
     max-width: 1170px;
     margin: auto;
 }
@@ -396,7 +397,7 @@ ul {
         display: block;
     }
 
-    .search-form {
+    .search-form-post {
         margin-bottom: 50px;
     }
 }

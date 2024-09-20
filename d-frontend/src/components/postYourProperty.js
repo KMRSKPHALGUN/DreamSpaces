@@ -47,7 +47,7 @@ function PostYourProperty() {
 
   return (
 
-    <div className="search-form">
+    <div className="search-form-post">
         <select id="property-type" name="property-type" value={propertyType} onChange={e => setPropertyType(e.target.value)}>
           <option value="">Property Type</option>
           <option value="residential">Residential</option>
