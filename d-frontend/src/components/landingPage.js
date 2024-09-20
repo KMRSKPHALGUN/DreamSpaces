@@ -30,7 +30,7 @@ function LandingPage() {
                         <ul id="top-menu">
                             <li>
                                 <a href="#">
-                                    Login
+                                    To Connect
                                 </a>
                                 <ul>
                                     <li><a href='/login'>Login</a></li>
@@ -46,11 +46,11 @@ function LandingPage() {
             {/* Header End */}
 
             {/* Add more sections of your page here */}
-            <div className="home">
-                <div className='overlay'>
+            <div className="home-land">
+                {/* <div className='overlay'>
                     <p>Welcome to DreamSpaces!</p>
                     <h1>- A Place where Memories are made</h1>
-                </div>
+                </div> */}
             </div>
 
             <section className="services">
