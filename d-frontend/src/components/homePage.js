@@ -65,7 +65,7 @@ function HomePage() {
                             </li>
                             
                             <li>
-                                <a href="#">
+                                <a href="/userProfile">
                                     Dashboard
                                 </a>
                             </li>
