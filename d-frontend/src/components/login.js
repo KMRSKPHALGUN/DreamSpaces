@@ -20,7 +20,12 @@ function Login() {
           password,
       });
 
-      alert(response.data.message);
+      const { token, message } = response.data;
+
+      // Store token in localStorage
+      localStorage.setItem('token', token);
+
+      alert(message);
       // Handle successful registration (e.g., redirect to login page or show a success message)
       window.location.href = '/home'; // Example of redirection
     }
