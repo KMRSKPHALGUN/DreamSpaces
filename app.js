@@ -5,8 +5,6 @@ const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const path = require("path");
 const cors = require("cors");
-// const passport = require('passport');
-// const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
@@ -20,23 +18,11 @@ const mongoStore = MongoStore.create({mongoUrl: 'mongodb://localhost:27017/Dream
 
 app.use(bodyParser.json());
 
-// app.use(session({ secret: 'secret', resave: false, saveUninitialized: false, store: mongoStore, cookie: { secure: false, sameSite: 'lax', maxAge: 24 * 60 * 60 * 1000 } }));
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 app.use(cors({
     origin: 'http://localhost:3000',  // Your frontend URL
     credentials: true                 // Allow sending credentials (cookies)
 }));
 
-// app.use((req, res, next) => {
-//     console.log('Cookies:', req.cookies); // Log cookies
-//     console.log('Session:', req.session); // Log session
-//     console.log('User data from session (req.session.user):', req.session.user);
-//     next();
-// });
-  
 
 
 // app.use(express.static(path.join(__dirname, 'd-frontend/build')));
@@ -44,48 +30,11 @@ app.use(cors({
 const Signup = require('./models/Signup');
 const registration = require('./controllers/Registration');
 const Commercialrent = require('./controllers/Commercial_rent');
-
-// // Configure Passport with local strategy
-// passport.use('local_userLogin',new LocalStrategy({usernameField:"email",passwordField:"password"},
-//     async function (email, password, done, err) {
-//       // Find user by username and verify password
-//       const user = await Signup.findOne({ email: email });
-//         //if (err) { return done(err); }
-//         if (!user) { return done(null, false); }
-//         const match = await bcrypt.compare(password, user.password);
-//         if (!match) { return done(null, false); }
-//         return done(null, user);
-//     }
-// ));
-
-// passport.serializeUser(function(user, done) {
-//     console.log('Serializing user:', user._id);
-//     done(null, user._id);
-// });
-
-// // Deserialize user from session
-// passport.deserializeUser(async function(id, done) {
-//     try
-//     {
-//         console.log('Deserializing User with ID:', id);
-//         const user = await Signup.findOne({_id: id});
-//         if (user) {
-//             console.log('User found during deserialization:', user);
-//         } else {
-//             console.log('No user found during deserialization');
-//         }
-//         done(null, user);
-//     }
-//     catch (error)
-//     {
-//         console.log("inside catch of deserializer");
-//         done(error, null);
-//     }
-// });
+const PropertyListings = require('./controllers/Property_Listings');
 
 
 const ds=multer.diskStorage({
-    destination: "./public/uploads",
+    destination: "./d-frontend/src/uploads",
     filename:(req,file,cb)=>{
 
         cb(null, req.userId+"_"+file.originalname);
@@ -122,6 +71,8 @@ app.post('/api/login', async (req, res) => {
 
 
 app.post('/api/commercial_rent', verifyToken, upload.array("image", 10), Commercialrent.commercialRent);
+
+app.post('/api/property_listings', verifyToken, PropertyListings.property_listings);
 
 function verifyToken(req, res, next) {
     let token = req.header('Authorization');

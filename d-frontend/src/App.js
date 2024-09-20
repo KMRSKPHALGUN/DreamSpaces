@@ -10,6 +10,7 @@ import HomePage from './components/homePage';
 import PostYourProperty from './components/postYourProperty';
 import CommercialRent from './components/commercialRent';
 import UserProfile from './components/userDetails';
+import PropertyListings from './components/propertyListings';
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <Route path='/home' element={<HomePage/>}></Route>
         <Route path='/postYourProperty' element={<PostYourProperty/>}></Route>
         <Route path='/commercialRent' element={<CommercialRent/>}></Route>
-        <Route path='/userProfile' elemen={<UserProfile/>}></Route>
+        <Route path='/userProfile' element={<UserProfile/>}></Route>
+        <Route path='/property_listings' element={<PropertyListings/>}></Route>
       </Routes>
     </Router>
   );

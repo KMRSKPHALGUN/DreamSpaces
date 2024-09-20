@@ -6,11 +6,16 @@ import Logo from '../images/Logo.jpg';
 
 function HomePage() {
     // State to manage selected ad type options
+    const [propertyType, setPropertyType] = useState('');
+    const [adType, setAdType] = useState('');
+    const [city, setCity] = useState('');
     const [adOptions, setAdOptions] = useState([{ value: "", label: "Select Property Ad Type" }]);
 
     // Handle the change of the property type select box
     const handlePropertyTypeChange = (event) => {
         const selectedValue = event.target.value;
+        setPropertyType(selectedValue);
+        setAdType('');
 
         let newAdOptions = [];
         switch (selectedValue) {
@@ -38,6 +43,15 @@ function HomePage() {
                 break;
         }
         setAdOptions(newAdOptions);
+    };
+
+    const handleAdTypeChange = (e) => {
+        setAdType(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        window.location.href = `/property_listings?propertyType=${propertyType}&adType=${adType}&city=${city}`;
     };
 
     return (
@@ -89,7 +103,7 @@ function HomePage() {
                                 </select>
                             </div>
                             <div className="hero-form">
-                                <select id="ad_type" name="ad_type" required>
+                                <select id="ad_type" name="ad_type" required onChange={handleAdTypeChange}>
                                     {adOptions.map((option) => (
                                         <option key={option.value} value={option.value}>
                                             {option.label}
@@ -98,7 +112,7 @@ function HomePage() {
                                 </select>
                             </div>
                             <div className="hero-form">
-                                <select id="city" name="city" required>
+                                <select id="city" name="city" value={city} onChange={(e) => setCity(e.target.value)} required>
                                     <option value="">City</option>
                                     <option value="Chennai">Chennai</option>
                                     <option value="Mumbai">Mumbai</option>
@@ -109,7 +123,7 @@ function HomePage() {
                             </div>
                         </div>
                         <div className="hero-search">
-                            <button className="hero-btn" type="submit">
+                            <button className="hero-btn" type="submit" onClick={handleSubmit}>
                                 <FontAwesomeIcon /> Search
                             </button>
                         </div>
