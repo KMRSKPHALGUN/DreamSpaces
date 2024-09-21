@@ -17,11 +17,46 @@ const PropertyListings = () => {
     
     // Using useEffect to set initial state from URL parameters
     useEffect(() => {
+      const fetchProperties = async () => {
         const urlParams = new URLSearchParams(window.location.search);
-        setPropertyType(urlParams.get('propertyType') || '');
-        setAdType(urlParams.get('adType') || '');
-        setCity(urlParams.get('city') || '');
-    }, []); // Empty dependency array ensures this runs once on mount
+        const fetchedPropertyType = urlParams.get('propertyType') || '';
+        const fetchedAdType = urlParams.get('adType') || '';
+        const fetchedCity = urlParams.get('city') || '';
+  
+        setPropertyType(fetchedPropertyType);
+        setAdType(fetchedAdType);
+        setCity(fetchedCity);
+  
+        try {
+          const token = localStorage.getItem('token');
+          setLoading(true);
+          setError('');
+
+            // Send request to backend with the search parameters
+            const response = await axios.post('http://localhost:5000/api/property_listings', {
+              city: fetchedCity,
+              property_type: fetchedPropertyType,
+              ad_type: fetchedAdType,
+            }, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              }
+            });
+  
+            // Assuming the response contains properties and owners in the expected format
+            setProperties(response.data.properties);
+            setOwners(response.data.owners);
+        } catch (err) {
+            setError('Error fetching data, please try again later.');
+        } finally {
+            setLoading(false);
+        }
+      };
+  
+      // Call the async function
+      fetchProperties();
+    }, []); // Only run once on component mount
+   // Empty dependency array ensures this runs once on mount
   
     const handlePropertyTypeChange = (e) => {
         setPropertyType(e.target.value);
@@ -129,6 +164,7 @@ const PropertyListings = () => {
                 <div className="box">
                   <p>Property Ad Type</p>
                   <select value={adType} onChange={handleAdTypeChange} className="input" required>
+                    <option value="">Select Property Ad Type</option>
                     {adOptions.map((option) => (
                         <option key={option.value} value={option.value}>
                             {option.label}
@@ -170,7 +206,7 @@ const PropertyListings = () => {
                         <form className="save">
                           <button type="submit" className="far fa-heart"></button>
                         </form>
-                        <img src={`${property.image[0]}`} alt={property.image[0]} />
+                        <img src={`./${property.image[0].replace(/\\/g, '/')}`} alt={property.image[0].replace(/\\/g, '/')} />
                       </div>
                       <h3 className="name">Modern Flats and Apartments</h3>
                       <p className="location">
