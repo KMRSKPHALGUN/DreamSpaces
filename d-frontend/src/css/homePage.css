@@ -34,16 +34,26 @@ background-color: var(--light-bg);
 }
 /* styles.css */
 
+@keyframes homePageAnimation {
+   0% {background-image: url("../images/home-background.png"); background-size: 100% 100%;}
+   25% {background-image: url("../images/animation1.jpeg"); background-size: 100% 100%;}
+   50% {background-image: url("../images/animation2.jpeg"); background-size: 100% 100%;}
+   75% {background-image: url("../images/animation3.jpeg"); background-size: 100% 100%;}
+   100% {background-image: url("../images/animation4.png"); background-size: 100% 100%;}
+}
 
 .home {
    position: relative;
    width: 100%;
    height: 87vh; /* Use viewport height for full screen */
    overflow: hidden;
-   background-image: url("../images/home-background.png");
-   background-repeat: no-repeat;
+   animation-name: homePageAnimation;
+   animation-duration: 10s;
+   animation-iteration-count: infinite;
+   animation-direction: alternate-reverse;
+   /* background-repeat: no-repeat;
    background-size: 100% 100%;
-   background-position: center;
+   background-position: center; */
    display: flex;
    justify-content: center;
    align-items: center;

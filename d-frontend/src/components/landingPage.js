@@ -129,7 +129,7 @@ function LandingPage() {
                     </div>
                     <div className="footer-col">
                         <h4>Follow us</h4>
-                        <div class="social-links">
+                        <div className="social-links">
                             <a href="#"><FontAwesomeIcon  /></a>
                             <a href="#"><FontAwesomeIcon  /></a>
                             <a href="#"><FontAwesomeIcon  /></a>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/commercial.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faDollarSign, faMapMarkerAlt, faCamera, faUtensils } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 const CommercialRent = () => {
   const [buildingType, setBuildingType] = useState([{ value: "", label: "Select Building Type" }]);
@@ -180,10 +181,10 @@ const handlePropertyTypeChange = (event) => {
     var propertyType = formState.property_type;
     var buildingType = formState.building_type;
     var age = formState.age;
-    var floors = formState.floors;
-    var totalFloor = formState.totalfloor;
-    var builtupArea = formState.builtuparea;
-    var carpetArea = formState.carpetarea;
+    var floors = parseInt(formState.floors);
+    var totalFloor = parseInt(formState.totalfloor);
+    var builtupArea = parseInt(formState.builtuparea);
+    var carpetArea = parseInt(formState.carpetarea);
     var furnish = formState.furnish;
     
     if (propertyType && buildingType && age && floors && totalFloor && builtupArea && carpetArea && furnish && (builtupArea >= carpetArea) && (floors <= totalFloor)) {
@@ -201,18 +202,23 @@ const handlePropertyTypeChange = (event) => {
   }
 
   function saveAndContinueRentalDetails() {
-      var expectedRent = formState.Expected_rent;
-      var expectedDeposit = formState.Expected_deposit;
+      var expectedRent = parseInt(formState.Expected_rent);
+      var expectedDeposit = parseInt(formState.Expected_deposit);
       var lease = formState.lease;
       var Propertytax = formState.Propertytax;
       var Occupancy = formState.Occupancy;
 
-      if (expectedRent && expectedDeposit && lease && Propertytax && Occupancy && (expectedRent <= expectedDeposit)) {
+      if (expectedRent && expectedDeposit && lease && Propertytax && Occupancy) {
           // All required fields are filled, proceed to the next step or perform any necessary action
-          showLocalityDetails()
-      }
-      else if(expectedRent > expectedDeposit) {
-          alert('Expected Deposit should be more than Expected Rent');
+          if(expectedRent <= expectedDeposit)
+          {
+            showLocalityDetails()
+          }
+          else
+          {
+            alert('Expected Deposit should be more than Expected Rent');
+          }
+          
       }
       else {
           // Alert the user to fill in all required fields before continuing
@@ -254,17 +260,86 @@ const handlePropertyTypeChange = (event) => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log(formState);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const token = localStorage.getItem('token');
+
+    const formData = new FormData();
+  
+    // Append all the form fields
+    formData.append('property_type', formState.property_type);
+    formData.append('building_type', formState.building_type);
+    formData.append('floors', formState.floors);
+    formData.append('totalfloor', formState.totalfloor);
+    formData.append('age', formState.age);
+    formData.append('builtuparea', formState.builtuparea);
+    formData.append('carpetarea', formState.carpetarea);
+    formData.append('furnish', formState.furnish);
+    formData.append('Expected_rent', formState.Expected_rent);
+    formData.append('Rent_Negotiable', formState.Rent_Negotiable);
+    formData.append('Expected_deposit', formState.Expected_deposit);
+    formData.append('lease', formState.lease);
+    formData.append('available_from', formState.available_from);
+    formData.append('Propertytax', formState.Propertytax);
+    formData.append('Occupancy', formState.Occupancy);
+    
+    // Append locality details
+    formData.append('city', formState.city);
+    formData.append('locality', formState.locality);
+    formData.append('landmark_street', formState.landmark_street);
+    formData.append('locality_description', formState.locality_description);
+    
+    // Append amenities details
+    formData.append('wash', formState.washroom);
+    formData.append('lift', formState.lift);
+    formData.append('powerbackup', formState.powerBackup);
+    formData.append('water_supply', formState.waterSupply);
+    formData.append('parking', formState.parking);
+    formData.append('security', formState.security);
+    formData.append('Availability', formState.availability);
+    formData.append('start_time', formState.startTime);
+    formData.append('end_time', formState.endTime);
+    formData.append('Directions', formState.directions);
+    
+    // Append selected images
+    selectedImages.forEach((image) => {
+      formData.append('image', image); // Use the appropriate field name in multer
+    });
+
+
+    try
+    {
+      const response = await axios.post('http://localhost:5000/api/commercial_rent', formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+      alert(response.data.message);
+
+      window.location.href = '/home';
+    }
+    catch(error)
+    {
+      if(error.response)
+      {
+        console.log("Inside catch if");  
+        alert(error.response.data.error);
+      }
+      else
+      {
+        console.log("Inside catch else");
+        alert("Something went wrong!");
+      }
+    }
   };
 
   return (
       <div className="container">
         <Sidebar/>
 
-        <form className="forms" onSubmit={handleSubmit}>
+        <form className="forms" encType='multipart/form-data'>
           {propertyDetailsVisible && (
             <div id="PropertyDetailsform" className="form">
               <h1 style={{ marginBottom: '30px', fontSize: '30px' }}>
@@ -289,7 +364,7 @@ const handlePropertyTypeChange = (event) => {
                   <option value="other">Other Business</option>
                   
                 </select>
-                <label for="building-type" style={{ fontSize: '20px', marginLeft: '10px' }}>Building Type</label>
+                <label htmlFor="building-type" style={{ fontSize: '20px', marginLeft: '10px' }}>Building Type</label>
                 <select id="building-type" name="building_type" value={formState.building_type} style={{ height: '35px', width: '150px', marginRight: '55px' }} onChange={handleInputChange}>
                   {buildingType.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -301,27 +376,27 @@ const handlePropertyTypeChange = (event) => {
                 {/* Add other input fields similarly */}
               </div>
 
-              <div class="input-group2" style={{ marginBottom: '60px', marginLeft: '10px' }}>
-                <label for="age" style={{ fontSize:'20px' }}>Age of Property:</label>
+              <div className="input-group2" style={{ marginBottom: '60px', marginLeft: '10px' }}>
+                <label htmlFor="age" style={{ fontSize:'20px' }}>Age of Property:</label>
                 <input type="number" id="age" name="age" value={formState.age} min="1" placeholder="Age of Property" style={{ height: '25px' }} onChange={handleInputChange} required />
                 
-                <label for="floors" style={{ fontSize:'20px' }}>Floor:</label>
+                <label htmlFor="floors" style={{ fontSize:'20px' }}>Floor:</label>
                 <input type="number" id="floors" name="floors" value={formState.floors} min="0" placeholder="Floor" style={{ height: '25px' }} onChange={handleInputChange} required />
                 
-                <label for="totalfloor" style={{ fontSize:'20px' }}>Total Floor:</label>
+                <label htmlFor="totalfloor" style={{ fontSize:'20px' }}>Total Floor:</label>
                 <input type="number" id="totalfloor" name="totalfloor" value={formState.totalfloor} min="0" placeholder="Total Floor" style={{ height: '25px' }} onChange={handleInputChange} required />
               </div>
 
-              <div class="input-group3" style={{ marginBottom: '60px', marginLeft: '10px' }}>
-                <label for="builtuparea" style={{ fontSize:'20px' }}>Super Builtup Area (sq feet):</label>
+              <div className="input-group3" style={{ marginBottom: '60px', marginLeft: '10px' }}>
+                <label htmlFor="builtuparea" style={{ fontSize:'20px' }}>Super Builtup Area (sq feet):</label>
                 <input type="number" id="builtuparea" name="builtuparea" value={formState.builtuparea} min="0" placeholder="Builtup Area" style={{ height: '25px' }} onChange={handleInputChange} required />
 
-                <label for="carpetarea" style={{ fontSize:'20px' }}>Carpet Area (sq feet):</label>
+                <label htmlFor="carpetarea" style={{ fontSize:'20px' }}>Carpet Area (sq feet):</label>
                 <input type="number" id="carpetarea" name="carpetarea" value={formState.carpetarea} min="0" placeholder="Carpet Area" style={{ height: '25px' }} onChange={handleInputChange} required />
               </div>
 
-              <div class="input-group4">
-                  <label for="furnish" style={{ fontSize: '20px', marginLeft: '10px' }}>Furnishing</label>
+              <div className="input-group4">
+                  <label htmlFor="furnish" style={{ fontSize: '20px', marginLeft: '10px' }}>Furnishing</label>
                   <select id="furnish" name="furnish" value={formState.furnish} style={{ height: '35px', width: '150px', marginRight: '55px' }} onChange={handleInputChange}>
                       <option value="">Select</option>
                       <option value="full">Fully Furnished</option>
@@ -540,6 +615,7 @@ const handlePropertyTypeChange = (event) => {
                     name="image"
                     accept="image/*"
                     multiple
+                    max={10}
                     onChange={handleImageChange}
                   />
                   <label htmlFor="image">Choose image(s) (Maximum 10)</label>
@@ -735,7 +811,7 @@ const handlePropertyTypeChange = (event) => {
         
               <br />
               <br />
-              <button id="post-btn" onClick={handleSubmit}>
+              <button id="post-btn" type='submit' onClick={handleSubmit}>
                 Post
               </button>
         
