@@ -26,7 +26,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('../images/listings_bg1.jpg'); 
+    background-image: url('../images/post-property-bg.jpeg'); 
     /* Replace 'your-background-image-url.jpg' with the URL of your background image */
     background-size: cover; /* Ensure the background covers the entire viewport */
     background-attachment: fixed; /* Fix the background to prevent scrolling */
@@ -259,20 +259,18 @@ html {
 }
 
 .search-form-post select {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    margin: 0.5rem;
+    margin: 2.5rem;
     font-size: 16px;
-   
+    height: 70px;
+    /* width: ; */
     background-color: #FFFFFF;
-
-
-   
 }
 
 .search-form-post button {
-    background-color: #936c4ac7;
+    background-color: #083d1e;
     color: white;
     padding: 0.8rem 2rem;
     border: none;
@@ -280,11 +278,14 @@ html {
     cursor: pointer;
     margin: 0.5rem;
     font-size: 16px;
+    height: 70px;
+    width: 350px;
     transition: background-color 0.3s ease;
 }
 
 .search-form-post button:hover {
-    background-color:#936c4ac7;
+    background-color:#07632dd3;
+    font-size: 17px;
 }
 
 .container{

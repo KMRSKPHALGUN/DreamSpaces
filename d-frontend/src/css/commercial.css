@@ -12,7 +12,7 @@
     min-height: 100vh; /* Ensure body takes up at least the full height of the viewport */
     position: relative; /* Ensure footer positioning is relative to the body */
     margin-bottom: 100px; /* Adjust this value based on the height of your footer */
-    background-image: url(../images/listings_bg1.jpg);
+    background-image: url(../images/bg-canvas.jpeg);
     background-size: 100% 100%;
 }
 
@@ -22,12 +22,12 @@
 }
 
 .sidebar {
-    width: 20%; /* Adjust width as needed */
+    width: 15%; /* Adjust width as needed */
     float: left; /* Float the sidebar to the left */
-    background-color: #f8f9fa; /* Set sidebar background color */
-    padding: 20px; /* Add padding */
+    background-color: #f8f9fac7; /* Set sidebar background color */
+    padding: 185px 10px; /* Add padding */
     border-right: 1px solid #dee2e6; /* Add border */
-    margin-top: 20px;
+    /* margin-top: 20px; */
     margin-right: 20px; /* Add space between sidebar and forms */
 }
 
@@ -106,10 +106,12 @@
 #LocalityDetailsform,
 #Gallery,
 #Amenities {
-    width: auto; /* Set width to auto to allow it to adjust */
-    background-color: #f0f0f0;
-    padding: 20px;
-    margin-bottom: 30px;
+    width: 950px; /* Set width to auto to allow it to adjust */
+    height: 650px;
+    background-color: #f8f9fac7;
+    padding: 60px;
+    margin-top: 5%;
+    margin-left: 10%;
     border-radius: 5px;
     display: inline-block; /* Display the form elements inline */
     vertical-align: top; /* Align the elements to the top of the line */
@@ -123,7 +125,7 @@
 #Amenities .input-group {
     display: inline-block;
     width: calc(50% - 20px); /* Adjust the width as needed */
-    margin-right: 20px; /* Add some margin between elements */
+    /* margin-right: 20px; Add some margin between elements */
     vertical-align: top; /* Align elements to the top */
 }
 
@@ -375,7 +377,7 @@ section{
 
 }
 .container{
-    max-width: 1170px;
+    max-width: 1440px;
     margin:auto;
 }
 

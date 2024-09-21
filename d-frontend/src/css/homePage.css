@@ -133,7 +133,7 @@ margin: 0 auto;
  }
  
  .header .navbar .flex ul li a:hover{
-    background-color: rgb(4, 50, 5);
+    background-color: rgb(73, 109, 73);
     color: var(--white);
     border-radius: 0px;
  }
@@ -285,7 +285,7 @@ font-size: 14px;
 color: #fff;
 width: 100px; /* Adjusted width for the button */
 height: 70px;
-background: #4a934fc7;
+background: #022705c7;
 text-transform: capitalize;
 border-radius: 3px;
 transition: 0.3s linear;
