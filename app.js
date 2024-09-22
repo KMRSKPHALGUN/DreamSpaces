@@ -34,7 +34,7 @@ const PropertyListings = require('./controllers/Property_Listings');
 
 
 const ds=multer.diskStorage({
-    destination: "./d-frontend/src/uploads",
+    destination: "./d-frontend/public/uploads",
     filename:(req,file,cb)=>{
 
         cb(null, req.userId+"_"+file.originalname);

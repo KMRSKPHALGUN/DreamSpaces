@@ -104,6 +104,7 @@ function HomePage() {
                             </div>
                             <div className="hero-form">
                                 <select id="ad_type" name="ad_type" required onChange={handleAdTypeChange}>
+                                    <option value="">Select Property Ad Type</option>
                                     {adOptions.map((option) => (
                                         <option key={option.value} value={option.value}>
                                             {option.label}
