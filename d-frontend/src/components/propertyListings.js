@@ -134,7 +134,7 @@ const PropertyListings = () => {
       <>  
         {/* Search Filter Section */}
         <div className="search-container">
-          <section className="filters">
+          <section className="filters section-det">
             <form onSubmit={handleSubmit}>
               <div id="close-filter">
                 <FontAwesomeIcon icon={faTimes}/>
@@ -178,7 +178,7 @@ const PropertyListings = () => {
           </section>
   
           {/* Listings Section */}
-          <section className="listings">
+          <section className="listings section-det">
             <h1 className="heading">Searched Results</h1>
   
             {/* Show loading spinner or message while fetching data */}

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
 
 :root{
-   --main-color:#936c4ac7;
+   --main-color:#275217c7;
    --light-color:#666;
    --light-bg:#eae7e7;
    --white:#fff;
@@ -99,8 +99,8 @@ body{
    background-color: var(--light-bg);
 }
 
-section{
-   max-width: 1200px;
+.section-det{
+   max-width: 600px;
    margin: 0 auto;
 }
 
@@ -127,7 +127,7 @@ section{
 
 .btn:hover,
 .inline-btn:hover{
-   background-color: var(--black);
+   background-color: rgb(99, 139, 76);
 }
 
 .btn{
@@ -333,21 +333,26 @@ section{
 
 .search-container{
    display: flex  ;
-   background-image: url('../images/listings_bg1.jpg');
-  
+   background-image: url('../images/bg-canvas.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .filters {
    width: 20%;
-   min-width: 300px;
-   padding-top: 86px;
+   min-width: 400px;
+   height: 820px;
+   /* padding-top: 86px; */
+   margin-left: 0px;
+
 }
 
 .filters form{
-   background-color: var(--white);
+   background-color: rgba(255, 255, 255, 0.798);
    box-shadow: var(--box-shodow);
-   padding: 2rem;
-   padding-top: 3.5rem;
+   padding: 4rem;
+   height: 760px;
+   /* padding-top: 3.5rem; */
 }
 
 .filters form #close-filter{
