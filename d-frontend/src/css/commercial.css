@@ -9,16 +9,16 @@
     font-family: 'Poppins', sans-serif;
     background-color: #f2f2f2;
     color: #333;
-    min-height: 100vh; /* Ensure body takes up at least the full height of the viewport */
+     /* Ensure body takes up at least the full height of the viewport */
     position: relative; /* Ensure footer positioning is relative to the body */
-    margin-bottom: 100px; /* Adjust this value based on the height of your footer */
-    background-image: url(../images/bg-canvas.jpeg);
+     /* Adjust this value based on the height of your footer */
+     background-image: url(../images/bg-canvas.jpeg);
     background-size: 100% 100%;
 }
 
 .container {
-    overflow: hidden; /* Clear the floats */
-    margin: 20px auto; /* Center the container horizontally */
+    overflow: hidden; 
+    /* Center the container horizontally */
 }
 
 .sidebar {
@@ -28,7 +28,7 @@
     padding: 185px 10px; /* Add padding */
     border-right: 1px solid #dee2e6; /* Add border */
     /* margin-top: 20px; */
-    margin-right: 20px; /* Add space between sidebar and forms */
+    /* Add space between sidebar and forms */
 }
 
 .sidebar nav ul {
@@ -42,8 +42,8 @@
 
 /* Add green border-left to active link */
 .sidebar nav ul li a.active {
-    background-color:#936c4ac7; /* Set active item background color */
-    color: #936c4ac7; /* Set active item text color */
+    background-color:#66934ac7; /* Set active item background color */
+    color: #66934ac7; /* Set active item text color */
     border-left: 3px solid #28a745; /* Add green left border for active item */
     padding-left: 12px; /* Adjust padding to make space for the border */
 }
@@ -72,12 +72,12 @@
 }
 
 .sidebar nav ul li a:hover {
-    background-color:#936c4ac7; /* Change background color on hover */
+    background-color:#6c934ac7; /* Change background color on hover */
 }
 
 .sidebar nav ul li.active a {
-    background-color: #936c4ac7; /* Set active item background color */
-    color:#936c4ac7; /* Set active item text color */
+    background-color: #66934ac7; /* Set active item background color */
+    color:#66934ac7; /* Set active item text color */
 }
 
 /* Indicator for active item */
@@ -88,7 +88,7 @@
     top: 50%;
     width: 8px;
     height: 8px;
-    background-color:#936c4ac7;
+    background-color:#66934ac7;
     border-radius: 50%;
     transform: translateY(-50%);
 }
@@ -201,7 +201,7 @@
 
 button {
     padding: 10px 20px;
-    background-color:#936c4ac7;
+    background-color:#66934ac7;
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -210,7 +210,7 @@ button {
 }
 
 button:hover {
-    background-color:#936c4ac7;
+    background-color:#66934ac7;
 }
 
 #post-message {
@@ -247,7 +247,7 @@ button:hover {
 }
 
 :root{
-    --main-color:#936c4ac7;
+    --main-color:#66934ac7;
     --light-color:#666;
     --light-bg:#eae7e7;
     --white:#fff;
@@ -280,6 +280,7 @@ html{
 
 body{
     background-color: var(--light-bg);
+    background-image: url(../images/bg-canvas.jpeg);
 }
 
 section{
@@ -376,10 +377,6 @@ section{
 @media(max-width: 574px){
 
 }
-.container{
-    max-width: 1440px;
-    margin:auto;
-}
 
 .row{
     display: flex;
@@ -402,7 +399,7 @@ ul{
 }
 
 .file-input label {
-    background-color: #936c4ac7;
+    background-color: #67934ac7;
     color: #fff;
     padding: 15px 20px; /* Increase padding to make it bigger */
     border-radius: 8px; /* Increase border radius for rounded corners */
@@ -417,6 +414,6 @@ ul{
 }
 
 .file-input label:hover {
-    background-color:#936c4ac7;
+    background-color:#73934ac7;
 }
 

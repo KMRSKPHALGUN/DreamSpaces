@@ -272,7 +272,7 @@ outline: none;
 }
 
 .hero-form select {
-font-size: 14px;
+font-size: 16px;
 color: #161718;
 text-transform: capitalize;
 font-weight: 500;
@@ -291,11 +291,11 @@ margin-left: 10px;
 display: flex;
 justify-content: center;
 align-items: center;
-font-size: 14px;
+font-size: 16px;
 color: #fff;
 width: 100px; /* Adjusted width for the button */
 height: 70px;
-background: #022705c7;
+background: #022705e2;
 text-transform: capitalize;
 border-radius: 3px;
 transition: 0.3s linear;
@@ -303,8 +303,10 @@ min-width: 150px;
 
 }
 .hero-btn:hover {
-background: #1e1d1d;
+background: #617a58;
 color: white;
+color: black;
+font-size: 19px ;
 }
 
 .hero-btn svg {

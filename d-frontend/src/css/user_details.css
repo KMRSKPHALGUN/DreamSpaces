@@ -3,7 +3,6 @@ body{
 	line-height: 1.5;
 	font-family: 'Montserrat', sans-serif;
 	min-height: 100vh;
-	background: url("../images/background.jpg") no-repeat;
 	background-size: cover;
 	background-position: center;
 	margin: 0;

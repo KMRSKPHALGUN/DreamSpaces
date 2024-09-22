@@ -11,7 +11,7 @@
 :root {
   /* Colors */
   --white: #fff;
-  --custom: #936c4ac7;
+  --custom: #67934ac7;
 }
 
 .img-box img {
@@ -47,7 +47,7 @@
 .section .container {
   position: relative;
   width: 900px;
-  height:570px;
+  height:700px;
   /* height: 900px; */
   /* height: 732px; */
   background-color: var(--white);
@@ -106,11 +106,13 @@
   top: 55%;
   left: 50%;
   width: 100%;
-  max-width: 300px;
+  max-width: 410px;
+  height: auto;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
 }
 
 .section form .form-control:first-child {

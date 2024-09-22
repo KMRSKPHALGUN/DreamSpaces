@@ -55,7 +55,7 @@ function LandingPage() {
 
             <section className="services">
 
-                <h1 className="heading">our services</h1>
+                <h1 className="land-heading">our services</h1>
 
                 <div className="box-container">
 

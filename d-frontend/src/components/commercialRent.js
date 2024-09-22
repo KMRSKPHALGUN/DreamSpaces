@@ -352,7 +352,7 @@ const handlePropertyTypeChange = (event) => {
                   name="property_type"
                   value={formState.property_type}
                   onChange={handlePropertyTypeChange}
-                  style={{ height: '35px', width: '150px', marginRight: '55px' }}>
+                  style={{ height: '35px', width: '150px', marginRight: '55px' ,marginLeft: '30px'}}>
                   <option value="">Property Type</option>
                   <option value="office">Office Space</option>
                   <option value="co-working">Co-working</option>
@@ -365,7 +365,7 @@ const handlePropertyTypeChange = (event) => {
                   
                 </select>
                 <label htmlFor="building-type" style={{ fontSize: '20px', marginLeft: '10px' }}>Building Type</label>
-                <select id="building-type" name="building_type" value={formState.building_type} style={{ height: '35px', width: '150px', marginRight: '55px' }} onChange={handleInputChange}>
+                <select id="building-type" name="building_type" value={formState.building_type} style={{ height: '35px', width: '150px', marginRight: '55px' ,marginLeft: '30px'}} onChange={handleInputChange}>
                   {buildingType.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
@@ -378,26 +378,26 @@ const handlePropertyTypeChange = (event) => {
 
               <div className="input-group2" style={{ marginBottom: '60px', marginLeft: '10px' }}>
                 <label htmlFor="age" style={{ fontSize:'20px' }}>Age of Property:</label>
-                <input type="number" id="age" name="age" value={formState.age} min="1" placeholder="Age of Property" style={{ height: '25px' }} onChange={handleInputChange} required />
+                <input type="number" id="age" name="age" value={formState.age} min="1" placeholder="Age of Property" style={{ height: '25px',marginLeft: '30px' }} onChange={handleInputChange} required />
                 
                 <label htmlFor="floors" style={{ fontSize:'20px' }}>Floor:</label>
-                <input type="number" id="floors" name="floors" value={formState.floors} min="0" placeholder="Floor" style={{ height: '25px' }} onChange={handleInputChange} required />
+                <input type="number" id="floors" name="floors" value={formState.floors} min="0" placeholder="Floor" style={{ height: '25px',marginLeft: '30px' }} onChange={handleInputChange} required />
                 
                 <label htmlFor="totalfloor" style={{ fontSize:'20px' }}>Total Floor:</label>
-                <input type="number" id="totalfloor" name="totalfloor" value={formState.totalfloor} min="0" placeholder="Total Floor" style={{ height: '25px' }} onChange={handleInputChange} required />
+                <input type="number" id="totalfloor" name="totalfloor" value={formState.totalfloor} min="0" placeholder="Total Floor" style={{ height: '25px',marginLeft: '30px' }} onChange={handleInputChange} required />
               </div>
 
               <div className="input-group3" style={{ marginBottom: '60px', marginLeft: '10px' }}>
                 <label htmlFor="builtuparea" style={{ fontSize:'20px' }}>Super Builtup Area (sq feet):</label>
-                <input type="number" id="builtuparea" name="builtuparea" value={formState.builtuparea} min="0" placeholder="Builtup Area" style={{ height: '25px' }} onChange={handleInputChange} required />
+                <input type="number" id="builtuparea" name="builtuparea" value={formState.builtuparea} min="0" placeholder="Builtup Area" style={{ height: '25px',marginLeft: '30px' }} onChange={handleInputChange} required />
 
                 <label htmlFor="carpetarea" style={{ fontSize:'20px' }}>Carpet Area (sq feet):</label>
-                <input type="number" id="carpetarea" name="carpetarea" value={formState.carpetarea} min="0" placeholder="Carpet Area" style={{ height: '25px' }} onChange={handleInputChange} required />
+                <input type="number" id="carpetarea" name="carpetarea" value={formState.carpetarea} min="0" placeholder="Carpet Area" style={{ height: '25px' ,marginLeft: '30px'}} onChange={handleInputChange} required />
               </div>
 
               <div className="input-group4">
                   <label htmlFor="furnish" style={{ fontSize: '20px', marginLeft: '10px' }}>Furnishing</label>
-                  <select id="furnish" name="furnish" value={formState.furnish} style={{ height: '35px', width: '150px', marginRight: '55px' }} onChange={handleInputChange}>
+                  <select id="furnish" name="furnish" value={formState.furnish} style={{ height: '35px', width: '150px', marginRight: '55px',marginLeft: '30px' }} onChange={handleInputChange}>
                       <option value="">Select</option>
                       <option value="full">Fully Furnished</option>
                       <option value="semi">Semi Furnished</option>
@@ -426,7 +426,7 @@ const handlePropertyTypeChange = (event) => {
                   min="0"
                   placeholder="Enter Amount"
                   size="10"
-                  style={{ width: '170px', marginRight: '55px', height: '35px' }}
+                  style={{ width: '170px', marginRight: '55px', height: '35px' ,marginLeft: '30px' }}
                   value={formState.Expected_rent}
                   onChange={handleInputChange}
                   required
@@ -453,7 +453,7 @@ const handlePropertyTypeChange = (event) => {
                   min="0"
                   placeholder="Enter Amount"
                   size="10"
-                  style={{ width: '170px', marginRight: '55px', height: '35px' }}
+                  style={{ width: '170px', marginRight: '55px', height: '35px',marginLeft: '30px' }}
                   value={formState.Expected_deposit}
                   onChange={handleInputChange}
                   required
@@ -467,7 +467,7 @@ const handlePropertyTypeChange = (event) => {
                   min="1"
                   placeholder="Enter Amount"
                   size="10"
-                  style={{ width: '170px', marginRight: '55px', height: '35px' }}
+                  style={{ width: '170px', marginRight: '55px', height: '35px',marginLeft: '30px' }}
                   value={formState.lease}
                   onChange={handleInputChange}
                   required
@@ -475,12 +475,12 @@ const handlePropertyTypeChange = (event) => {
               </div>
         
               <div className="input-group8" style={{ marginBottom: '30px' }}>
-                <label htmlFor="available_from" style={{ fontSize: '20px' }}>Available From:</label>
+                <label htmlFor="available_from" style={{ fontSize: '20px' , marginTop : '15px'}}>Available From:</label>
                 <input
                   type="date"
                   id="available_from"
                   name="available_from"
-                  style={{ height: '35px', marginRight: '65px' }}
+                  style={{ height: '35px', marginRight: '65px',marginLeft: '30px' }}
                   value={formState.available_from}
                   onChange={handleInputChange}
                   required
@@ -492,7 +492,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="Propertytax"
                   name="Propertytax"
-                  style={{ height: '35px', marginRight: '55px' }}
+                  style={{ height: '35px', marginRight: '55px',marginLeft: '30px' }}
                   value={formState.Propertytax}
                   onChange={handleInputChange}
                 >
@@ -503,11 +503,11 @@ const handlePropertyTypeChange = (event) => {
                 </select>
         
                 <br /><br /><br /><br />
-                <label htmlFor="Occupancy" style={{ fontSize: '20px', marginLeft: '10px' }}>Do you have an Occupancy Certificate?</label>
+                <label htmlFor="Occupancy" style={{ fontSize: '20px' }}>Do you have an Occupancy Certificate?</label>
                 <select
                   id="Occupancy"
                   name="Occupancy"
-                  style={{ height: '35px', marginRight: '55px' }}
+                  style={{ height: '35px', marginRight: '55px' ,marginLeft: '30px'}}
                   value={formState.Occupancy}
                   onChange={handleInputChange}
                 >
@@ -537,7 +537,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="City"
                   name="city"
-                  style={{ height: '35px', marginRight: '55px', width: '160px' }}
+                  style={{ height: '35px', marginRight: '55px', width: '160px' ,marginLeft: '30px'}}
                   value={formState.city}
                   onChange={handleInputChange}
                   required
@@ -556,7 +556,7 @@ const handlePropertyTypeChange = (event) => {
                   id="locality"
                   name="locality"
                   placeholder="Enter Locality"
-                  style={{ width: '160px', height: '35px' }}
+                  style={{ width: '160px', height: '35px',marginLeft: '30px' }}
                   value={formState.locality}
                   onChange={handleInputChange}
                   required
@@ -570,7 +570,7 @@ const handlePropertyTypeChange = (event) => {
                   id="landmark_street"
                   name="landmark_street"
                   placeholder="Enter Landmark / Street"
-                  style={{ width: '200px', height: '35px' }}
+                  style={{ width: '200px', height: '35px',marginLeft: '30px' }}
                   value={formState.landmark_street}
                   onChange={handleInputChange}
                   required
@@ -604,7 +604,7 @@ const handlePropertyTypeChange = (event) => {
           {galleryVisible && (
             <div id="centeredWrapper">
               <div id="Gallery">
-                <h2 style={{ fontSize: '30px' }}>
+                <h2 style={{ fontSize: '30px' , marginBottom: '50px' }}>
                   <i className="fas fa-camera"></i> Gallery
                 </h2>
         
@@ -650,7 +650,7 @@ const handlePropertyTypeChange = (event) => {
           )}
 
           {amenitiesVisible && (
-            <div id="Amenities" style={{ marginLeft: '10px' }}>
+            <div id="Amenities" style={{ marginTop: '10px ' ,marginLeft: '100px' , height: '750px' }}>
               <h2 style={{ fontSize: '30px' }}>
                 <i className="fas fa-utensils"></i> Amenities
               </h2>
@@ -661,7 +661,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="water-storage"
                   name="waterSupply"
-                  style={{ height: '35px', width: '100px', marginRight: '55px' }}
+                  style={{ height: '35px', width: '100px', marginRight: '55px',marginLeft: '30px' }}
                   value={formState.waterSupply}
                   onChange={handleInputChange}
                 >
@@ -694,7 +694,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="lift"
                   name="lift"
-                  style={{ height: '35px', marginRight: '55px' }}
+                  style={{ height: '35px', marginRight: '55px',marginLeft: '30px' }}
                   value={formState.lift}
                   onChange={handleInputChange}
                 >
@@ -710,7 +710,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="wash"
                   name="washroom"
-                  style={{ height: '35px', marginRight: '55px' }}
+                  style={{ height: '35px', marginRight: '55px',marginLeft: '30px' }}
                   value={formState.washroom}
                   onChange={handleInputChange}
                 >
@@ -728,7 +728,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="security"
                   name="security"
-                  style={{ height: '35px', width: '80px', marginRight: '55px' }}
+                  style={{ height: '35px', width: '80px', marginRight: '55px',marginLeft: '30px' }}
                   value={formState.security}
                   onChange={handleInputChange}
                 >
@@ -743,7 +743,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="parking"
                   name="parking"
-                  style={{ height: '35px', width: '80px', marginRight: '55px' }}
+                  style={{ height: '35px', width: '80px', marginRight: '55px' ,marginLeft: '30px'}}
                   value={formState.parking}
                   onChange={handleInputChange}
                 >
@@ -760,7 +760,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="Availability"
                   name="availability"
-                  style={{ height: '35px', marginRight: '55px' }}
+                  style={{ height: '35px', marginRight: '55px',marginLeft: '30px' }}
                   value={formState.availability}
                   onChange={handleInputChange}
                 >
