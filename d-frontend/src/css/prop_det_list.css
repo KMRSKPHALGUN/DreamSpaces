@@ -95,9 +95,9 @@ html{
    scroll-padding-top: 10rem;
 }
 
-body{
+/* body{
    background-color: var(--light-bg);
-}
+} */
 
 .section-det{
    max-width: 600px;

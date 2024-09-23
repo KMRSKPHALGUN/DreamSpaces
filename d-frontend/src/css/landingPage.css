@@ -29,9 +29,10 @@ overflow-x: hidden;
 scroll-behavior: smooth;
 scroll-padding-top: 10rem;
 }
-body{
+.land-body{
 background-color: var(--light-bg);
-/* background-image: url("../images/white-bg.avif"); */
+background-image: url("../images/white-bg.avif");
+background-repeat: no-repeat;
 }
 /* styles.css */
 

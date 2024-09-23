@@ -9,7 +9,7 @@ import Icon3 from '../images/icon-3.png';
 
 function LandingPage() {
     return (
-        <div>
+        <div className="land-body">
             {/* Header Start */}
             <header className="header">
                 <nav className="navbar nav">

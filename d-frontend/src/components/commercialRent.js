@@ -336,7 +336,7 @@ const handlePropertyTypeChange = (event) => {
   };
 
   return (
-      <div className="container">
+      <div className="commercial-body">
         <Sidebar/>
 
         <form className="forms" encType='multipart/form-data'>
