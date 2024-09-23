@@ -31,6 +31,7 @@ const Signup = require('./models/Signup');
 const registration = require('./controllers/Registration');
 const Commercialrent = require('./controllers/Commercial_rent');
 const PropertyListings = require('./controllers/Property_Listings');
+const UserDetails = require('./controllers/UserDetails');
 
 
 const ds=multer.diskStorage({
@@ -73,6 +74,8 @@ app.post('/api/login', async (req, res) => {
 app.post('/api/commercial_rent', verifyToken, upload.array("image", 10), Commercialrent.commercialRent);
 
 app.post('/api/property_listings', verifyToken, PropertyListings.property_listings);
+
+app.get('/api/userDetails', verifyToken, UserDetails.userDetails);
 
 function verifyToken(req, res, next) {
     let token = req.header('Authorization');
