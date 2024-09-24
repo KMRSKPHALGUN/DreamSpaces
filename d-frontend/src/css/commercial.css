@@ -5,30 +5,26 @@
 }
 
 /* Body Styling */
-.container {
+.commercial-body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f2f2f2;
     color: #333;
      /* Ensure body takes up at least the full height of the viewport */
     position: relative; /* Ensure footer positioning is relative to the body */
      /* Adjust this value based on the height of your footer */
-     background-image: url(../images/bg-canvas.jpeg);
-    background-size: 100% 100%;
+
 }
 
-.container {
+/* .container {
     overflow: hidden; 
-    /* Center the container horizontally */
-}
+} */
 
 .sidebar {
-    width: 15%; /* Adjust width as needed */
-    float: left; /* Float the sidebar to the left */
-    background-color: #f8f9fac7; /* Set sidebar background color */
-    padding: 185px 10px; /* Add padding */
-    border-right: 1px solid #dee2e6; /* Add border */
-    /* margin-top: 20px; */
-    /* Add space between sidebar and forms */
+    width: 15%; 
+    float: left; 
+    background-color: #102109ef; 
+    padding: 160px 10px; 
+    /* border-right: 1px solid #dee2e6;  */
+    color: white;
 }
 
 .sidebar nav ul {
@@ -50,29 +46,31 @@
 
 .sidebar nav ul li {
     margin-bottom: 15px;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e689;
     display: flex; /* Align icon and text horizontally */
     align-items: center; /* Center the icon vertically */
 }
 
-.sidebar nav ul li i {
-    margin-right: 10px; /* Add space between icon and text */
-    color: #555; /* Set icon color */
-    font-size: 18px; /* Set icon size */
-}
+/* .sidebar nav ul li i {
+    margin-right: 10px;
+    margin-left: 10px;
+    color: #961a1a; 
+} */
 
 .sidebar nav ul li a {
     text-decoration: none;
     font-size: 18px;
-    color: #343a40; /* Set link color */
+    color: #e6ebef9d; /* Set link color */
     display: block;
     padding: 10px 15px;
     border-radius: 5px;
     transition: background-color 0.3s; /* Add transition effect */
 }
 
-.sidebar nav ul li a:hover {
-    background-color:#6c934ac7; /* Change background color on hover */
+.sidebar nav ul li:hover {
+    background-color:#d3e0bc53; 
+    border-radius: 5px;
+    
 }
 
 .sidebar nav ul li.active a {
@@ -94,11 +92,13 @@
 }
 
 .forms {
-    width: calc(80% - 40px); /* Take up the remaining 80% minus sidebar width and margin */
+    width: 85%; /* Take up the remaining 80% minus sidebar width and margin */
     float: left; /* Float the forms to the left */
-    padding: 20px; /* Add padding */
-    margin-bottom: 30px; /* Add margin bottom for spacing */
+    padding: 20px;
+    height: 820px;
     min-height: calc(100vh - 20px); /* Height of viewport minus top and bottom margins */
+    background-image: url(../images/post-bg.jpeg);
+    background-size: 100% 100%;
 }
 
 #PropertyDetailsform,
@@ -210,7 +210,7 @@ button {
 }
 
 button:hover {
-    background-color:#66934ac7;
+    background-color:#253c16c7;
 }
 
 #post-message {
@@ -278,10 +278,10 @@ html{
     scroll-padding-top: 10rem;
 }
 
-body{
+/* body{
     background-color: var(--light-bg);
     background-image: url(../images/bg-canvas.jpeg);
-}
+} */
 
 section{
     max-width: 1200px;

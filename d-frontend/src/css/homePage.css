@@ -29,9 +29,9 @@ overflow-x: hidden;
 scroll-behavior: smooth;
 scroll-padding-top: 10rem;
 }
-body{
+/* body{
 background-color: var(--light-bg);
-}
+} */
 /* styles.css */
 
 @keyframes homePageAnimation {
