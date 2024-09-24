@@ -19,6 +19,15 @@
     text-decoration: none;
   
 }
+
+@keyframes postPropertyPageAnimation {
+    0% {background-image: url("../images/post-property-bg.jpeg"); background-size: 100% 100%;}
+    25% {background-image: url("../images/post-animate1.jpeg"); background-size: 100% 100%;}
+    50% {background-image: url("../images/post-animate2.jpeg"); background-size: 100% 100%;}
+    75% {background-image: url("../images/post-animate3.jpeg"); background-size: 100% 100%;}
+    100% {background-image: url("../images/post-animate4.jpeg"); background-size: 100% 100%;}
+}
+
 .search-form-post {
     margin: 0;
     padding: 0;
@@ -26,11 +35,14 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('../images/post-property-bg.jpeg'); 
+    animation-name: postPropertyPageAnimation;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
     /* Replace 'your-background-image-url.jpg' with the URL of your background image */
-    background-size: cover; /* Ensure the background covers the entire viewport */
-    background-attachment: fixed; /* Fix the background to prevent scrolling */
-    background-color: #EAEAEA; /* Fallback color */
+    /* background-size: cover; */ /* Ensure the background covers the entire viewport */
+    /* background-attachment: fixed; */ /* Fix the background to prevent scrolling */
+    /* background-color: #EAEAEA; */ /*Fallback color */
 }
 
 *::selection {
