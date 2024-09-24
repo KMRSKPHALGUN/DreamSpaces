@@ -35,7 +35,7 @@ function LandingPage() {
                                 <ul>
                                     <li><a href='/login'>Login</a></li>
                                     <li><a href='/signup'>Signup</a></li>
-                                    <li><a href='/admin'>Admin</a></li>
+                                    <li><a href='/adminLogin'>Admin</a></li>
                                 </ul>
                             </li>
                             {/* Add more list items as needed */}

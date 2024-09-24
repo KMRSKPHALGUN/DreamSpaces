@@ -28,16 +28,18 @@ app.use(cors({
 // app.use(express.static(path.join(__dirname, 'd-frontend/build')));
 
 const Signup = require('./models/Signup');
+const Admin = require('./models/Admin');
 const registration = require('./controllers/Registration');
 const Commercialrent = require('./controllers/Commercial_rent');
 const PropertyListings = require('./controllers/Property_Listings');
 const UserDetails = require('./controllers/UserDetails');
+const UpdateMyDetails = require('./controllers/UpdateMyDetails');
+const AdminDashboard = require('./controllers/AdminDashboard');
 
 
 const ds=multer.diskStorage({
     destination: "./d-frontend/public/uploads",
     filename:(req,file,cb)=>{
-
         cb(null, req.userId+"_"+file.originalname);
     }
 });
@@ -70,12 +72,43 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+app.post('/api/adminLogin', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await Admin.findOne({ email: email });
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid Credentials' });
+        }
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'Invalid Credentials' });
+        }
+        const token = jwt.sign({ userId: user._id }, 'DreamSpacesSecret', {
+        expiresIn: '1h',
+        });
+        res.status(200).json({ token, message: 'Login Successful' });
+    } catch (error) {
+        res.status(500).json({ error: 'Login failed' });
+    }
+});
 
 app.post('/api/commercial_rent', verifyToken, upload.array("image", 10), Commercialrent.commercialRent);
 
 app.post('/api/property_listings', verifyToken, PropertyListings.property_listings);
 
+app.post('/api/updateMyDetails', verifyToken, upload.array("image", 1), UpdateMyDetails.update);
+
+app.post('/api/changePassword', verifyToken, UpdateMyDetails.changePassword);
+
+app.post('/api/makeAdmin', verifyToken, AdminDashboard.makeAdmin);
+
+app.post('/api/deleteUser', verifyToken, AdminDashboard.deleteUser);
+
+app.post('/api/deleteAccount', verifyToken, UserDetails.deleteAccount);
+
 app.get('/api/userDetails', verifyToken, UserDetails.userDetails);
+
+app.get('/api/adminDashboard', verifyToken, AdminDashboard.getAdminDashboard);
 
 function verifyToken(req, res, next) {
     let token = req.header('Authorization');
