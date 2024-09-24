@@ -6,19 +6,32 @@
   }
   /* Custom CSS for centering the modal */
   #adminLoginModal .modal-dialog {
-    display: flex;
-    align-items: center;
-    min-height: 100vh; /* Set minimum height to full viewport height */
-    width: 80%; /* Set desired width for the modal */
-    max-width: 600px; /* Set maximum width for the modal */
+    /* display: flex;
+    align-items: center; */
+    width: 80%; 
+    max-width: 500px; 
+    padding-top: 200px;
+    margin-left: 100px;
+    /* padding-left: 100px; */
   }
   #adminLoginModal .modal-content {
     width: 100%; /* Ensure modal content takes full width */
     max-width: 600px; /* Adjust maximum width as needed */
     margin: auto; /* Center the modal horizontally */
+    padding: 20px; 
+    font-size: 15px;
+    background-color: rgba(234, 238, 241, 0.354);
   }
-  .btn {
-    background-color: #0e2238;
+  .btn-admin {
+    background-color: #2f631799;
     color: aliceblue;
   }
-  
+  #adminLoginModal{
+    background-image: url(../images/admin-login.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .modal-title{
+    font-size: 27px;
+    font-weight: bold;
+  }

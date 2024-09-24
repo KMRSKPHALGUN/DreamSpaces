@@ -9,13 +9,27 @@
         /* background-color: white; */
         color: #0e2238;
       }
-      .btn{
-        background-color:#0e2238 ;
+      .btn-make-admin{
+        background-color:#034b0c ;
         color: white;
+		margin-left: 470px;
       }
+	  .wrapper{
+		background-image: url(../images/admin-dash.jpeg);
+		background-size: cover;
+		height: 825px;
+		overflow: scroll;
+	  }
+	  .admin-card-body{
+		background-color: #fbfafa3c;
+		padding-bottom: 30px;
+	  }
+	  .form-label{
+		font-size: 20px;
+	  }
       #sidebar {
-        width: 70px;
-        background-color: #09281b;
+        width: 150px;
+        background-color: #193623;
         color: white;
         height: 100vh;
         position: fixed;
@@ -31,36 +45,45 @@
       #sidebar .sidebar-nav {
         list-style: none;
         padding: 0;
+		padding-top: 150px;
         margin: 0;
         width: 100%;
+		height: 1000px;
       }
       #sidebar .sidebar-item {
-        padding: 10px;
+		/* margin-top: 30px; */
+        padding: 30px;
         text-align: center;
-        width: 100%;
+		font-size: 18px;
+        width: 150px;
         cursor: pointer;
         transition: background-color 0.3s ease;
       }
       #sidebar .sidebar-item:hover {
         background-color: rgba(255, 255, 255, 0.1);
       }
+	  .sidebar-item li{
+		width: 100px;
+	  }
       #sidebar .sidebar-link {
         color: white;
       }
       #main {
-        margin-left: 70px; /* Same as sidebar width */
+        margin-left: 150px; /* Same as sidebar width */
         padding: 20px;
       }
       .content-section {
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.566);
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		height: 750px;
+		margin: 20px;
       }
 /* CSS for Property Reports Section */
 #reports {
-    background-color: #ffffff; /* White background color */
-    padding: 20px;
+    background-color: #ffffff9a; /* White background color */
+    /* padding: 20px; */
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
 }

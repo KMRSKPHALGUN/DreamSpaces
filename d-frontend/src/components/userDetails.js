@@ -160,11 +160,11 @@ function UserProfile() {
         {/* <div className="col-md-5 col-xl-4"> */}
           <div className="card-left">
             <div className="card-header">
-              <h5 className="card-title mb-0">Profile Settings</h5>
+              <h5 className="card-title-main mb-0">Profile Settings</h5>
             </div>
             <div className="list-group list-group-flush" role="tablist">
               <a
-                className={`list-group-item list-group-item-action ${activeTab === 'account' ? 'active' : ''}`}
+                className={`list-group-item list-group-item-action  user-acct${activeTab === 'account' ? 'active' : ''}`}
                 onClick={() => setActiveTab('account')}
               >
                 Account
