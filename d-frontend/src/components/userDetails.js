@@ -69,10 +69,10 @@ function UserProfile() {
   };
 
   return (
-    <div className="container pt-0">
-      <div className="row mt-5">
-        <div className="col-md-5 col-xl-4">
-          <div className="card">
+    <div className="container-user-det pt-0">
+      {/* <div className="row mt-5"> */}
+        {/* <div className="col-md-5 col-xl-4"> */}
+          <div className="card-left">
             <div className="card-header">
               <h5 className="card-title mb-0">Profile Settings</h5>
             </div>
@@ -114,10 +114,10 @@ function UserProfile() {
                 Delete account
               </a>
             </div>
-          </div>
+          {/* </div> */}
         </div>
 
-        <div className="col-md-7 col-xl-8">
+        <div className="card-right col-md-7 col-xl-8">
           <div className="tab-content">
             {/* Account Tab */}
             {activeTab === 'account' && (
@@ -364,7 +364,7 @@ function UserProfile() {
             )}
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </div>
   );
 }

@@ -101,6 +101,7 @@ margin: 0 auto;
 .logo-text{
    padding-top: 30px;
    padding-left: 10px;
+   text-decoration: none !important;
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .header{
