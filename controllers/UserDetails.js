@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const res_rent = require('../models/ResidentialRent');
 const res_buy = require('../models/ResidentialSale');
 const res_flat = require('../models/ResidentialFlatmates');
@@ -60,6 +61,31 @@ exports.userDetails = async(req,res)=>{
         res.status(200).json({ property: property, len: len, owner: owner, s_owner: s_owner, s_len: s_len, s_property: s_property, myDetails: owner });
     }
     catch(error){
+        console.error(error);
+        res.status(401).json({ error: 'Something went wrong' });
+    }
+}
+
+exports.deleteAccount = async(req,res) => {
+    try {
+        const {password} = req.body;
+        const client = await seller.findOne({_id: req.userId});
+        const match = await bcrypt.compare(password, client.password);
+        if(match) {
+            await res_rent.deleteMany({ownerId: client._id});
+            await res_buy.deleteMany({ownerId: client._id});
+            await res_flat.deleteMany({ownerId: client._id});
+            await com_buy.deleteMany({ownerId: client._id});
+            await com_rent.deleteMany({ownerId: client._id});
+            await land_buy.deleteMany({ownerId: client._id});
+            await land_dev.deleteMany({ownerId: client._id});
+            await seller.deleteOne({_id: client._id});
+            res.status(200).json({message: "Account Deleted Permenantly"});
+        }
+        else {
+            res.status(401).json({ error: 'Current Passowrd is wrong' });
+        }
+    } catch (error) {
         console.error(error);
         res.status(401).json({ error: 'Something went wrong' });
     }

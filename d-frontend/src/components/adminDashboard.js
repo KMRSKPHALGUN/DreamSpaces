@@ -1,13 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../css/admin_dashboard.css'; // Adjust your CSS path as needed
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faDashboard, faUser, faBuilding, faBug, faTrashCan, faImage, faBed, faBath, faMapMarkerAlt, faMaximize } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
 
-function AdminDashboard({ users, properties, reports, owners }) {
+function AdminDashboard() {
   const [activeSection, setActiveSection] = useState("adminDashboard");
+  const [users, setUsers] = useState([]);
+  const [properties, setProperties] = useState([]);
+  const [owners, setOwners] = useState([]);
+  const [reports, setReports] = useState([]);
+  const [makeAdmin, setMakeAdmin] = useState('');
+  const token = localStorage.getItem('token');
 
-  // Function to show specific sections
-  const showSection = (section) => {
-    setActiveSection(section);
-  };
+  useEffect(() => {
+    const fetchDetails = async() => {
+      try{
+        const response = await axios.get('http://localhost:5000/api/adminDashboard', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUsers(response.data.users);
+        setProperties(response.data.properties);
+        setOwners(response.data.owners);
+        setReports(response.data.reports);
+        if(response.data.error)
+        {
+          alert(response.data.error);
+        }
+      }
+      catch(error)
+      {
+        console.log("Someting went wrong");
+        alert("Someting went wrong");
+      }
+    };
+
+    fetchDetails();
+
+  }, []);
 
   // Email validation function (example)
   const validateEmail = (email) => {
@@ -15,10 +49,57 @@ function AdminDashboard({ users, properties, reports, owners }) {
     return validRegex.test(email);
   };
 
-  // Permissions form submit handler
-  const handlePermissionSubmit = (event) => {
-    event.preventDefault();
-    // Handle permission logic
+  const handleMakeAdmin = async () => {
+    try{
+      const response = await axios.post('http://localhost:5000/api/makeAdmin', {
+        useremail: makeAdmin
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if(response.data.message)
+      {
+        alert(response.data.message);
+        setMakeAdmin('');
+        window.location.reload();
+      }
+      else if(response.data.error)
+      {
+        alert(response.data.error);
+      }
+    }
+    catch(error)
+    {
+      console.log("Someting went wrong");
+        alert("Someting went wrong");
+    }
+  };
+
+  const handleDeleteUser = async (email) => {
+    try{
+      const response = await axios.post('http://localhost:5000/api/deleteUser', {
+        u_email: email
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if(response.data.message)
+      {
+        alert(response.data.message);
+        window.location.reload();
+      }
+      else if(response.data.error)
+      {
+        alert(response.data.error);
+      }
+    }
+    catch(error)
+    {
+      console.log("Someting went wrong");
+        alert("Someting went wrong");
+    }
   };
 
   return (
@@ -26,28 +107,28 @@ function AdminDashboard({ users, properties, reports, owners }) {
       <aside id="sidebar">
         <ul className="sidebar-nav">
           <li className="sidebar-item">
-            <a href="/index" className="sidebar-link">
-              <i className="lni lni-home"></i>
+            <a href="/" className="sidebar-link">
+              <FontAwesomeIcon icon={faHome}/>
             </a>
           </li>
-          <li className="sidebar-item" onClick={() => showSection("adminDashboard")}>
+          <li className="sidebar-item" onClick={() => {setActiveSection("adminDashboard"); console.log(activeSection);}}>
             <a href="#" className="sidebar-link">
-              <i className="lni lni-dashboard"></i>
+              <FontAwesomeIcon icon={faDashboard}/>
             </a>
           </li>
-          <li className="sidebar-item" onClick={() => showSection("permissions")}>
-            <a href="#" className="sidebar-link">
-              <i className="lni lni-user"></i>
+          <li className="sidebar-item" onClick={() => {setActiveSection("permissions"); console.log(activeSection);}}>
+            <a href="#permissions" className="sidebar-link">
+              <FontAwesomeIcon icon={faUser}/>
             </a>
           </li>
-          <li className="sidebar-item" onClick={() => showSection("properties")}>
-            <a href="#" className="sidebar-link">
-              <i className="lni lni-agenda"></i>
+          <li className="sidebar-item" onClick={() => {setActiveSection("properties"); console.log(activeSection);}}>
+            <a href="#properties" className="sidebar-link">
+              <FontAwesomeIcon icon={faBuilding}/>
             </a>
           </li>
-          <li className="sidebar-item" onClick={() => showSection("reports")}>
-            <a href="#" className="sidebar-link">
-              <i className="lni lni-popup"></i>
+          <li className="sidebar-item" onClick={() => {setActiveSection("reports"); console.log(activeSection);}}>
+            <a href="#reports" className="sidebar-link">
+              <FontAwesomeIcon icon={faBug}/>
             </a>
           </li>
         </ul>
@@ -89,8 +170,8 @@ function AdminDashboard({ users, properties, reports, owners }) {
                             </td>
                             <td>{user.email}</td>
                             <td>
-                              <button onClick={() => console.log("Delete user", user.email)}>
-                                <i className="lni lni-trash-can" style={{ fontSize: "24px" }}></i>
+                              <button onClick={() => handleDeleteUser(user.email)}>
+                                <FontAwesomeIcon icon={faTrashCan} style={{ fontSize: "24px" }} />
                               </button>
                             </td>
                           </tr>
@@ -109,26 +190,26 @@ function AdminDashboard({ users, properties, reports, owners }) {
         {/* Permissions Section */}
         {activeSection === "permissions" && (
           <div className="content-section" id="permissions">
-            <h3 className="fw-bold fs-4 mb-3">Permission Allotting</h3>
+            <h3 className="fw-bold fs-4 mb-3">Want to make an User Admin?</h3>
             <div className="row">
               <div className="col-12">
                 <div className="card border-0">
                   <div className="card-body">
-                    <form onSubmit={handlePermissionSubmit}>
+                    <form>
                       <div className="mb-3">
                         <label htmlFor="useremail" className="form-label">
-                          User email:
+                          Enter User Email:
                         </label>
-                        <input type="email" id="useremail" name="useremail" className="form-control" required />
+                        <input type="email" id="useremail" name="useremail" className="form-control" value={makeAdmin} onChange={(e) => setMakeAdmin(e.target.value)} required />
                       </div>
-                      <div className="mb-3">
+                      {/* <div className="mb-3">
                         <label htmlFor="permissionType" className="form-label">Permission Type:</label>
                         <select id="permissionType" name="permissionType" className="form-select" required>
                           <option value="">Select Permission Type</option>
                           <option value="admin">Admin</option>
                         </select>
-                      </div>
-                      <button type="submit" className="btn">Assign Permission</button>
+                      </div> */}
+                      <button type="submit" className="btn" onClick={handleMakeAdmin}>Make Admin</button>
                     </form>
                   </div>
                 </div>
@@ -147,7 +228,7 @@ function AdminDashboard({ users, properties, reports, owners }) {
                   <div className="box-container">
                     <div className="box">
                       <div className="admin">
-                        <h3>Property Owner</h3>
+                        <h3>{owners[i].name.charAt(0)}</h3>
                         <div>
                           <p>{owners[i].name}</p>
                           <span>{property.available_from}</span>
@@ -155,20 +236,20 @@ function AdminDashboard({ users, properties, reports, owners }) {
                       </div>
                       <div className="thumb">
                         <p className="total-images">
-                          <i className="far fa-image"></i>
+                          <FontAwesomeIcon icon={faImage}/>
                           <span>{property.image.length}</span>
                         </p>
                         <img src={`/${property.image[0]}`} alt="Property" />
                       </div>
                       <h3 className="name">Modern Flats and Apartments</h3>
                       <p className="location">
-                        <i className="fas fa-map-marker-alt"></i>
+                        <FontAwesomeIcon icon={faMapMarkerAlt}/>
                         <span>{property.landmark_street}, {property.locality}, {property.city}</span>
                       </p>
                       <div className="flex">
-                        <p><i className="fas fa-bed"></i><span>{property.bhk_type}</span></p>
-                        <p><i className="fas fa-bath"></i><span>{property.bathrooms}</span></p>
-                        <p><i className="fas fa-maximize"></i><span>{property.built_up_area} sqft</span></p>
+                        <p><FontAwesomeIcon icon={faBed}/><span>{property.bhk_type}</span></p>
+                        <p><FontAwesomeIcon icon={faBath}/><span>{property.bathrooms}</span></p>
+                        <p><FontAwesomeIcon icon={faMaximize}/><span>{property.built_up_area} sqft</span></p>
                       </div>
                       <form action="/property_details" method="post">
                         <textarea name="object_id" style={{ display: "none" }}>{property._id}</textarea>

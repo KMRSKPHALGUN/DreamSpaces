@@ -7,17 +7,27 @@ import EmptyProfile from '../images/empty_profile.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMapMarkerAlt, faBed, faBath, faMaximize } from '@fortawesome/free-solid-svg-icons';
 
+
 function UserProfile() {
   const [myDetails, setMyDetails] = useState(null);
   const [owners, setOwners] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [uploadImage, setUploadImage] = useState(null);
+  const [bio, setBio] = useState('');
+  const [motive, setMotive] = useState('');
   const [activeTab, setActiveTab] = useState('account'); // state to track the active tab
   const [savedProperties, setSavedProperties] = useState([]); // Track saved properties
   const [postedProperties, setPostedProperties] = useState([]); // Track posted properties
+  const [passwordsState, setPasswordsState] = useState({
+    inputPasswordCurrent: '',
+    inputPasswordNew: '',
+    inputPasswordNew2: ''
+  });
+  const [deleteAccount, setDeleteAccount] = useState('');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchUserDetails = async (event) => {
-      const token = localStorage.getItem('token');
       try {
         const response = await axios.get('http://localhost:5000/api/userDetails', 
           {
@@ -48,17 +58,35 @@ function UserProfile() {
     fetchUserDetails();
   }, []);
 
-  const confirmDelete = () => {
-    const confirmation = window.confirm('Are you sure you want to permanently delete your account?');
-    if (confirmation) {
-      alert('Account deleted successfully!');
-    } else {
-      alert('Account deletion canceled.');
+  const updateMyDetails = async(event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    
+    // Append fields to formData
+    formData.append('bio', bio);
+    formData.append('motive', motive);
+    
+    // Append selected image file if available
+    formData.append('image', uploadImage); // Use the appropriate field name in multer
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/updateMyDetails', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert(response.data.message);
+      window.location.reload();
+    }
+    catch(error)
+    {
+      console.error('Error updating details:', error);
+      alert('Error updating details, please try again.');
     }
   };
 
-  const handleImageChange = (event) => {
-    const input = event.target;
+  const handleImageChange = (e) => {
+    const input = e.target;
     if (input.files && input.files[0]) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -66,7 +94,65 @@ function UserProfile() {
       };
       reader.readAsDataURL(input.files[0]);
     }
+
+    setUploadImage(input.files[0]);
   };
+
+  const handlePasswordsChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setPasswordsState({
+      ...passwordsState,
+      [name]: type === 'checkbox' ? checked : value
+    });
+  };
+
+  const handleChangePassword = async(e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/api/changePassword', passwordsState, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert(response.data.message);
+      if(response.data.error)
+      {
+        console.error(response.data.error);
+        alert(response.data.error);
+      }
+    }
+    catch(error)
+    {
+      console.log("Someting went wrong");
+      alert("Someting went wrong");
+    }
+  };
+
+  const logUserOut = () => {
+    alert("User Logged Out Successfully");
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
+
+  const confirmDelete = async(event) => {
+    event.preventDefault();
+    try{
+      const response = await axios.post('http://localhost:5000/api/deleteAccount', {
+        password: deleteAccount
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert(response.data.message);
+      window.location.href='/';
+    }
+    catch(error)
+    {
+      console.log("Someting went wrong");
+      alert("Someting went wrong");
+    }
+  }
 
   return (
     <div className="container-user-det pt-0">
@@ -127,7 +213,7 @@ function UserProfile() {
                     <h5 className="card-title mb-0">Your Details</h5>
                   </div>
                   <div className="card-body">
-                    <form action="/updateMyDetails" encType="multipart/form-data" method="post">
+                    <form action="/updateMyDetails" encType="multipart/form-data">
                       {myDetails && (
                         <>
                           <div className="row">
@@ -149,7 +235,7 @@ function UserProfile() {
                                     <label htmlFor="bio">
                                       <h5>Bio:</h5>
                                     </label>
-                                    <textarea rows="2" className="form-control" id="bio" name="bio" placeholder="Something about yourself"></textarea>
+                                    <textarea rows="2" className="form-control" id="bio" name="bio" placeholder="Something about yourself" onChange={(e) => setBio(e.target.value)}></textarea>
                                   </>
                                 )}
                               </div>
@@ -157,7 +243,7 @@ function UserProfile() {
                             <div className="col-md-4 text-center">
                               <img
                                 alt="Profile_Picture"
-                                src={(myDetails.profile_pic || EmptyProfile)}
+                                src={(myDetails.profile_pic || selectedImage || EmptyProfile)}
                                 id="profile-pic"
                                 className="rounded-circle img-responsive mt-2"
                                 width="128"
@@ -190,7 +276,7 @@ function UserProfile() {
                             {myDetails.motive ? (
                               <label>{myDetails.motive}</label>
                             ) : (
-                              <select id="motive" name="motive" className="form-control">
+                              <select id="motive" name={motive} className="form-control" onChange={(e) => setMotive(e.target.value)}>
                                 <option value=''>Choose</option>
                                 <option value="Rent Homes/Commercial Spaces">Rent Homes/Commercial Spaces</option>
                                 <option value="Sell Homes/Commercial Spaces/Plots">Sell Homes/Commercial Spaces/Plots</option>
@@ -199,7 +285,7 @@ function UserProfile() {
                               </select>
                             )}
                           </div>
-                          <button type="submit" className="btn">Save changes</button>
+                          <button type="submit" className="btn" onClick={updateMyDetails}>Save changes</button>
                         </>
                       )}
                     </form>
@@ -217,7 +303,7 @@ function UserProfile() {
                     <form action="/changePassword" method="post">
                       <div className="form-group">
                         <label htmlFor="inputPasswordCurrent">Current password</label>
-                        <input type="password" className="form-control" id="inputPasswordCurrent" name="inputPasswordCurrent" />
+                        <input type="password" className="form-control" id="inputPasswordCurrent" name="inputPasswordCurrent" onChange={handlePasswordsChange} />
                         <small>
                           <a href="#" style={{ color: '#936c4ac7' }}>
                             Forgot your password?
@@ -226,13 +312,13 @@ function UserProfile() {
                       </div>
                       <div className="form-group">
                         <label htmlFor="inputPasswordNew">New password</label>
-                        <input type="password" className="form-control" id="inputPasswordNew" name="inputPasswordNew" />
+                        <input type="password" className="form-control" id="inputPasswordNew" name="inputPasswordNew" onChange={handlePasswordsChange} />
                       </div>
                       <div className="form-group">
                         <label htmlFor="inputPasswordNew2">Verify password</label>
-                        <input type="password" className="form-control" id="inputPasswordNew2" name="inputPasswordNew2" />
+                        <input type="password" className="form-control" id="inputPasswordNew2" name="inputPasswordNew2" onChange={handlePasswordsChange} />
                       </div>
-                      <button type="submit" className="btn">Save changes</button>
+                      <button type="submit" className="btn" onClick={handleChangePassword} >Save changes</button>
                     </form>
                   </div>
                 </div>
@@ -339,13 +425,7 @@ function UserProfile() {
                 <div className="card">
                   <div className="card-body">
                     <h5 className="card-title">Do you want to log out?</h5>
-                    <form action="/logout" method="post">
-                      <div className="form-group">
-                        <label htmlFor="inputPasswordCurrent">Enter the current password</label>
-                        <input type="password" className="form-control" id="inputPasswordCurrent" name="inputPasswordCurrent" />
-                      </div>
-                      <button type="submit" className="btn btn-1">Confirm Log Out</button>
-                    </form>
+                    <button type="submit" className="btn btn-1" onClick={logUserOut}>Confirm Log Out</button>
                   </div>
                 </div>
               </div>
@@ -357,7 +437,13 @@ function UserProfile() {
                 <div className="card">
                   <div className="card-body">
                     <h5 className="card-title">Permanently Delete Account</h5>
-                    <button className="btn btn-danger" onClick={confirmDelete}>Delete</button>
+                    <form>
+                      <div className="form-group">
+                        <label htmlFor="inputPasswordCurrent">Enter the current password</label>
+                        <input type="password" className="form-control" id="password" name="password" onChange={(e)=>setDeleteAccount(e.target.value)} required/>
+                      </div>
+                      <button className="btn btn-danger" onClick={confirmDelete}>Delete Account</button>
+                    </form>
                   </div>
                 </div>
               </div>
