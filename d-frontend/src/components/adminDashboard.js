@@ -138,28 +138,28 @@ function AdminDashboard() {
         {/* Admin Dashboard Section */}
         {activeSection === "adminDashboard" && (
           <div className="content-section active" id="adminDashboard">
-            <div className="mb-3">
-              <h3 className="fw-bold fs-4 m-5">Admin Dashboard</h3>
-              <h3 className="fw-bold fs-4 m-5">User Statistics</h3>
+            <div className="mb-3 ">
+              <h3 className="fw-bold fs-1 m-5 ">Admin Dashboard</h3>
+              <h3 className="fw-bold fs-2 m-5">User Statistics</h3>
               {users && users.length > 0 ? (
                 <div className="row">
                   <div className="col-12">
                     <table className="table table-striped">
                       <thead>
-                        <tr className="highlight">
+                        <tr className="highlight fs-4">
                           <th scope="col">Serial No.</th>
                           <th scope="col">Name</th>
                           <th scope="col">Buyer/Seller</th>
-                          <th scope="col">Email ID</th>
+                          <th scope="col" >Email ID</th>
                           <th scope="col">Delete</th>
                         </tr>
                       </thead>
                       <tbody>
                         {users.map((user, i) => (
                           <tr key={i}>
-                            <th scope="row">{i + 1}</th>
-                            <td>{user.name}</td>
-                            <td>
+                            <th scope="row" >{i + 1}</th>
+                            <td className="fs-5">{user.name}</td>
+                            <td className="fs-5">
                               {user.savedProperties.length > 0 && user.postedProperties.length > 0
                                 ? "Both"
                                 : user.savedProperties.length > 0
@@ -168,10 +168,10 @@ function AdminDashboard() {
                                 ? "Seller"
                                 : "No Activity"}
                             </td>
-                            <td>{user.email}</td>
+                            <td className="fs-5">{user.email}</td>
                             <td>
                               <button onClick={() => handleDeleteUser(user.email)}>
-                                <FontAwesomeIcon icon={faTrashCan} style={{ fontSize: "24px" }} />
+                                <FontAwesomeIcon icon={faTrashCan} style={{ fontSize: "20px" }} />
                               </button>
                             </td>
                           </tr>
@@ -190,7 +190,7 @@ function AdminDashboard() {
         {/* Permissions Section */}
         {activeSection === "permissions" && (
           <div className="content-section" id="permissions">
-            <h3 className="fw-bold fs-4 m-5">Want to make an User Admin?</h3>
+            <h3 className="fw-bold fs-1 m-5">Want to make an User Admin?</h3>
             <div className="row">
               <div className="col-12">
                 <div className="card border-0">
@@ -221,7 +221,7 @@ function AdminDashboard() {
         {/* Properties Section */}
         {activeSection === "properties" && properties && (
           <div className="content-section" id="properties">
-            <h3 className="fw-bold fs-4 m-5">Properties</h3>
+            <h3 className="fw-bold fs-1 m-5">Properties</h3>
             {properties.length > 0 ? (
               properties.map((property, i) => (
                 <div className="listings" key={i}>
@@ -257,18 +257,18 @@ function AdminDashboard() {
                       </form>
                     </div>
                   </div>
-                </div>
+                </div> 
               ))
             ) : (
               <p>No properties available.</p>
             )}
-          </div>
+          </div> 
         )}
 
         {/* Reports Section */}
         {activeSection === "reports" && (
           <div className="content-section" id="reports">
-            <h3 className="fw-bold fs-4 m-5">Property Reports</h3>
+            <h3 className="fw-bold fs-1 m-5">Property Reports</h3>
             <div className="row">
               <div className="col-12">
                 <div className="list-group">
