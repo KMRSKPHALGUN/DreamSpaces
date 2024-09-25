@@ -12,6 +12,7 @@ import PostYourProperty from './components/postYourProperty';
 import CommercialRent from './components/commercialRent';
 import UserProfile from './components/userDetails';
 import PropertyListings from './components/propertyListings';
+import ComRentViewProperty from './components/propDetComRent';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path='/commercialRent' element={<CommercialRent/>}></Route>
         <Route path='/userProfile' element={<UserProfile/>}></Route>
         <Route path='/property_listings' element={<PropertyListings/>}></Route>
+        <Route path='/comRentViewProperty' element={<ComRentViewProperty/>}></Route>
       </Routes>
     </Router>
   );
