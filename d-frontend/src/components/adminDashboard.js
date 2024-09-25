@@ -139,8 +139,8 @@ function AdminDashboard() {
         {activeSection === "adminDashboard" && (
           <div className="content-section active" id="adminDashboard">
             <div className="mb-3">
-              <h3 className="fw-bold fs-4 mb-3">Admin Dashboard</h3>
-              <h3 className="fw-bold fs-4 my-3">User Statistics</h3>
+              <h3 className="fw-bold fs-4 m-5">Admin Dashboard</h3>
+              <h3 className="fw-bold fs-4 m-5">User Statistics</h3>
               {users && users.length > 0 ? (
                 <div className="row">
                   <div className="col-12">
@@ -190,13 +190,13 @@ function AdminDashboard() {
         {/* Permissions Section */}
         {activeSection === "permissions" && (
           <div className="content-section" id="permissions">
-            <h3 className="fw-bold fs-4 mb-3">Want to make an User Admin?</h3>
+            <h3 className="fw-bold fs-4 m-5">Want to make an User Admin?</h3>
             <div className="row">
               <div className="col-12">
                 <div className="card border-0">
-                  <div className="card-body">
+                  <div className="admin-card-body">
                     <form>
-                      <div className="mb-3">
+                      <div className="m-5">
                         <label htmlFor="useremail" className="form-label">
                           Enter User Email:
                         </label>
@@ -209,7 +209,7 @@ function AdminDashboard() {
                           <option value="admin">Admin</option>
                         </select>
                       </div> */}
-                      <button type="submit" className="btn" onClick={handleMakeAdmin}>Make Admin</button>
+                      <button type="submit" className="btn-make-admin" onClick={handleMakeAdmin}>Make Admin</button>
                     </form>
                   </div>
                 </div>
@@ -221,7 +221,7 @@ function AdminDashboard() {
         {/* Properties Section */}
         {activeSection === "properties" && properties && (
           <div className="content-section" id="properties">
-            <h3 className="fw-bold fs-4 mb-3">Properties</h3>
+            <h3 className="fw-bold fs-4 m-5">Properties</h3>
             {properties.length > 0 ? (
               properties.map((property, i) => (
                 <div className="listings" key={i}>
@@ -268,7 +268,7 @@ function AdminDashboard() {
         {/* Reports Section */}
         {activeSection === "reports" && (
           <div className="content-section" id="reports">
-            <h3 className="fw-bold fs-4 mb-3">Property Reports</h3>
+            <h3 className="fw-bold fs-4 m-5">Property Reports</h3>
             <div className="row">
               <div className="col-12">
                 <div className="list-group">

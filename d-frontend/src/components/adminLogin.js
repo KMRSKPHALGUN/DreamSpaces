@@ -75,7 +75,7 @@ const AdminLogin = () => {
                     required
                   />
                 </div>
-                <button type="submit" className="btn btn-primary" onClick={handleSubmit}>
+                <button type="submit" className="btn-admin btn-primary" onClick={handleSubmit}>
                   Login
                 </button>
               </form>
