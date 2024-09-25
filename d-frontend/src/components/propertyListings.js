@@ -14,6 +14,7 @@ const PropertyListings = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [adOptions, setAdOptions] = useState([{ value: "", label: "Select Property Ad Type" }]);
+    const token = localStorage.getItem('token');
     
     // Using useEffect to set initial state from URL parameters
     useEffect(() => {
@@ -97,7 +98,6 @@ const PropertyListings = () => {
   
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const token = localStorage.getItem('token');
       setLoading(true);
       setError('');
 
@@ -127,6 +127,67 @@ const PropertyListings = () => {
         setError('Error fetching data, please try again later.');
       } finally {
         setLoading(false);
+      }
+    };
+
+    const handleViewProperty = async (propertyId) => {
+      try{
+
+        const response = await axios.post('http://localhost:5000/api/viewProperty', {
+          propertyId: propertyId
+        }, {
+          headers: {
+            Authorization : `Bearer ${token}`
+          }
+        });
+
+        localStorage.setItem('property', JSON.stringify(response.data.property));
+        localStorage.setItem('owner', JSON.stringify(response.data.owner));
+        localStorage.setItem('reviews', JSON.stringify(response.data.reviews));
+        localStorage.setItem('users', JSON.stringify(response.data.users));
+        
+        if(response.data.propertyType === 'residential')
+        {
+          if(response.data.adType === 'rent')
+          {
+            window.location.href = '/resRentViewProperty';
+          }
+          else if(response.data.adType === 'buy')
+          {
+            window.location.href = '/resBuyViewProperty';
+          }
+          else if(response.data.adType === 'flatmates')
+          {
+            window.location.href = '/resFlatViewProperty';
+          }
+        }
+        else if(response.data.propertyType === 'commercial')
+        {
+          if(response.data.adType === 'rent')
+          {
+            window.location.href = '/comRentViewProperty';
+          }
+          else if(response.data.adType === 'buy')
+          {
+            window.location.href = '/comBuyViewProperty';
+          }
+        }
+        else if(response.data.propertyType === 'plot')
+        {
+          if(response.data.adType === 'buy')
+          {
+            window.location.href = '/plotBuyViewProperty';
+          }
+          else if(response.data.adType === 'development')
+          {
+            window.location.href = '/plotDevViewProperty';
+          }
+        }
+      }
+      catch(error)
+      {
+        console.log('Something went wrong');
+        alert('Something went wrong');
       }
     };
   
@@ -218,10 +279,10 @@ const PropertyListings = () => {
                         <p><FontAwesomeIcon icon={faBath}/><span>{property.bathrooms}</span></p>
                         <p><FontAwesomeIcon icon={faMaximize}/><span>{property.built_up_area} sqft</span></p>
                       </div>
-                      <form action="/property_details" method="post">
-                        <textarea name="object_id" style={{ display: 'none' }} defaultValue={property._id}></textarea>
-                        <button className="btn" type="submit">View Property</button>
-                      </form>
+                      
+                      <textarea name="object_id" style={{ display: 'none' }} defaultValue={property._id}></textarea>
+                      <button className="btn" type="submit" onClick={() => handleViewProperty(property._id)}>View Property</button>
+                      
                     </div>
                   ))
                 ) : (

@@ -1,0 +1,448 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
+
+:root{
+   --main-color:#275217c7;
+   --light-color:#666;
+   --light-bg:#eae7e7;
+   --white:#fff;
+   --black:#303030;
+   --border:.1rem solid var(--light-color);
+   --box-shodow:0 .5rem 1rem rgba(0,0,0,.1);
+}
+
+*{
+   font-family: 'Montserrat', sans-serif;
+   margin: 0; padding: 0;
+   box-sizing: border-box;
+   outline: none; border: none;
+   text-decoration: none;
+   /* background-image:"./images/houses-7477950_1280.jpg" */
+}
+
+*::selection{
+   background-color: var(--main-color);
+   color: var(--white);
+}
+
+/* reviews and comments setion code */
+.comment-container {
+   width: 100%;
+   max-width: 700px;
+   margin: 2rem auto;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+.helpful-div{
+   padding-top: 0.5rem;
+   font-size: 1.35rem;
+   color: #666;
+}
+.comment{
+   width: 700px;
+   border-top: 2px solid #ccc;
+   padding: 2rem;
+   box-sizing: border-box;
+   overflow: hidden; /* Hide overflowing content */
+   word-wrap: break-word; /* Wrap long words to prevent overflow */
+}
+#comment_input {
+   height: 100px;
+   margin-bottom: 10px;
+   padding: 2rem;
+   width: calc(100% - 50px); 
+   max-width: calc(100% - 50px); 
+   resize: none; 
+   box-sizing: border-box;
+}
+
+#submit-comment {
+   padding: 8px 16px;
+   background-color: var(--main-color);
+   color: #fff;
+   border: none;
+   cursor: pointer;
+   width: 100px; 
+   margin-bottom: 2rem;
+}
+
+.profile-container {
+   overflow: hidden;
+   margin-bottom: 0.5rem;
+}
+
+.profile-photo {
+   width: 30px;
+   height: 30px; 
+   border-radius: 50%; 
+   float: left; 
+}
+
+.profile-name {
+   font-weight: bold; 
+   margin-left: 1.7rem; 
+   font-size: 2rem;
+}
+.comment-text {
+   padding-top: 0.5rem;
+   font-size: 1.7rem;
+}
+
+html{
+   font-size: 62.5%;
+   overflow-x: hidden;
+   scroll-behavior: smooth;
+   scroll-padding-top: 10rem;
+}
+
+body{
+   background-color: var(--light-bg);
+}
+
+section{
+   max-width: 1200px;
+   margin: 0 auto;
+}
+
+.heading{
+   text-align: center;
+   padding-bottom: 2.5rem;
+   padding-top: 2.5rem;
+   font-size: 3rem;
+   color: rgb(243, 230, 230);
+   text-transform: capitalize;
+}
+
+.btn,
+.inline-btn{
+   margin-top: 1rem;
+   padding: 1rem 3rem;
+   background-color: var(--main-color);
+   color: var(--white);
+   cursor: pointer;
+   text-align: center;
+   font-size: 1.8rem;
+   text-transform: capitalize;
+}
+
+.btn:hover,
+.inline-btn:hover{
+   background-color: rgb(99, 139, 76);
+}
+
+.btn{
+   display: block;
+   width: 100%;
+   border-radius: 25px;
+}
+
+.inline-btn{
+   display: inline-block;
+}
+
+
+.mobile-view {
+   display: none;
+   font-size: 20px;
+   position: absolute;
+   right: 15px;
+   color: white;
+   z-index: 1;
+}
+#top-menu {
+   display: flex;
+}
+
+.menu-mobile-view {
+   display: none;
+}
+
+@media screen and (max-width: 550px) {
+   .mobile-view {
+      display: block;
+   }
+   
+   .menu-mobile-view {
+      display: inline;
+   }
+
+   #top-menu {
+      display: none;
+   }
+}
+
+#menu-btn{
+   font-size: 2.5rem;
+   color: var(--black);
+   display: none;
+}
+
+.view-property .details{
+   background-color: var(--white);
+   box-shadow: var(--box-shodow);
+   padding: 2rem;
+   overflow-x: hidden;
+}
+
+.view-property .details .thumb{
+   background-color: var(--black);
+   padding: 1.5rem;
+   margin-bottom: 1.5rem;
+}
+
+.view-property .details .thumb .big-image img{
+   height: 40rem;
+   width: 100%;
+   object-fit: contain;
+}
+
+.view-property .details .thumb .small-images{
+   display: flex;
+   justify-content: center;
+   gap: 1.5rem;
+   padding-top: 1rem;
+   flex-wrap: wrap;
+}
+
+.view-property .details .thumb .small-images img{
+   height: 7rem;
+   width: 10rem;
+   object-fit: cover;
+   cursor: pointer;
+   transition: .2s linear;
+}
+
+.view-property .details .thumb .small-images img:hover{
+   transform: scale(1.1);
+}
+
+.view-property .details .name{
+   font-size: 2rem;
+   text-overflow: ellipsis;
+   overflow-x: hidden;
+   margin-bottom: .5rem;
+}
+
+.view-property .details .location{
+   padding-top: 1rem;
+   font-size: 1.6rem;
+   color: var(--light-color);
+}
+
+.view-property .details .location i{
+   margin-right: 1rem;
+   color: var(--main-color);
+}
+
+.view-property .details .info{
+   display: flex;
+   background-color: var(--light-bg);
+   padding: 1.5rem;
+   margin: 1.5rem 0;
+   justify-content: space-between;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: 2rem;
+}
+
+.view-property .details .info p{
+   font-size: 1.7rem;
+}
+
+.view-property .details .info p span,
+.view-property .details .info p a{
+   color: var(--light-color);
+}
+
+.view-property .details .info p a:hover{
+   text-decoration: underline;
+}
+
+.view-property .details .info p i{
+   margin-right: 1.5rem;
+   color: var(--main-color);
+}
+
+.view-property .details .title{
+   font-size: 2rem;
+   color: var(--black);
+   padding-bottom: 1.5rem;
+   border-bottom: var(--border);
+}
+
+.view-property .details .flex{
+   margin: 1.5rem 0;
+   display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+}
+
+.view-property .details .flex .box{
+   flex: 1 1 40rem;
+}
+
+.view-property .details .flex .box p{
+   padding: .5rem 0;
+   font-size: 1.6rem;
+   color: var(--light-color);
+}
+
+.view-property .details .flex .box i{
+   color: var(--main-color);
+   margin-right: 1.5rem;
+}
+
+.view-property .details .description{
+   padding: .5rem 0;
+   margin-top: .5rem;
+   font-size: 1.6rem;
+   color: var(--light-color);
+   line-height: 1.5;
+}
+
+
+.form-container form{
+   max-width: 50rem;
+   margin: 0 auto;
+   background-color: var(--white);
+   box-shadow: var(--box-shodow);
+   padding: 2rem;
+   text-align: center;
+}
+
+.form-container form h3{
+   padding-bottom: 1rem;
+   font-size: 2.5rem;
+   color: var(--black);
+   text-transform: capitalize;
+}
+
+.form-container form .box{
+   border: var(--border);
+   padding: 1.4rem;
+   color: var(--black);
+   margin: 1rem 0;
+   width: 100%;
+   font-size: 1.8rem;
+}
+
+.form-container form p{
+   font-size: 1.7rem;
+   padding: 1rem 0;
+   color: var(--light-color);
+}
+
+.form-container form p a{
+   color: var(--main-color);
+}
+
+.form-container form p a:hover{
+   text-decoration: underline;
+}
+
+
+
+/* media queries  */
+
+@media (max-width:991px){
+
+   html{
+      font-size: 55%;
+   }
+
+}
+
+@media (max-width:768px){
+
+   #menu-btn{
+      display: inline-block;
+   }
+
+   .view-property .details .thumb .big-image img{
+      height: auto;
+   }
+
+   .view-property .details .thumb .small-images img{
+      height: 4rem;
+      width: 6rem;
+   }
+
+   #filter-btn{
+      display: inline-block;
+   }
+}
+
+@media (max-width:450px){
+
+   html{
+      font-size: 50%;
+   }
+
+   .reviews .box-container{
+      grid-template-columns: 1fr;
+   }
+
+}
+.popup {
+   display: block;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   background-color: #f9f9f9; /* Decent background color */
+   padding: 20px;
+   border: 1px solid #ccc;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+   z-index: 1000;
+   animation: popupFadeIn 0.5s ease-in-out; /* Animation */
+}
+
+.overlay {
+   display: block;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.5);
+   z-index: 999;
+   animation: overlayFadeIn 0.5s ease-in-out; /* Animation */
+}
+
+/* Keyframes for the fade-in animation */
+@keyframes popupFadeIn {
+   from {
+      opacity: 0;
+      transform: translate(-50%, -60%);
+   }
+   to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+   }
+}
+
+@keyframes overlayFadeIn {
+   from {
+      opacity: 0;
+   }
+   to {
+      opacity: 1;
+   }
+}
+
+/* Styles for the submit button */
+.popup button {
+   background-color: #936c4ac7; /* Green background color */
+   color: white;
+   padding: 10px 20px;
+   border: none;
+   cursor: pointer;
+   border-radius: 5px;
+   transition: background-color 0.3s ease;
+}
+
+.popup button:hover {
+   background-color: #936c4ac7; /* Darker green on hover */
+}
+
+

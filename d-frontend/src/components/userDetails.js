@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMapMarkerAlt, faBed, faBath, faMaximize } from '@fortawesome/free-solid-svg-icons';
 
 
-function UserProfile() {
+function UserProfile({}) {
   const [myDetails, setMyDetails] = useState(null);
   const [owners, setOwners] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);

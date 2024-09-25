@@ -35,12 +35,16 @@ const PropertyListings = require('./controllers/Property_Listings');
 const UserDetails = require('./controllers/UserDetails');
 const UpdateMyDetails = require('./controllers/UpdateMyDetails');
 const AdminDashboard = require('./controllers/AdminDashboard');
+const PropertyDetails = require('./controllers/PropertyDetails');
+const SaveProperty = require('./controllers/SaveProperty');
+const Report = require('./controllers/Report');
+const Reviews = require('./controllers/Reviews');
 
 
 const ds=multer.diskStorage({
     destination: "./d-frontend/public/uploads",
     filename:(req,file,cb)=>{
-        cb(null, req.userId+"_"+file.originalname);
+        cb(null, req.userId+"_"+file.originalname.replaceAll(' ', '_'));
     }
 });
 
@@ -105,6 +109,14 @@ app.post('/api/makeAdmin', verifyToken, AdminDashboard.makeAdmin);
 app.post('/api/deleteUser', verifyToken, AdminDashboard.deleteUser);
 
 app.post('/api/deleteAccount', verifyToken, UserDetails.deleteAccount);
+
+app.post('/api/viewProperty', verifyToken, PropertyDetails.viewProperty);
+
+app.post('/api/saveProperty', verifyToken, SaveProperty.save_property);
+
+app.post('/api/reportProperty', verifyToken, Report.reports);
+
+app.post('/api/reviewProperty', verifyToken, Reviews.review);
 
 app.get('/api/userDetails', verifyToken, UserDetails.userDetails);
 
