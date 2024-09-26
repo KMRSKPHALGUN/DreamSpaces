@@ -67,7 +67,7 @@
 .section .img-box {
   position: relative;
   width: 50%;
-  height: 100%;
+  height: 700px;
   transition: all 500ms ease-in-out;
 }
 
@@ -114,6 +114,9 @@
   justify-content: space-between;
   
 }
+.form-control{
+  padding: 30px;
+}
 
 .section form .form-control:first-child {
   text-align: center;
@@ -151,6 +154,7 @@
   width: 100%;
   font-weight: 400;
   font-size: 26px;
+  padding: 30px;
 }
 .section form .form-control:first-child p {
   font-size: 15px;
