@@ -6,6 +6,8 @@ import 'font-awesome/css/font-awesome.min.css';
 import EmptyProfile from '../images/empty_profile.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMapMarkerAlt, faBed, faBath, faMaximize } from '@fortawesome/free-solid-svg-icons';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+
 
 
 function UserProfile({}) {
@@ -57,6 +59,13 @@ function UserProfile({}) {
     }
     fetchUserDetails();
   }, []);
+
+  const statisticsData = [
+    { name: 'Posted', value: postedProperties.length },
+    { name: 'Saved', value: savedProperties.length }
+  ];
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   const updateMyDetails = async(event) => {
     event.preventDefault();
@@ -168,6 +177,12 @@ function UserProfile({}) {
                 onClick={() => setActiveTab('account')}
               >
                 Account
+              </a>
+              <a
+                className={`list-group-item list-group-item-action  user-acct${activeTab === 'statistics' ? 'active' : ''}`}
+                onClick={() => setActiveTab('statistics')}
+              >
+                Statistics
               </a>
               <a
                 className={`list-group-item list-group-item-action ${activeTab === 'password' ? 'active' : ''}`}
@@ -289,6 +304,58 @@ function UserProfile({}) {
                         </>
                       )}
                     </form>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Statistics Tab */}
+
+            {activeTab === 'statistics' && (
+              <div className='tab-pane fade show active'>
+                <div className='card'>
+                  <div className='card-header'>
+                    <h2>User Statistics</h2>
+                  </div>
+              
+                  {/* Bar Chart */}
+                  {/* <div className='card-body'>
+                      <h3>Property Activities (Bar Chart)</h3>
+                      <BarChart
+                          width={500}
+                          height={300}
+                          data={statisticsData}
+                          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                      >
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis dataKey="name" />
+                          <YAxis />
+                          <Tooltip />
+                          <Legend />
+                          <Bar dataKey="count" fill="#82ca9d" />
+                      </BarChart>
+                  </div> */}
+
+                  {/* Pie Chart */}
+                  <div className='card-body'>
+                      <h3>Property Overview (Pie Chart)</h3>
+                      <PieChart width={400} height={400}>
+                          <Pie
+                              data={statisticsData}
+                              cx={200}
+                              cy={200}
+                              labelLine={false}
+                              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                              outerRadius={150}
+                              fill="#8884d8"
+                              dataKey="value"
+                          >
+                              {statisticsData.map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                              ))}
+                          </Pie>
+                          <Tooltip />
+                      </PieChart>
                   </div>
                 </div>
               </div>

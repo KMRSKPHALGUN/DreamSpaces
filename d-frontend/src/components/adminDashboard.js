@@ -3,7 +3,8 @@ import '../css/admin_dashboard.css'; // Adjust your CSS path as needed
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faDashboard, faUser, faBuilding, faBug, faTrashCan, faImage, faBed, faBath, faMapMarkerAlt, faMaximize } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faDashboard, faUser, faBuilding, faBug, faTrashCan, faImage, faBed, faBath, faMapMarkerAlt, faMaximize, faChartArea } from '@fortawesome/free-solid-svg-icons';
+import { Tooltip, PieChart, Pie, Cell } from 'recharts';
 import axios from "axios";
 
 function AdminDashboard() {
@@ -27,6 +28,7 @@ function AdminDashboard() {
         setProperties(response.data.properties);
         setOwners(response.data.owners);
         setReports(response.data.reports);
+        console.log(reports);
         if(response.data.error)
         {
           alert(response.data.error);
@@ -42,6 +44,38 @@ function AdminDashboard() {
     fetchDetails();
 
   }, []);
+
+  let noActivityCount = 0;
+  let buyerCount = 0;
+  let sellerCount = 0;
+  let bothCount = 0;
+
+  users.map((user, i) => {
+    if(user.savedProperties.length > 0 && user.postedProperties.length > 0)
+    {
+      bothCount += 1;
+    }
+    else if(user.savedProperties.length > 0)
+    {
+      buyerCount += 1;
+    }
+    else if(user.postedProperties.length > 0)
+    {
+      sellerCount += 1;
+    }
+    else{
+      noActivityCount += 1;
+    }
+  });
+
+  const pieData = [
+    { name: 'Buyer', value: buyerCount },
+    { name: 'Buyer & Seller', value: bothCount },
+    { name: 'Seller', value: sellerCount },
+    { name: 'No Activity', value: noActivityCount}
+  ];
+
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   // Email validation function (example)
   const validateEmail = (email) => {
@@ -111,22 +145,27 @@ function AdminDashboard() {
               <FontAwesomeIcon icon={faHome}/>
             </a>
           </li>
-          <li className="sidebar-item" onClick={() => {setActiveSection("adminDashboard"); console.log(activeSection);}}>
+          <li className="sidebar-item" onClick={() => {setActiveSection("adminDashboard");}}>
             <a href="#" className="sidebar-link">
               <FontAwesomeIcon icon={faDashboard}/>
             </a>
           </li>
-          <li className="sidebar-item" onClick={() => {setActiveSection("permissions"); console.log(activeSection);}}>
+          <li className="sidebar-item" onClick={() => {setActiveSection("statistics");}}>
+            <a href="#" className="sidebar-link">
+              <FontAwesomeIcon icon={faChartArea}/>
+            </a>
+          </li>
+          <li className="sidebar-item" onClick={() => {setActiveSection("permissions");}}>
             <a href="#permissions" className="sidebar-link">
               <FontAwesomeIcon icon={faUser}/>
             </a>
           </li>
-          <li className="sidebar-item" onClick={() => {setActiveSection("properties"); console.log(activeSection);}}>
+          <li className="sidebar-item" onClick={() => {setActiveSection("properties");}}>
             <a href="#properties" className="sidebar-link">
               <FontAwesomeIcon icon={faBuilding}/>
             </a>
           </li>
-          <li className="sidebar-item" onClick={() => {setActiveSection("reports"); console.log(activeSection);}}>
+          <li className="sidebar-item" onClick={() => {setActiveSection("reports");}}>
             <a href="#reports" className="sidebar-link">
               <FontAwesomeIcon icon={faBug}/>
             </a>
@@ -183,6 +222,31 @@ function AdminDashboard() {
               ) : (
                 <p>No users found</p>
               )}
+            </div>
+          </div>
+        )}
+
+        {activeSection === 'statistics' && (
+          <div className="content-section active" id="adminDashboard">
+            <div className="mb-3 ">
+              <h3 className="fw-bold fs-2 m-5">User Statistics</h3>
+              <PieChart width={400} height={400}>
+                <Pie
+                  data={pieData}
+                  cx={200}
+                  cy={200}
+                  labelLine={false}
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={150}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
             </div>
           </div>
         )}
@@ -272,19 +336,35 @@ function AdminDashboard() {
             <div className="row">
               <div className="col-12">
                 <div className="list-group">
-                  {reports.length > 0 ? (
-                    reports.map((report, i) => (
-                      <div className="list-group-item" key={i}>
-                        <h5 className="mb-1">{report.issue}</h5>
-                        <p className="mb-1">Property Reported: {report.reportedPropertyId}</p>
-                        <p className="mb-1">Reported by: {report.reportedUserId}</p>
-                        <p className="mb-1">Date: {report.date}</p>
-                        <p className="mb-1">Description: {report.description}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No property reports available.</p>
-                  )}
+                {reports.length > 0 ? (
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Reported Property ID</th>
+                        <th>Reported User</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reports.map((report, i) => {
+                        return report.reportedUserId.map((userId, j) => {
+                          return (<tr>
+                            <td>{report.reportedPropertyId}</td>
+                            <td>{userId}</td>
+                            <td>{report.date[j]}</td>
+                            <td>{report.description[j]}</td>
+                          </tr>)
+                        });
+                        
+                      })}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No property reports available.</p>
+                )}
+
+
                 </div>
               </div>
             </div>
