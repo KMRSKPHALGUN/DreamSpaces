@@ -20,7 +20,7 @@ const propertySchema = new mongoose.Schema({
 
 
   city: String,
-  Locality: String,
+  locality: String,
   landmark_street: String,
   locality_description: String,
 
@@ -32,8 +32,8 @@ const propertySchema = new mongoose.Schema({
   parking: String,
   security: String,
   Availability: String,
-  startTime: String,
-  endTime: String,
+  start_time: String,
+  end_time: String,
   Directions : String,
 
 

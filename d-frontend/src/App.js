@@ -9,7 +9,9 @@ import AdminDashboard from './components/adminDashboard';
 import AdminLogin from './components/adminLogin';
 import HomePage from './components/homePage';
 import PostYourProperty from './components/postYourProperty';
+import ResidentialRent from './components/residentialRent';
 import CommercialRent from './components/commercialRent';
+import CommercialSale from './components/commercialSale';
 import UserProfile from './components/userDetails';
 import PropertyListings from './components/propertyListings';
 import ComRentViewProperty from './components/propDetComRent';
@@ -37,7 +39,9 @@ function App() {
         <Route path='/admin' element={<AdminDashboard/>}></Route>
         <Route path='/home' element={<HomePage/>}></Route>
         <Route path='/postYourProperty' element={<PostYourProperty/>}></Route>
+        <Route path='/residentialRent' element={<ResidentialRent/>}></Route>
         <Route path='/commercialRent' element={<CommercialRent/>}></Route>
+        <Route path='/commercialSale' element={<CommercialSale/>}></Route>
         <Route path='/userProfile' element={<UserProfile/>}></Route>
         <Route path='/property_listings' element={<PropertyListings/>}></Route>
         <Route path='/comRentViewProperty' element={<ComRentViewProperty/>}></Route>

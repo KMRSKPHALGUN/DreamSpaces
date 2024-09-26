@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faDollarSign, faMapMarkerAlt, faCamera, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
-const CommercialRent = () => {
+const CommercialSale = () => {
   const [buildingType, setBuildingType] = useState([{ value: "", label: "Select Building Type" }]);
   const [propertyDetailsVisible, setPropertyDetailsVisible] = useState(true);
   const [rentalDetailsVisible, setRentalDetailsVisible] = useState(false);
@@ -67,8 +67,8 @@ const CommercialRent = () => {
               <div className="Property Details" style={{ marginBottom: '50px' }}>
                 <li onClick={showPropertyDetails}> <FontAwesomeIcon icon={faHouse} /><a href="#" style={{ fontSize: '20px' }}>Property Details</a></li>
               </div>
-              <div className="Rent Details" id="rentDetailsLink" style={{ marginBottom: '50px' }}>
-                <li onClick={showRentalDetails} ><FontAwesomeIcon icon={faDollarSign} /><a href="#" id="rentDetailsAnchor" style={{ fontSize: '20px' }}>Rent Details</a></li>
+              <div className="Sale Details" id="rentDetailsLink" style={{ marginBottom: '50px' }}>
+                <li onClick={showRentalDetails} ><FontAwesomeIcon icon={faDollarSign} /><a href="#" id="rentDetailsAnchor" style={{ fontSize: '20px' }}>Sale Details</a></li>
               </div>
               <div className="Locality" style={{ marginBottom: '50px' }}>
                 <li onClick={showLocalityDetails} ><FontAwesomeIcon icon={faMapMarkerAlt} /><a href="#" style={{ fontSize: '20px' }}>Locality</a></li>
@@ -143,8 +143,6 @@ const handlePropertyTypeChange = (event) => {
     furnish: '',
     Expected_rent: '',
     Rent_Negotiable: false,
-    Expected_deposit: '',
-    lease: '',
     available_from: '',
     Propertytax: '',
     Occupancy: '',
@@ -181,10 +179,10 @@ const handlePropertyTypeChange = (event) => {
     var propertyType = formState.property_type;
     var buildingType = formState.building_type;
     var age = formState.age;
-    var floors = parseInt(formState.floors);
-    var totalFloor = parseInt(formState.totalfloor);
-    var builtupArea = parseInt(formState.builtuparea);
-    var carpetArea = parseInt(formState.carpetarea);
+    var floors = formState.floors;
+    var totalFloor = formState.totalfloor;
+    var builtupArea = formState.builtuparea;
+    var carpetArea = formState.carpetarea;
     var furnish = formState.furnish;
     
     if (propertyType && buildingType && age && floors && totalFloor && builtupArea && carpetArea && furnish && (builtupArea >= carpetArea) && (floors <= totalFloor)) {
@@ -202,23 +200,13 @@ const handlePropertyTypeChange = (event) => {
   }
 
   function saveAndContinueRentalDetails() {
-      var expectedRent = parseInt(formState.Expected_rent);
-      var expectedDeposit = parseInt(formState.Expected_deposit);
-      var lease = formState.lease;
+      var expectedRent = formState.Expected_rent;
       var Propertytax = formState.Propertytax;
       var Occupancy = formState.Occupancy;
 
-      if (expectedRent && expectedDeposit && lease && Propertytax && Occupancy) {
+      if (expectedRent && Propertytax && Occupancy) {
           // All required fields are filled, proceed to the next step or perform any necessary action
-          if(expectedRent <= expectedDeposit)
-          {
-            showLocalityDetails()
-          }
-          else
-          {
-            alert('Expected Deposit should be more than Expected Rent');
-          }
-          
+          showLocalityDetails()
       }
       else {
           // Alert the user to fill in all required fields before continuing
@@ -309,7 +297,7 @@ const handlePropertyTypeChange = (event) => {
 
     try
     {
-      const response = await axios.post('http://localhost:5000/api/commercial_rent', formData,
+      const response = await axios.post('http://localhost:5000/api/commercial_sale', formData,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -336,10 +324,10 @@ const handlePropertyTypeChange = (event) => {
   };
 
   return (
-      <div className="commercial-body">
+      <div className="container">
         <Sidebar/>
 
-        <form className="forms" encType='multipart/form-data'>
+        <form className="forms" encType='multipart/form-data'>  
           {propertyDetailsVisible && (
             <div id="PropertyDetailsform" className="form">
               <h1 style={{ marginBottom: '30px', fontSize: '30px' }}>
@@ -352,7 +340,7 @@ const handlePropertyTypeChange = (event) => {
                   name="property_type"
                   value={formState.property_type}
                   onChange={handlePropertyTypeChange}
-                  style={{ height: '35px', width: '150px', marginRight: '55px' ,marginLeft: '30px'}}>
+                  style={{ height: '35px', width: '150px', marginRight: '55px' }}>
                   <option value="">Property Type</option>
                   <option value="office">Office Space</option>
                   <option value="co-working">Co-working</option>
@@ -365,7 +353,7 @@ const handlePropertyTypeChange = (event) => {
                   
                 </select>
                 <label htmlFor="building-type" style={{ fontSize: '20px', marginLeft: '10px' }}>Building Type</label>
-                <select id="building-type" name="building_type" value={formState.building_type} style={{ height: '35px', width: '150px', marginRight: '55px' ,marginLeft: '30px'}} onChange={handleInputChange}>
+                <select id="building-type" name="building_type" value={formState.building_type} style={{ height: '35px', width: '150px', marginRight: '55px' }} onChange={handleInputChange}>
                   {buildingType.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
@@ -378,26 +366,26 @@ const handlePropertyTypeChange = (event) => {
 
               <div className="input-group2" style={{ marginBottom: '60px', marginLeft: '10px' }}>
                 <label htmlFor="age" style={{ fontSize:'20px' }}>Age of Property:</label>
-                <input type="number" id="age" name="age" value={formState.age} min="1" placeholder="Age of Property" style={{ height: '25px',marginLeft: '30px' }} onChange={handleInputChange} required />
+                <input type="number" id="age" name="age" value={formState.age} min="1" placeholder="Age of Property" style={{ height: '25px' }} onChange={handleInputChange} required />
                 
                 <label htmlFor="floors" style={{ fontSize:'20px' }}>Floor:</label>
-                <input type="number" id="floors" name="floors" value={formState.floors} min="0" placeholder="Floor" style={{ height: '25px',marginLeft: '30px' }} onChange={handleInputChange} required />
+                <input type="number" id="floors" name="floors" value={formState.floors} min="0" placeholder="Floor" style={{ height: '25px' }} onChange={handleInputChange} required />
                 
                 <label htmlFor="totalfloor" style={{ fontSize:'20px' }}>Total Floor:</label>
-                <input type="number" id="totalfloor" name="totalfloor" value={formState.totalfloor} min="0" placeholder="Total Floor" style={{ height: '25px',marginLeft: '30px' }} onChange={handleInputChange} required />
+                <input type="number" id="totalfloor" name="totalfloor" value={formState.totalfloor} min="0" placeholder="Total Floor" style={{ height: '25px' }} onChange={handleInputChange} required />
               </div>
 
               <div className="input-group3" style={{ marginBottom: '60px', marginLeft: '10px' }}>
-                <label htmlFor="builtuparea" style={{ fontSize:'20px' }}>Super Builtup Area (sq feet):</label>
-                <input type="number" id="builtuparea" name="builtuparea" value={formState.builtuparea} min="0" placeholder="Builtup Area" style={{ height: '25px',marginLeft: '30px' }} onChange={handleInputChange} required />
+                <label htnmlFor="builtuparea" style={{ fontSize:'20px' }}>Super Builtup Area (sq feet):</label>
+                <input type="number" id="builtuparea" name="builtuparea" value={formState.builtuparea} min="0" placeholder="Builtup Area" style={{ height: '25px' }} onChange={handleInputChange} required />
 
                 <label htmlFor="carpetarea" style={{ fontSize:'20px' }}>Carpet Area (sq feet):</label>
-                <input type="number" id="carpetarea" name="carpetarea" value={formState.carpetarea} min="0" placeholder="Carpet Area" style={{ height: '25px' ,marginLeft: '30px'}} onChange={handleInputChange} required />
+                <input type="number" id="carpetarea" name="carpetarea" value={formState.carpetarea} min="0" placeholder="Carpet Area" style={{ height: '25px' }} onChange={handleInputChange} required />
               </div>
 
               <div className="input-group4">
                   <label htmlFor="furnish" style={{ fontSize: '20px', marginLeft: '10px' }}>Furnishing</label>
-                  <select id="furnish" name="furnish" value={formState.furnish} style={{ height: '35px', width: '150px', marginRight: '55px',marginLeft: '30px' }} onChange={handleInputChange}>
+                  <select id="furnish" name="furnish" value={formState.furnish} style={{ height: '35px', width: '150px', marginRight: '55px' }} onChange={handleInputChange}>
                       <option value="">Select</option>
                       <option value="full">Fully Furnished</option>
                       <option value="semi">Semi Furnished</option>
@@ -414,11 +402,11 @@ const handlePropertyTypeChange = (event) => {
           {rentalDetailsVisible && (
             <div id="RentalDetailsform" className="form">
               <h1 style={{ marginBottom: '30px', fontSize: '30px' }}>
-                <FontAwesomeIcon icon={faDollarSign} /> Rent Details
+                <FontAwesomeIcon icon={faDollarSign} /> Sale Details
               </h1>
         
               <div className="input-group5" style={{ marginBottom: '30px' }}>
-                <label htmlFor="Expected-rent" style={{ fontSize: '20px' }}>Expected Rent (per month):</label>
+                <label htmlFor="Expected-rent" style={{ fontSize: '20px' }}>Expected-price:</label>
                 <input
                   type="number"
                   id="Expected-rent"
@@ -426,7 +414,7 @@ const handlePropertyTypeChange = (event) => {
                   min="0"
                   placeholder="Enter Amount"
                   size="10"
-                  style={{ width: '170px', marginRight: '55px', height: '35px' ,marginLeft: '30px' }}
+                  style={{ width: '170px', marginRight: '55px', height: '35px' }}
                   value={formState.Expected_rent}
                   onChange={handleInputChange}
                   required
@@ -441,46 +429,16 @@ const handlePropertyTypeChange = (event) => {
                   checked={formState.Rent_Negotiable}
                   onChange={handleInputChange}
                 />
-                <label htmlFor="Rent Negotiable" style={{ fontSize: '20px' }}>Rent Negotiable</label>
+                <label htmlFor="Rent Negotiable" style={{ fontSize: '20px' }}>Price Negotiable</label>
               </div>
-        
-              <div className="input-group7">
-                <label htmlFor="Expected-deposit" style={{ fontSize: '20px' }}>Expected Deposit:</label>
-                <input
-                  type="number"
-                  id="Expected-deposit"
-                  name="Expected_deposit"
-                  min="0"
-                  placeholder="Enter Amount"
-                  size="10"
-                  style={{ width: '170px', marginRight: '55px', height: '35px',marginLeft: '30px' }}
-                  value={formState.Expected_deposit}
-                  onChange={handleInputChange}
-                  required
-                />
-                <br /><br /><br /><br />
-                <label htmlFor="lease" style={{ fontSize: '20px' }}>Lease Duration (Years):</label>
-                <input
-                  type="number"
-                  id="lease"
-                  name="lease"
-                  min="1"
-                  placeholder="Enter Amount"
-                  size="10"
-                  style={{ width: '170px', marginRight: '55px', height: '35px',marginLeft: '30px' }}
-                  value={formState.lease}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-        
+
               <div className="input-group8" style={{ marginBottom: '30px' }}>
-                <label htmlFor="available_from" style={{ fontSize: '20px' , marginTop : '15px'}}>Available From:</label>
+                <label htmlFor="available_from" style={{ fontSize: '20px' }}>Available From:</label>
                 <input
                   type="date"
                   id="available_from"
                   name="available_from"
-                  style={{ height: '35px', marginRight: '65px',marginLeft: '30px' }}
+                  style={{ height: '35px', marginRight: '65px' }}
                   value={formState.available_from}
                   onChange={handleInputChange}
                   required
@@ -492,7 +450,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="Propertytax"
                   name="Propertytax"
-                  style={{ height: '35px', marginRight: '55px',marginLeft: '30px' }}
+                  style={{ height: '35px', marginRight: '55px' }}
                   value={formState.Propertytax}
                   onChange={handleInputChange}
                 >
@@ -503,11 +461,11 @@ const handlePropertyTypeChange = (event) => {
                 </select>
         
                 <br /><br /><br /><br />
-                <label htmlFor="Occupancy" style={{ fontSize: '20px' }}>Do you have an Occupancy Certificate?</label>
+                <label htmlFor="Occupancy" style={{ fontSize: '20px', marginLeft: '10px' }}>Do you have an Occupancy Certificate?</label>
                 <select
                   id="Occupancy"
                   name="Occupancy"
-                  style={{ height: '35px', marginRight: '55px' ,marginLeft: '30px'}}
+                  style={{ height: '35px', marginRight: '55px' }}
                   value={formState.Occupancy}
                   onChange={handleInputChange}
                 >
@@ -521,7 +479,7 @@ const handlePropertyTypeChange = (event) => {
         
               <br /><br />
               <button id="save-rental-details-btn" type="button" onClick={saveAndContinueRentalDetails}>
-                Save Rent Details
+                Save Sale Details
               </button>
             </div>
           )}
@@ -537,7 +495,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="City"
                   name="city"
-                  style={{ height: '35px', marginRight: '55px', width: '160px' ,marginLeft: '30px'}}
+                  style={{ height: '35px', marginRight: '55px', width: '160px' }}
                   value={formState.city}
                   onChange={handleInputChange}
                   required
@@ -556,7 +514,7 @@ const handlePropertyTypeChange = (event) => {
                   id="locality"
                   name="locality"
                   placeholder="Enter Locality"
-                  style={{ width: '160px', height: '35px',marginLeft: '30px' }}
+                  style={{ width: '160px', height: '35px' }}
                   value={formState.locality}
                   onChange={handleInputChange}
                   required
@@ -570,7 +528,7 @@ const handlePropertyTypeChange = (event) => {
                   id="landmark_street"
                   name="landmark_street"
                   placeholder="Enter Landmark / Street"
-                  style={{ width: '200px', height: '35px',marginLeft: '30px' }}
+                  style={{ width: '200px', height: '35px' }}
                   value={formState.landmark_street}
                   onChange={handleInputChange}
                   required
@@ -604,7 +562,7 @@ const handlePropertyTypeChange = (event) => {
           {galleryVisible && (
             <div id="centeredWrapper">
               <div id="Gallery">
-                <h2 style={{ fontSize: '30px' , marginBottom: '50px' }}>
+                <h2 style={{ fontSize: '30px' }}>
                   <i className="fas fa-camera"></i> Gallery
                 </h2>
         
@@ -615,7 +573,6 @@ const handlePropertyTypeChange = (event) => {
                     name="image"
                     accept="image/*"
                     multiple
-                    max={10}
                     onChange={handleImageChange}
                   />
                   <label htmlFor="image">Choose image(s) (Maximum 10)</label>
@@ -645,6 +602,7 @@ const handlePropertyTypeChange = (event) => {
                     </div>
                   )}
                 </div>
+
         
                 <br /><br />
         
@@ -660,7 +618,7 @@ const handlePropertyTypeChange = (event) => {
           )}
 
           {amenitiesVisible && (
-            <div id="Amenities" style={{ marginTop: '10px ' ,marginLeft: '100px' , height: '750px' }}>
+            <div id="Amenities" style={{ marginLeft: '10px' }}>
               <h2 style={{ fontSize: '30px' }}>
                 <i className="fas fa-utensils"></i> Amenities
               </h2>
@@ -671,7 +629,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="water-storage"
                   name="waterSupply"
-                  style={{ height: '35px', width: '100px', marginRight: '55px',marginLeft: '30px' }}
+                  style={{ height: '35px', width: '100px', marginRight: '55px' }}
                   value={formState.waterSupply}
                   onChange={handleInputChange}
                 >
@@ -704,7 +662,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="lift"
                   name="lift"
-                  style={{ height: '35px', marginRight: '55px',marginLeft: '30px' }}
+                  style={{ height: '35px', marginRight: '55px' }}
                   value={formState.lift}
                   onChange={handleInputChange}
                 >
@@ -720,7 +678,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="wash"
                   name="washroom"
-                  style={{ height: '35px', marginRight: '55px',marginLeft: '30px' }}
+                  style={{ height: '35px', marginRight: '55px' }}
                   value={formState.washroom}
                   onChange={handleInputChange}
                 >
@@ -738,7 +696,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="security"
                   name="security"
-                  style={{ height: '35px', width: '80px', marginRight: '55px',marginLeft: '30px' }}
+                  style={{ height: '35px', width: '80px', marginRight: '55px' }}
                   value={formState.security}
                   onChange={handleInputChange}
                 >
@@ -753,7 +711,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="parking"
                   name="parking"
-                  style={{ height: '35px', width: '80px', marginRight: '55px' ,marginLeft: '30px'}}
+                  style={{ height: '35px', width: '80px', marginRight: '55px' }}
                   value={formState.parking}
                   onChange={handleInputChange}
                 >
@@ -770,7 +728,7 @@ const handlePropertyTypeChange = (event) => {
                 <select
                   id="Availability"
                   name="availability"
-                  style={{ height: '35px', marginRight: '55px',marginLeft: '30px' }}
+                  style={{ height: '35px', marginRight: '55px' }}
                   value={formState.availability}
                   onChange={handleInputChange}
                 >
@@ -821,7 +779,7 @@ const handlePropertyTypeChange = (event) => {
         
               <br />
               <br />
-              <button id="post-btn" type='submit' onClick={handleSubmit}>
+              <button id="post-btn" onClick={handleSubmit}>
                 Post
               </button>
         
@@ -836,4 +794,4 @@ const handlePropertyTypeChange = (event) => {
   );
 };
 
-export default CommercialRent;
+export default CommercialSale;

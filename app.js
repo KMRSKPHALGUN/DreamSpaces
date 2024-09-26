@@ -30,7 +30,9 @@ app.use(cors({
 const Signup = require('./models/Signup');
 const Admin = require('./models/Admin');
 const registration = require('./controllers/Registration');
+const Residentialrent = require('./controllers/Residential_rent');
 const Commercialrent = require('./controllers/Commercial_rent');
+const Commercialsale = require('./controllers/Commercial_sale');
 const PropertyListings = require('./controllers/Property_Listings');
 const UserDetails = require('./controllers/UserDetails');
 const UpdateMyDetails = require('./controllers/UpdateMyDetails');
@@ -96,7 +98,11 @@ app.post('/api/adminLogin', async (req, res) => {
     }
 });
 
+app.post('/api/residential_rent', verifyToken, upload.array("image", 10), Residentialrent.residentialRent);
+
 app.post('/api/commercial_rent', verifyToken, upload.array("image", 10), Commercialrent.commercialRent);
+
+app.post('/api/commercial_sale', verifyToken, upload.array("image", 10), Commercialsale.commercialSale);
 
 app.post('/api/property_listings', verifyToken, PropertyListings.property_listings);
 

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 // Define a single schema to encompass all details
 const propertySchema = new mongoose.Schema({
-  apartment_type: String,
+  building_type: String,
   bhk_type: String,
   floor_number: Number,
   total_floors: Number,
