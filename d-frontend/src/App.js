@@ -15,6 +15,7 @@ import CommercialSale from './components/commercialSale';
 import UserProfile from './components/userDetails';
 import PropertyListings from './components/propertyListings';
 import ComRentViewProperty from './components/propDetComRent';
+import { PrivateRoute, AdminPrivateRoute } from './components/privateRoute';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 function App() {
@@ -36,15 +37,35 @@ function App() {
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/signup' element={<Signup/>}></Route>
         <Route path='/adminLogin' element={<AdminLogin/>}></Route>
-        <Route path='/admin' element={<AdminDashboard/>}></Route>
-        <Route path='/home' element={<HomePage/>}></Route>
-        <Route path='/postYourProperty' element={<PostYourProperty/>}></Route>
-        <Route path='/residentialRent' element={<ResidentialRent/>}></Route>
-        <Route path='/commercialRent' element={<CommercialRent/>}></Route>
-        <Route path='/commercialSale' element={<CommercialSale/>}></Route>
-        <Route path='/userProfile' element={<UserProfile/>}></Route>
-        <Route path='/property_listings' element={<PropertyListings/>}></Route>
-        <Route path='/comRentViewProperty' element={<ComRentViewProperty/>}></Route>
+        <Route path='/admin' element={<AdminPrivateRoute/>}>
+          <Route path='/admin' element={<AdminDashboard/>}> </Route>
+        </Route>
+        <Route path='/home' element={<PrivateRoute/>}>
+          <Route path='/home' element={<HomePage/>}></Route>
+        </Route>
+        <Route path='/postYourProperty' element={<PrivateRoute/>}>
+          <Route path='/postYourProperty' element={<PostYourProperty/>}></Route>
+        </Route>
+        <Route path='/residentialRent' element={<PrivateRoute/>}>
+          <Route path='/residentialRent' element={<ResidentialRent/>}></Route>
+        </Route>
+        <Route path='/commercialRent' element={<PrivateRoute/>}>
+          <Route path='/commercialRent' element={<CommercialRent/>}></Route>
+        </Route>
+        <Route path='/commercialSale' element={<PrivateRoute/>}>
+          <Route path='/commercialSale' element={<CommercialSale/>}></Route>
+        </Route>
+        <Route path='/userProfile' element={<PrivateRoute/>}>
+          <Route path='/userProfile' element={<UserProfile/>}></Route>
+        </Route>
+        <Route path='/property_listings' element={<PrivateRoute/>}>
+          <Route path='/property_listings' element={<PropertyListings/>}></Route>
+        </Route>
+        <Route path='/comRentViewProperty' element={<PrivateRoute/>}>
+          <Route path='/comRentViewProperty' element={<ComRentViewProperty/>}></Route>
+        </Route>
+        
+        
       </Routes>
     </Router>
   );
