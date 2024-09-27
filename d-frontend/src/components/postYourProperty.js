@@ -38,7 +38,7 @@ function PostYourProperty() {
     else if (propertyType === 'commercial' && adType === 'rent') path = '/commercialRent';
     else if (propertyType === 'commercial' && adType === 'sale') path = '/commercialSale';
     else if (propertyType === 'land' && adType === 'sale') path = '/plot_sale';
-    else if (propertyType === 'land' && adType === 'development') path = '/plot_dev';
+    else if (propertyType === 'land' && adType === 'development') path = '/plotDev';
 
     if (path) {
       window.location.href = path;

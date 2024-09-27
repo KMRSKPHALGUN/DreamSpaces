@@ -59,7 +59,7 @@ exports.viewProperty = async (req,res) =>{
         else if(comRent) {
             const owner = await seller.findOne({ _id: comRent.ownerId });
             const Reviews = await reviews.findOne({ propertyId: object_id }) || [];
-            const len = Reviews.userId.length;
+            const len = Reviews.userId.length || 0;
             var users = [];
             for(var i=0; i<len; i++)
             {
