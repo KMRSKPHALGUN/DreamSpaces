@@ -136,12 +136,18 @@ function AdminDashboard() {
     }
   };
 
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    alert('Logged Out Successfully');
+    window.location.href = '/';
+  };
+
   return (
     <div className="wrapper">
       <aside id="sidebar">
         <ul className="sidebar-nav">
           <li className="sidebar-item">
-            <a href="/" className="sidebar-link">
+            <a href="/" className="sidebar-link" onClick={handleLogOut}>
               <FontAwesomeIcon icon={faHome}/>
             </a>
           </li>

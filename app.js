@@ -128,6 +128,29 @@ app.get('/api/userDetails', verifyToken, UserDetails.userDetails);
 
 app.get('/api/adminDashboard', verifyToken, AdminDashboard.getAdminDashboard);
 
+app.get('/api/adminCheck', async(req, res) => {
+    try{
+        let token = req.header('Authorization');
+        if (!token) return res.status(401).json({ error: 'Access denied' });
+        if (token.startsWith('Bearer ')) {
+            token = token.slice(7, token.length).trim(); // Remove 'Bearer ' prefix
+        }
+        const decoded = jwt.verify(token, 'DreamSpacesSecret');
+        const exAdmin = await Admin.findOne({ _id: decoded.userId});
+        if(exAdmin) {
+            res.status(200).json({ message: 'yes' });
+        }
+        else
+        {
+            res.status(200).json({ message: 'false' });
+        }
+    }
+    catch(error)
+    {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+});
+
 function verifyToken(req, res, next) {
     let token = req.header('Authorization');
     if (!token) return res.status(401).json({ error: 'Access denied' });
