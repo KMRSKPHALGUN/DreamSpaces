@@ -1,10 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-/* Custom CSS for blurring background */
 .blur-background {
     filter: blur(30px);
-    pointer-events: none; /* Prevents interaction with blurred content */
-  }
-  /* Custom CSS for centering the modal */
+    pointer-events: none; 
+    }
+
   #adminLoginModal .modal-dialog {
     /* display: flex;
     align-items: center; */
@@ -15,9 +14,9 @@
     /* padding-left: 100px; */
   }
   #adminLoginModal .modal-content {
-    width: 100%; /* Ensure modal content takes full width */
-    max-width: 600px; /* Adjust maximum width as needed */
-    margin: auto; /* Center the modal horizontally */
+    width: 100%; 
+    max-width: 600px;
+    margin: auto; 
     padding: 20px; 
     font-size: 15px;
     background-color: rgba(234, 238, 241, 0.354);
