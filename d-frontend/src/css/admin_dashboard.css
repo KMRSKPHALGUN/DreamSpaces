@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
       #sidebar .lni {
-        font-size: 20px; /* Adjust the size as needed */
+        font-size: 20px;
       }
       body {
         margin: 0;
@@ -72,7 +72,7 @@
         color: white;
       }
       #main {
-        margin-left: 150px; /* Same as sidebar width */
+        margin-left: 150px;
         padding: 20px;
       }
       .content-section {
@@ -83,45 +83,45 @@
 		height: 750px;
 		margin: 20px;
       }
-/* CSS for Property Reports Section */
+
 #reports {
-    background-color: #ffffff9a; /* White background color */
+    background-color: #ffffff9a;
     /* padding: 20px; */
     border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 #reports h3 {
-    color: #0e2238; /* Dark blue text color */
-    margin-bottom: 20px; /* Bottom margin below heading */
+    color: #0e2238;
+    margin-bottom: 20px;
 }
 
 .list-group {
-    padding: 0; /* Remove default padding for list group */
+    padding: 0;
 }
 
 .list-group-item {
     padding: 20px;
-    border: 1px solid #dee2e6; /* Light gray border */
+    border: 1px solid #dee2e6;
     border-radius: 8px;
     margin-bottom: 15px;
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+    transition: background-color 0.3s ease;
 }
 
 .list-group-item:hover {
-    background-color: #e0e2e4; /* Light gray background on hover */
+    background-color: #e0e2e4;
 }
 
 .list-group-item h5 {
-    color: #0e2238; /* Dark blue text color for report titles */
+    color: #0e2238; 
     margin-bottom: 10px;
-    font-size: 18px; /* Larger font size for titles */
+    font-size: 18px;
 }
 
 .list-group-item p {
-    color: #575656; /* Dark text color */
+    color: #575656;
     margin-bottom: 8px;
-    font-size: 14px; /* Smaller font size for description */
+    font-size: 14px; 
 }
 
 .listings .box-container{
