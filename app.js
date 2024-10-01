@@ -59,7 +59,7 @@ const upload = multer({storage: ds});
 
 app.post('/api/register', Registration.register);
 
-app.post('/api/verifyEmail', Registration.verifyEmail);
+app.post('/api/verifyUser', Registration.verifyUser);
 
 app.post('/api/login', async (req, res) => {
     try {

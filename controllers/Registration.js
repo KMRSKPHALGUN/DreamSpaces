@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const Signup = require('../models/Signup');
 const nodemailer = require('nodemailer');
 const NodeCache = require('node-cache');
+const twilio = require('twilio');
+const crypto = require('crypto'); // For generating OTP
+require('dotenv').config();
 
 const otpCache = new NodeCache({ stdTTL: 300 });
 
@@ -11,39 +14,17 @@ const otpCache = new NodeCache({ stdTTL: 300 });
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'phalgunkothamasu@gmail.com', // Replace with your email
-        pass: 'zirgtcnqvwkhdbxd'   // Replace with your email password or app-specific password
+        user: process.env.NODE_MAILER_USER, // Replace with your email
+        pass: process.env.NODE_MAILER_PASS   // Replace with your email password or app-specific password
     }
 });
 
-// Handle user login
-// exports.login = async (req, res) => {
-//     try {
-//         const { l_email, l_password } = req.body;
 
-//         // Validate email format
-//         if (!validateEmail(l_email)) {
-//             return res.render('error', { error: 'Invalid email format' });
-//         }
+// Twilio credentials from your Twilio account
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioClient = twilio(accountSid, authToken);
 
-//         const existingUser = await Signup.findOne({ email: l_email });
-//         if (!existingUser) {
-//             return res.render('error', { error: 'Email does not exist' });
-//         }
-
-//         // Compare hashed password with password entered by user
-//         const match = await bcrypt.compare(l_password, existingUser.password);
-//         if (!match) {
-//             return res.render('error', { error: 'Wrong password' });
-//         }
-
-//         // Redirect to homepage upon successful login
-//         res.render('index');
-//     } catch (error) {
-//         console.error(error);
-//         res.render('error', { error: 'Something went wrong' });
-//     }
-// }
 
 // Validate email format
 function validateEmail(email) {
@@ -60,16 +41,24 @@ function validateEmail(email) {
 function validatePhone(phone) {
     return phone.length === 10; 
 }
+
+// Function to generate random 6-digit OTP
+function generateOtp() {
+    return crypto.randomInt(100000, 999999).toString();
+}
+
 // Handle user registration
 exports.register = async (req, res) => {
     try {
-        const { name, email, password, confirmPassword, phone, otp } = req.body;
+        const { name, email, password, confirmPassword, phone, otpEmail, otpPhone } = req.body;
 
-        const cachedOtp = otpCache.get(email);
+        const cachedOtpEmail = otpCache.get(email);
+        const cachedOtpPhone = otpCache.get(phone);
 
-        if (cachedOtp && cachedOtp === otp) {
+        if (cachedOtpEmail === otpEmail && cachedOtpPhone === otpPhone) {
             // OTP is correct, proceed with user registration
             otpCache.del(email); // Clear OTP after successful verification
+            otpCache.del(phone)
 
             // Check if email format is valid
             if (!validateEmail(email)) {
@@ -124,24 +113,32 @@ exports.register = async (req, res) => {
 }
 
 
-exports.verifyEmail = async(req, res) => {
-    const { email } = req.body;
+exports.verifyUser = async(req, res) => {
+    const { email, phone } = req.body;
 
     // Generate a 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpEmail = generateOtp();
+    const otpPhone = generateOtp();
 
     // Store OTP in cache with the email as the key
-    otpCache.set(email, otp);
+    otpCache.set(email, otpEmail);
+    otpCache.set(phone, otpPhone);
 
     // Email message configuration
     const mailOptions = {
-        from: 'your-email@gmail.com', // Sender address
+        from: process.env.NODE_MAILER_USER, // Sender address
         to: email,                    // Recipient address
-        subject: 'Your OTP for Registration',
-        text: `Your OTP for registration is ${otp}. It will expire in 5 minutes.`
+        subject: 'Registration into DreamSpaces',
+        text: `Your DreamSpaces Verification Code is ${otpEmail}. It will expire in 5 minutes.`
     };
     // Send the email
     try {
+        // Send OTP via Twilio SMS
+        await twilioClient.messages.create({
+            body: `Your DreamSpaces Verification Code is ${otpPhone}. It will expire in 5 minutes.`,
+            from: '+12088377815',
+            to: `+91${phone}`,
+        });
         await transporter.sendMail(mailOptions);
         res.status(200).json({ success: true, message: 'OTP sent successfully' });
     } catch (error) {

@@ -15,7 +15,8 @@ function Signup() {
     
     // State for OTP step
     const [isOtpStep, setIsOtpStep] = useState(false);
-    const [otp, setOtp] = useState(new Array(6).fill(""));
+    const [otpEmail, setOtpEmail] = useState(new Array(6).fill(""));
+    const [otpPhone, setOtpPhone] = useState(new Array(6).fill(""));
 
     // Refs for input fields
     const nameInputRef = useRef(null);
@@ -37,10 +38,21 @@ function Signup() {
     }
 
     // Handle OTP input changes
-    const handleOtpChange = (element, index) => {
-        const newOtp = [...otp];
+    const handleEmailOtpChange = (element, index) => {
+        const newOtp = [...otpEmail];
         newOtp[index] = element.value;
-        setOtp(newOtp);
+        setOtpEmail(newOtp);
+
+        // Focus the next input field automatically
+        if (element.nextSibling && element.value) {
+            element.nextSibling.focus();
+        }
+    };
+
+    const handlePhoneOtpChange = (element, index) => {
+        const newOtp = [...otpPhone];
+        newOtp[index] = element.value;
+        setOtpPhone(newOtp);
 
         // Focus the next input field automatically
         if (element.nextSibling && element.value) {
@@ -93,7 +105,7 @@ function Signup() {
 
         // Send request to backend to initiate OTP process (but do not send the form data yet)
         try {
-            const response = await axios.post('http://localhost:5000/api/verifyEmail', { email });
+            const response = await axios.post('http://localhost:5000/api/verifyUser', { email, phone });
             if (response.data.success) {
                 setIsOtpStep(true); // Show OTP step after successful validation
             } else {
@@ -107,15 +119,16 @@ function Signup() {
     // Handle OTP submission
     const submitOtp = async (event) => {
         event.preventDefault();
-        const otpValue = otp.join("");
-        if (otpValue.length !== 6) {
+        const otpEmailValue = otpEmail.join("");
+        const otpPhoneValue = otpPhone.join("");
+        if (otpEmailValue.length !== 6 || otpPhoneValue.length !== 6) {
             alert("Please enter a 6-digit OTP");
             return;
         }
 
         try {
             const response = await axios.post('http://localhost:5000/api/register', {
-                name: formData.name, email: formData.email, phone: formData.phone, password: formData.password, confirmPassword: formData.confirmPassword, otp: otpValue
+                name: formData.name, email: formData.email, phone: formData.phone, password: formData.password, confirmPassword: formData.confirmPassword, otpEmail: otpEmailValue, otpPhone: otpPhoneValue
             });
 
             if (response.data.success) {
@@ -145,18 +158,34 @@ function Signup() {
                             // OTP Step
                             <form id="otpForm" onSubmit={submitOtp}>
                                 <div className="form-control">
-                                    <h2>Enter OTP</h2>
+                                    <h2>Enter OTP sent to Email</h2>
                                     <p>Check your email for the OTP.</p>
 
                                     <div className="otp-container">
-                                        {otp.map((digit, index) => (
+                                        {otpEmail.map((digit, index) => (
                                             <input
                                                 key={index}
-                                                type="text"
+                                                type="password"
                                                 maxLength="1"
                                                 className="otp-input"
                                                 value={digit}
-                                                onChange={(e) => handleOtpChange(e.target, index)}
+                                                onChange={(e) => handleEmailOtpChange(e.target, index)}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    <h2>Enter OTP sent to Phone</h2>
+                                    <p>Check your phone for the OTP.</p>
+
+                                    <div className="otp-container">
+                                        {otpPhone.map((digit, index) => (
+                                            <input
+                                                key={index}
+                                                type="password"
+                                                maxLength="1"
+                                                className="otp-input"
+                                                value={digit}
+                                                onChange={(e) => handlePhoneOtpChange(e.target, index)}
                                             />
                                         ))}
                                     </div>
