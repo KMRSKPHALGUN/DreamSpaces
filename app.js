@@ -29,7 +29,7 @@ app.use(cors({
 
 const Signup = require('./models/Signup');
 const Admin = require('./models/Admin');
-const registration = require('./controllers/Registration');
+const Registration = require('./controllers/Registration');
 const Residentialrent = require('./controllers/Residential_rent');
 const Commercialrent = require('./controllers/Commercial_rent');
 const Commercialsale = require('./controllers/Commercial_sale');
@@ -57,7 +57,10 @@ const upload = multer({storage: ds});
 //     res.sendFile(path.join(__dirname, 'd-frontend/build', 'index.html'));
 // });
 
-app.post('/api/register', registration.register);
+app.post('/api/register', Registration.register);
+
+app.post('/api/verifyEmail', Registration.verifyEmail);
+
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;

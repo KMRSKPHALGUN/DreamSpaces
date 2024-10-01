@@ -290,3 +290,20 @@
     padding: 0 30px;
   }
 }
+
+
+.otp-container {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  margin: 10px auto;
+}
+
+.otp-input {
+  width: 30px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
