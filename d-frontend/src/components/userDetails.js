@@ -11,15 +11,21 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, 
 
 
 function UserProfile({}) {
-  const [myDetails, setMyDetails] = useState(null);
+  const [myDetails, setMyDetails] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    bio: '',
+    motive: '',
+    profile_pic: ''
+  });
   const [owners, setOwners] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [uploadImage, setUploadImage] = useState(null);
-  const [bio, setBio] = useState('');
-  const [motive, setMotive] = useState('');
   const [activeTab, setActiveTab] = useState('account'); // state to track the active tab
   const [savedProperties, setSavedProperties] = useState([]); // Track saved properties
   const [postedProperties, setPostedProperties] = useState([]); // Track posted properties
+  const [editMode, setEditMode] = useState(false); // Track if we are in edit mode
   const [passwordsState, setPasswordsState] = useState({
     inputPasswordCurrent: '',
     inputPasswordNew: '',
@@ -29,36 +35,28 @@ function UserProfile({}) {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    const fetchUserDetails = async (event) => {
+    const fetchUserDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/userDetails', 
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            }           
-          }
-        );
-        setMyDetails(response.data.owner);
-        setSavedProperties(response.data.s_property);
-        setPostedProperties(response.data.property);
-        setOwners(response.data.s_owner);
+        const response = await axios.get('http://localhost:5000/api/userDetails', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setMyDetails({
+          name: response.data.owner.name,
+          email: response.data.owner.email,
+          phone: response.data.owner.phone,
+          bio: response.data.owner.bio || '',
+          motive: response.data.owner.motive || '',
+          profile_pic: response.data.owner.profile_pic || EmptyProfile,
+        });
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+        alert('Something went wrong!');
       }
-      catch(error)
-      {
-        if(error.response)
-        {
-          console.log("Inside catch if");  
-          alert(error.response.data.error);
-        }
-        else
-        {
-          console.log("Inside catch else");
-          alert("Something went wrong!");
-        }
-      }
-    }
+    };
     fetchUserDetails();
-  }, []);
+  }, [token]);
 
   const statisticsData = [
     { name: 'Posted', value: postedProperties.length },
@@ -67,16 +65,21 @@ function UserProfile({}) {
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-  const updateMyDetails = async(event) => {
+  const updateMyDetails = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    
+
     // Append fields to formData
-    formData.append('bio', bio);
-    formData.append('motive', motive);
+    formData.append('name', myDetails.name);
+    formData.append('email', myDetails.email);
+    formData.append('phone', myDetails.phone);
+    formData.append('bio', myDetails.bio);
+    formData.append('motive', myDetails.motive);
     
     // Append selected image file if available
-    formData.append('image', uploadImage); // Use the appropriate field name in multer
+    if (uploadImage) {
+      formData.append('image', uploadImage); // Use the appropriate field name in multer
+    }
 
     try {
       const response = await axios.post('http://localhost:5000/api/updateMyDetails', formData, {
@@ -85,13 +88,20 @@ function UserProfile({}) {
         },
       });
       alert(response.data.message);
-      window.location.reload();
-    }
-    catch(error)
-    {
+      setEditMode(false); // Exit edit mode after saving
+      window.location.reload(); // Reload the page to reflect changes
+    } catch (error) {
       console.error('Error updating details:', error);
       alert('Error updating details, please try again.');
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setMyDetails({
+      ...myDetails,
+      [name]: value,
+    });
   };
 
   const handleImageChange = (e) => {
@@ -228,82 +238,154 @@ function UserProfile({}) {
                     <h5 className="card-title mb-0">Your Details</h5>
                   </div>
                   <div className="card-body">
-                    <form action="/updateMyDetails" encType="multipart/form-data">
-                      {myDetails && (
-                        <>
+                    {!editMode ? (
+                      <>
+                        {/* Display user details in non-editable format */}
+                        <div className="row">
+                          <div className="col-md-8">
+                            <h5>Name:</h5>
+                            <p>{myDetails.name}</p>
+
+                            <h5>Email:</h5>
+                            <p>{myDetails.email}</p>
+
+                            <h5>Phone Number:</h5>
+                            <p>{myDetails.phone}</p>
+
+                            <h5>Bio:</h5>
+                            <p>{myDetails.bio || 'N/A'}</p>
+
+                            <h5>Primary Motive:</h5>
+                            <p>{myDetails.motive || 'N/A'}</p>
+                          </div>
+                          <div className="col-md-4 text-center">
+                            <img
+                              alt="Profile_Picture"
+                              src={myDetails.profile_pic || EmptyProfile}
+                              className="rounded-circle img-responsive mt-2"
+                              width="128"
+                              height="128"
+                            />
+                          </div>
+                        </div>
+                        <button
+                          className="btn btn-primary mt-4"
+                          onClick={() => setEditMode(true)} // Enable edit mode on click
+                        >
+                          Update Profile
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        {/* Editable form */}
+                        <form onSubmit={updateMyDetails} encType="multipart/form-data">
                           <div className="row">
                             <div className="col-md-8">
                               <div className="form-group">
                                 <label htmlFor="inputname">
-                                  <h5>Name:</h5> <label>{myDetails.name}</label>
+                                  <h5>Name:</h5>
                                 </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  id="inputname"
+                                  name="name"
+                                  value={myDetails.name}
+                                  onChange={handleInputChange}
+                                />
                               </div>
                               <div className="form-group">
-                                {myDetails.bio ? (
-                                  <span>
-                                    <label htmlFor="bio">
-                                      <h5>Bio:</h5> <label>{myDetails.bio}</label>
-                                    </label>
-                                  </span>
-                                ) : (
-                                  <>
-                                    <label htmlFor="bio">
-                                      <h5>Bio:</h5>
-                                    </label>
-                                    <textarea rows="2" className="form-control" id="bio" name="bio" placeholder="Something about yourself" onChange={(e) => setBio(e.target.value)}></textarea>
-                                  </>
-                                )}
+                                <label htmlFor="inputemail">
+                                  <h5>Email:</h5>
+                                </label>
+                                <input
+                                  type="email"
+                                  className="form-control"
+                                  id="inputemail"
+                                  name="email"
+                                  value={myDetails.email}
+                                  onChange={handleInputChange}
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="inputphone">
+                                  <h5>Phone Number:</h5>
+                                </label>
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  id="inputphone"
+                                  name="phone"
+                                  value={myDetails.phone}
+                                  onChange={handleInputChange}
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="bio">
+                                  <h5>Bio:</h5>
+                                </label>
+                                <textarea
+                                  rows="2"
+                                  className="form-control"
+                                  id="bio"
+                                  name="bio"
+                                  value={myDetails.bio}
+                                  onChange={handleInputChange}
+                                ></textarea>
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="motive">
+                                  <h5>Primary Motive:</h5>
+                                </label>
+                                <select
+                                  id="motive"
+                                  name="motive"
+                                  className="form-control"
+                                  value={myDetails.motive}
+                                  onChange={handleInputChange}
+                                >
+                                  <option value="">Choose</option>
+                                  <option value="Rent Homes/Commercial Spaces">Rent Homes/Commercial Spaces</option>
+                                  <option value="Sell Homes/Commercial Spaces/Plots">Sell Homes/Commercial Spaces/Plots</option>
+                                  <option value="Buy Homes/Commercial Spaces/Plots">Buy Homes/Commercial Spaces/Plots</option>
+                                  <option value="Develop Plots">Develop Plots</option>
+                                </select>
                               </div>
                             </div>
                             <div className="col-md-4 text-center">
                               <img
                                 alt="Profile_Picture"
-                                src={(myDetails.profile_pic || selectedImage || EmptyProfile)}
+                                src={selectedImage || myDetails.profile_pic || EmptyProfile}
                                 id="profile-pic"
                                 className="rounded-circle img-responsive mt-2"
                                 width="128"
                                 height="128"
                               />
-                              {!myDetails.profile_pic && (
-                                <>
-                                  <label htmlFor="image" className="upload_img">
-                                    Upload Image
-                                  </label>
-                                  <input className="disappear" type="file" accept="image/*" id="image" name="image" onChange={handleImageChange} />
-                                </>
-                              )}
+                              <label htmlFor="image" className="upload_img">
+                                Upload Image
+                              </label>
+                              <input
+                                className="disappear"
+                                type="file"
+                                accept="image/*"
+                                id="image"
+                                name="image"
+                                onChange={handleImageChange}
+                              />
                             </div>
                           </div>
-                          <div className="form-group">
-                            <label htmlFor="inputemail">
-                              <h5>Email:</h5> <label>{myDetails.email}</label>
-                            </label>
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="inputnumber">
-                              <h5>Phone Number:</h5> <label>{myDetails.phone}</label>
-                            </label>
-                          </div>
-                          <div className="form-group">
-                            <label htmlFor="motive">
-                              <h5>What is your primary motive of being active on our website?</h5>
-                            </label>
-                            {myDetails.motive ? (
-                              <label>{myDetails.motive}</label>
-                            ) : (
-                              <select id="motive" name={motive} className="form-control" onChange={(e) => setMotive(e.target.value)}>
-                                <option value=''>Choose</option>
-                                <option value="Rent Homes/Commercial Spaces">Rent Homes/Commercial Spaces</option>
-                                <option value="Sell Homes/Commercial Spaces/Plots">Sell Homes/Commercial Spaces/Plots</option>
-                                <option value="Buy Homes/Commercial Spaces/Plots">Buy Homes/Commercial Spaces/Plots</option>
-                                <option value="Develop Plots">Develop Plots</option>
-                              </select>
-                            )}
-                          </div>
-                          <button type="submit" className="btn" onClick={updateMyDetails}>Save changes</button>
-                        </>
-                      )}
-                    </form>
+                          <button type="submit" className="btn btn-primary mt-4">
+                            Save Changes
+                          </button>
+                          <button
+                            className="btn btn-secondary mt-4 ml-2"
+                            onClick={() => setEditMode(false)} // Cancel edit mode
+                          >
+                            Cancel
+                          </button>
+                        </form>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
