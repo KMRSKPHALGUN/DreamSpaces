@@ -1,11 +1,16 @@
 import axios from 'axios';
 import React, { useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 import '../css/login_signup.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Eye from '../images/eye.svg';
 import EyeHide from '../images/hide.svg';
 import Signupp from '../images/loginn.jpeg';
 
 function Signup() {
+    const localhost = '10.0.49.88';
+    let navigate = useNavigate();
     // State for controlling password visibility
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -105,7 +110,7 @@ function Signup() {
 
         // Send request to backend to initiate OTP process (but do not send the form data yet)
         try {
-            const response = await axios.post('http://localhost:5000/api/verifyUser', { email, phone });
+            const response = await axios.post(`http://${localhost}:5000/api/verifyUser`, { email, phone });
             if (response.data.success) {
                 setIsOtpStep(true); // Show OTP step after successful validation
             } else {
@@ -127,7 +132,7 @@ function Signup() {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/api/register', {
+            const response = await axios.post(`http://${localhost}:5000/api/register`, {
                 name: formData.name, email: formData.email, phone: formData.phone, password: formData.password, confirmPassword: formData.confirmPassword, otpEmail: otpEmailValue, otpPhone: otpPhoneValue
             });
 
@@ -144,6 +149,7 @@ function Signup() {
 
     return (
         <section className="section">
+            <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
             <div className="container active">
                 <div className="user signup">
                     <div className="form-box">

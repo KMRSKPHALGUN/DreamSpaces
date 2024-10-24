@@ -2,9 +2,13 @@ import React, {useRef} from "react";
 import '../css/login_signup.css';
 import Loginn from '../images/loginn.jpeg';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  
+  const localhost = '10.0.49.88';
+  let navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
@@ -15,15 +19,16 @@ function Login() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     try {
-      const response = await axios.post('http://localhost:5000/api/login', { // Update with your actual backend endpoint
+      const response = await axios.post(`http://${localhost}:5000/api/login`, { // Update with your actual backend endpoint
           email,
           password,
       });
 
-      const { token, message } = response.data;
+      const message = response.data.message;
 
       // Store token in localStorage
-      localStorage.setItem('token', token);
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('client', JSON.stringify(response.data.client));
 
       alert(message);
       // Handle successful registration (e.g., redirect to login page or show a success message)
@@ -44,6 +49,7 @@ function Login() {
 
   return (
     <section className="section">
+      <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
       <div className="container">
         <div className="user login">
           <div className="img-box">

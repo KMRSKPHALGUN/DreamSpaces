@@ -12,6 +12,7 @@ const reviews = require('../models/Reviews');
 exports.viewProperty = async (req,res) =>{
     try{
         const object_id = req.body.propertyId;
+        const client = await seller.findOne({ _id: req.userId });
         const resRent = await res_rent.findOne({ _id: object_id });
         const resBuy = await res_buy.findOne({ _id: object_id });
         const resFlat = await res_flat.findOne({ _id: object_id });
@@ -30,7 +31,7 @@ exports.viewProperty = async (req,res) =>{
                 users[i] = await seller.findOne({ _id: Reviews.userId[i] });
             }
 
-            res.status(200).json({ property: resRent, owner: owner, reviews: Reviews, users: users, len: len, propertyType: 'residential', adType: 'rent' });
+            res.status(200).json({ property: resRent, owner: owner, client: client, reviews: Reviews, users: users, len: len, propertyType: 'residential', adType: 'rent' });
         }
         else if(resBuy) {
             const owner = await seller.findOne({ _id: resBuy.ownerId });
@@ -42,7 +43,7 @@ exports.viewProperty = async (req,res) =>{
                 users[i] = await seller.findOne({ _id: Reviews.userId[i] });
             }
 
-            res.status(200).json({ property: resBuy, owner: owner, reviews: Reviews, users: users, len: len, propertyType: 'residential', adType: 'buy' });
+            res.status(200).json({ property: resBuy, owner: owner, client: client, reviews: Reviews, users: users, len: len, propertyType: 'residential', adType: 'buy' });
         }
         else if(resFlat) {
             const owner = await seller.findOne({ _id: resFlat.ownerId });
@@ -54,7 +55,7 @@ exports.viewProperty = async (req,res) =>{
                 users[i] = await seller.findOne({ _id: Reviews.userId[i] });
             }
 
-            res.status(200).json({ property: resFlat, owner: owner, reviews: Reviews, users: users, len: len, propertyType: 'residential', adType: 'flatmates' });
+            res.status(200).json({ property: resFlat, owner: owner, client: client, reviews: Reviews, users: users, len: len, propertyType: 'residential', adType: 'flatmates' });
         }
         else if(comRent) {
             const owner = await seller.findOne({ _id: comRent.ownerId });
@@ -65,7 +66,7 @@ exports.viewProperty = async (req,res) =>{
             {
                 users[i] = await seller.findOne({ _id: Reviews.userId[i] });
             }
-            res.status(200).json({ property: comRent, owner: owner, reviews: Reviews, users: users, len: len, propertyType: 'commercial', adType: 'rent' });
+            res.status(200).json({ property: comRent, owner: owner, client: client, reviews: Reviews, users: users, len: len, propertyType: 'commercial', adType: 'rent' });
         }
         else if(comBuy) {
             const owner = await seller.findOne({ _id: comBuy.ownerId });
@@ -77,7 +78,7 @@ exports.viewProperty = async (req,res) =>{
                 users[i] = await seller.findOne({ _id: Reviews.userId[i] });
             }
 
-            res.status(200).json({ property: comBuy, owner: owner, reviews: Reviews, users: users, len: len, propertyType: 'commercial', adType: 'buy' });
+            res.status(200).json({ property: comBuy, owner: owner, client: client, reviews: Reviews, users: users, len: len, propertyType: 'commercial', adType: 'buy' });
         }
         else if(landBuy) {
             const owner = await seller.findOne({ _id: landBuy.ownerId });
@@ -89,7 +90,7 @@ exports.viewProperty = async (req,res) =>{
                 users[i] = await seller.findOne({ _id: Reviews.userId[i] });
             }
 
-            res.status(200).json({ property: landBuy, owner: owner, reviews: Reviews, users: users, len: len, propertyType: 'plot', adType: 'buy' });
+            res.status(200).json({ property: landBuy, owner: owner, client: client, reviews: Reviews, users: users, len: len, propertyType: 'plot', adType: 'buy' });
         }
         else if(landDev) {
             const owner = await seller.findOne({ _id: landDev.ownerId });
@@ -101,7 +102,7 @@ exports.viewProperty = async (req,res) =>{
                 users[i] = await seller.findOne({ _id: Reviews.userId[i] });
             }
 
-            res.status(200).json({ property: landDev, owner: owner, reviews: Reviews, users: users, len: len, propertyType: 'plot', adType: 'development' });
+            res.status(200).json({ property: landDev, owner: owner, client: client, reviews: Reviews, users: users, len: len, propertyType: 'plot', adType: 'development' });
         }
     }
     catch(error){

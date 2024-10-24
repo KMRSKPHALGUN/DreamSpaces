@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../css/commercial.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faDollarSign, faMapMarkerAlt, faCamera, faUtensils } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faDollarSign, faMapMarkerAlt, faCamera, faUtensils, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CommercialRent = () => {
+  const localhost = '10.0.49.88';
+  let navigate = useNavigate();
   const [buildingType, setBuildingType] = useState([{ value: "", label: "Select Building Type" }]);
   const [propertyDetailsVisible, setPropertyDetailsVisible] = useState(true);
   const [rentalDetailsVisible, setRentalDetailsVisible] = useState(false);
@@ -309,7 +312,7 @@ const handlePropertyTypeChange = (event) => {
 
     try
     {
-      const response = await axios.post('http://localhost:5000/api/commercial_rent', formData,
+      const response = await axios.post(`http://${localhost}:5000/api/commercial_rent`, formData,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -337,6 +340,7 @@ const handlePropertyTypeChange = (event) => {
 
   return (
       <div className="commercial-body">
+        <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
         <Sidebar/>
 
         <form className="forms" encType='multipart/form-data'>

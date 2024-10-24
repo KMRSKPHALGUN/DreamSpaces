@@ -8,13 +8,14 @@ export const PrivateRoute = () => {
 };
 
 export const AdminPrivateRoute = () => {
+    const localhost = '10.0.49.88';
     const [isAdmin, setIsAdmin] = useState(null); // State to track if the user is an admin
     const token = localStorage.getItem('token');
 
     useEffect(() => {
         const checkAdminStatus = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/adminCheck', {
+                const response = await axios.get(`http://${localhost}:5000/api/adminCheck`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

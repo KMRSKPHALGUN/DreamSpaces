@@ -3,15 +3,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../css/admin_login.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const AdminLogin = () => {
+  const localhost = '10.0.49.88';
+  let navigate = useNavigate();
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try{
-        const response = await axios.post('http://localhost:5000/api/adminLogin',{
+        const response = await axios.post(`http://${localhost}:5000/api/adminLogin`,{
             email: adminEmail,
             password: adminPassword
         });
@@ -32,6 +37,7 @@ const AdminLogin = () => {
 
   return (
     <>
+      
       <div
         className="modal fade show d-block"
         id="adminLoginModal"
@@ -39,6 +45,7 @@ const AdminLogin = () => {
         aria-labelledby="adminLoginModalLabel"
         aria-hidden="true"
       >
+        <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">

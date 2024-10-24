@@ -6,6 +6,7 @@ import { faTimes, faImage, faMapMarkerAlt, faBed, faBath, faMaximize } from '@fo
 
 
 const PropertyListings = () => {
+    const localhost = '10.0.49.88';
     const [city, setCity] = useState('');
     const [propertyType, setPropertyType] = useState('');
     const [adType, setAdType] = useState('');
@@ -34,7 +35,7 @@ const PropertyListings = () => {
           setError('');
 
             // Send request to backend with the search parameters
-            const response = await axios.post('http://localhost:5000/api/property_listings', {
+            const response = await axios.post(`http://${localhost}:5000/api/property_listings`, {
               city: fetchedCity,
               property_type: fetchedPropertyType,
               ad_type: fetchedAdType,
@@ -109,7 +110,7 @@ const PropertyListings = () => {
   
       try {
         // Send request to backend with the search parameters
-        const response = await axios.post('http://localhost:5000/api/property_listings', {
+        const response = await axios.post(`http://${localhost}:5000/api/property_listings`, {
           city: city,
           property_type: propertyType,
           ad_type: adType,
@@ -133,7 +134,7 @@ const PropertyListings = () => {
     const handleViewProperty = async (propertyId) => {
       try{
 
-        const response = await axios.post('http://localhost:5000/api/viewProperty', {
+        const response = await axios.post(`http://${localhost}:5000/api/viewProperty`, {
           propertyId: propertyId
         }, {
           headers: {
@@ -145,6 +146,7 @@ const PropertyListings = () => {
         localStorage.setItem('owner', JSON.stringify(response.data.owner));
         localStorage.setItem('reviews', JSON.stringify(response.data.reviews));
         localStorage.setItem('users', JSON.stringify(response.data.users));
+        localStorage.setItem('client', JSON.stringify(response.data.client));
         
         if(response.data.propertyType === 'residential')
         {

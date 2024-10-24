@@ -8,6 +8,9 @@ const cors = require("cors");
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const http = require('http');
+const { Server } = require('socket.io');
+const WebSocket = require('ws');
 
 const app = express();
 const port = 5000;
@@ -18,11 +21,72 @@ const mongoStore = MongoStore.create({mongoUrl: 'mongodb://localhost:27017/Dream
 
 app.use(bodyParser.json());
 
+// Allow all origins
 app.use(cors({
-    origin: 'http://localhost:3000',  // Your frontend URL
-    credentials: true                 // Allow sending credentials (cookies)
+    origin: '*'
 }));
 
+
+// WebSocket connection
+// io.on('connection', (socket) => {
+//     console.log('User connected:', socket.id);
+
+//     // Handle offer from user and send to the owner
+//     socket.on('offer', (data) => {
+//         io.to(data.targetSocketId).emit('offer', data.offer);
+//     });
+
+//     // Handle answer from the owner and send to the user
+//     socket.on('answer', (data) => {
+//         io.to(data.targetSocketId).emit('answer', data.answer);
+//     });
+
+//     // Handle ICE candidates
+//     socket.on('ice-candidate', (data) => {
+//         io.to(data.targetSocketId).emit('ice-candidate', data.candidate);
+//     });
+
+//     // Handle user disconnection
+//     socket.on('disconnect', () => {
+//         console.log('User disconnected:', socket.id);
+//     });
+// });
+
+const wss = new WebSocket.Server({ port: 5001 });
+
+wss.on('connection', ws => {
+    ws.on('message', message => {
+      const data = JSON.parse(message);
+      if (data.type === 'call_request') {
+        // Notify the owner about the incoming call
+        wss.clients.forEach(client => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                type: 'incoming_call',
+                ownerId: data.ownerId,
+                callerId: data.callerId,
+                callerName: data.callerName,
+            }));
+          }
+        });
+      }
+  
+      // Handle call accept/reject logic
+      if (data.type === 'call_response') {
+        const { response, callerId } = data;
+  
+        // Notify the caller about the response
+        wss.clients.forEach(client => {
+          if (client.readyState === WebSocket.OPEN && client.id === callerId) {
+            client.send(JSON.stringify({
+              type: 'call_response',
+              response,
+            }));
+          }
+        });
+      }
+    });
+});
 
 
 // app.use(express.static(path.join(__dirname, 'd-frontend/build')));
@@ -75,7 +139,7 @@ app.post('/api/login', async (req, res) => {
         const token = jwt.sign({ userId: user._id }, 'DreamSpacesSecret', {
         expiresIn: '1h',
         });
-        res.status(200).json({ token, message: 'Login Successful' });
+        res.status(200).json({ token: token, client: user, message: 'Login Successful' });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }

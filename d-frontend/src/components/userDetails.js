@@ -5,12 +5,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import EmptyProfile from '../images/empty_profile.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faMapMarkerAlt, faBed, faBath, faMaximize } from '@fortawesome/free-solid-svg-icons';
+import { faImage, faMapMarkerAlt, faBed, faBath, faMaximize, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
-
+import { useNavigate } from 'react-router-dom';
 
 
 function UserProfile({}) {
+  const localhost = '10.0.49.88';
+  let navigate = useNavigate();
   const [myDetails, setMyDetails] = useState({
     name: '',
     email: '',
@@ -37,7 +39,7 @@ function UserProfile({}) {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/userDetails', {
+        const response = await axios.get(`http://${localhost}:5000/api/userDetails`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -82,7 +84,7 @@ function UserProfile({}) {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/updateMyDetails', formData, {
+      const response = await axios.post(`http://${localhost}:5000/api/updateMyDetails`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -128,7 +130,7 @@ function UserProfile({}) {
   const handleChangePassword = async(e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/changePassword', passwordsState, {
+      const response = await axios.post(`http://${localhost}:5000/api/changePassword`, passwordsState, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -149,14 +151,14 @@ function UserProfile({}) {
 
   const logUserOut = () => {
     alert("User Logged Out Successfully");
-    localStorage.removeItem('token');
+    localStorage.clear();
     window.location.href = '/';
   }
 
   const confirmDelete = async(event) => {
     event.preventDefault();
     try{
-      const response = await axios.post('http://localhost:5000/api/deleteAccount', {
+      const response = await axios.post(`http://${localhost}:5000/api/deleteAccount`, {
         password: deleteAccount
       }, {
         headers: {
@@ -175,6 +177,7 @@ function UserProfile({}) {
 
   return (
     <div className="container-user-det pt-0">
+      <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
       {/* <div className="row mt-5"> */}
         {/* <div className="col-md-5 col-xl-4"> */}
           <div className="card-left">

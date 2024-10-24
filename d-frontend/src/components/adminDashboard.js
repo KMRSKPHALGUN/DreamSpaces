@@ -3,11 +3,14 @@ import '../css/admin_dashboard.css'; // Adjust your CSS path as needed
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faDashboard, faUser, faBuilding, faBug, faTrashCan, faImage, faBed, faBath, faMapMarkerAlt, faMaximize, faChartArea } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faDashboard, faUser, faBuilding, faBug, faTrashCan, faImage, faBed, faBath, faMapMarkerAlt, faMaximize, faChartArea, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip, PieChart, Pie, Cell } from 'recharts';
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
+  const localhost = '10.0.49.88';
+  let navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("adminDashboard");
   const [users, setUsers] = useState([]);
   const [properties, setProperties] = useState([]);
@@ -19,7 +22,7 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchDetails = async() => {
       try{
-        const response = await axios.get('http://localhost:5000/api/adminDashboard', {
+        const response = await axios.get(`http://${localhost}:5000/api/adminDashboard`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -85,7 +88,7 @@ function AdminDashboard() {
 
   const handleMakeAdmin = async () => {
     try{
-      const response = await axios.post('http://localhost:5000/api/makeAdmin', {
+      const response = await axios.post(`http://${localhost}:5000/api/makeAdmin`, {
         useremail: makeAdmin
       }, {
         headers: {
@@ -112,7 +115,7 @@ function AdminDashboard() {
 
   const handleDeleteUser = async (email) => {
     try{
-      const response = await axios.post('http://localhost:5000/api/deleteUser', {
+      const response = await axios.post(`http://${localhost}:5000/api/deleteUser`, {
         u_email: email
       }, {
         headers: {
@@ -144,6 +147,7 @@ function AdminDashboard() {
 
   return (
     <div className="wrapper">
+      <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
       <aside id="sidebar">
         <ul className="sidebar-nav">
           <li className="sidebar-item">

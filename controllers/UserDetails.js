@@ -58,7 +58,7 @@ exports.userDetails = async(req,res)=>{
                 }
             }
         }
-        res.status(200).json({ property: property, len: len, owner: owner, s_owner: s_owner, s_len: s_len, s_property: s_property, myDetails: owner });
+        res.status(200).json({ property: property, len: len, owner: owner, s_owner: s_owner, s_len: s_len, s_property: s_property });
     }
     catch(error){
         console.error(error);
