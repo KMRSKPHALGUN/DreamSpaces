@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const AdminLogin = () => {
-  const localhost = '10.0.49.88';
+  const localhost = localStorage.getItem('localhost');
   let navigate = useNavigate();
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');

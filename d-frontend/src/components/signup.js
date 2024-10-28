@@ -9,7 +9,7 @@ import EyeHide from '../images/hide.svg';
 import Signupp from '../images/loginn.jpeg';
 
 function Signup() {
-    const localhost = '10.0.49.88';
+    const localhost = localStorage.getItem('localhost');
     let navigate = useNavigate();
     // State for controlling password visibility
     const [showPassword, setShowPassword] = useState(false);

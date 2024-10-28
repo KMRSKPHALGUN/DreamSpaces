@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 // Assuming that property, owner, and users are passed as props or fetched from an API
 const ComRentViewProperty = () => {
-  const localhost = '10.0.49.88';
+  const localhost = localStorage.getItem('localhost');
   let navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [mainImage, setMainImage] = useState(null);

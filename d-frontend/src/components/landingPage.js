@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import '../css/landingPage.css'; // Make sure to update the path based on your React project structure
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +9,34 @@ import Icon2 from '../images/icon-2.png';
 import Icon3 from '../images/icon-3.png';
 
 function LandingPage() {
+
+    useEffect(() => {
+        const getLocalHost = async() => {
+            try
+            {
+                const response = await axios.get(`http://10.0.49.88:5000/api/getLocalHost`);
+                if(response.data.localhost)
+                {
+                    localStorage.setItem('localhost', response.data.localhost);
+                }
+            }
+            catch(error)
+            {
+                if(error.response)
+                {
+                    alert(error.response.data.error);
+                }
+                else
+                {
+                    console.log("in frontend");
+                    alert("Something went wrong!");
+                }
+            }
+        }
+
+        getLocalHost();
+    }, []);
+
     return (
         <div className="land-body">
             {/* Header Start */}

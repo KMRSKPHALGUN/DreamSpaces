@@ -8,9 +8,8 @@ const cors = require("cors");
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const http = require('http');
-const { Server } = require('socket.io');
 const WebSocket = require('ws');
+const os = require('os');
 
 const app = express();
 const port = 5000;
@@ -190,6 +189,28 @@ app.post('/api/saveProperty', verifyToken, SaveProperty.save_property);
 app.post('/api/reportProperty', verifyToken, Report.reports);
 
 app.post('/api/reviewProperty', verifyToken, Reviews.review);
+
+app.get('/api/getLocalHost', async(req, res) => {
+    try
+    {
+        const networkInterfaces = os.networkInterfaces();
+        for (const interfaceName in networkInterfaces)
+        {
+            const interfaces = networkInterfaces[interfaceName];
+            for (const iface of interfaces)
+            {
+                if(iface.family === 'IPv4' && !iface.internal)
+                {
+                    return res.status(200).json({ localhost: `${iface.address}` });
+                }
+            }
+        }
+    }
+    catch(error)
+    {
+        res.status(500).json({ localhostdefault: '10.0.49.88' });
+    }
+});
 
 app.get('/api/userDetails', verifyToken, UserDetails.userDetails);
 

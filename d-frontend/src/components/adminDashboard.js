@@ -9,7 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
-  const localhost = '10.0.49.88';
+  const localhost = localStorage.getItem('localhost');
   let navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("adminDashboard");
   const [users, setUsers] = useState([]);

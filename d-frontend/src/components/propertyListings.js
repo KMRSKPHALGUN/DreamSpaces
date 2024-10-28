@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/prop_det_list.css'; // Custom CSS
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faImage, faMapMarkerAlt, faBed, faBath, faMaximize } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faImage, faMapMarkerAlt, faBed, faBath, faMaximize, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 const PropertyListings = () => {
-    const localhost = '10.0.49.88';
+    const localhost = localStorage.getItem('localhost');
+    let navigate = useNavigate();
     const [city, setCity] = useState('');
     const [propertyType, setPropertyType] = useState('');
     const [adType, setAdType] = useState('');
@@ -194,7 +196,8 @@ const PropertyListings = () => {
     };
   
     return (
-      <>  
+      <> 
+        <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
         {/* Search Filter Section */}
         <div className="search-container">
           <section className="filters section-det">

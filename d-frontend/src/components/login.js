@@ -7,7 +7,8 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const localhost = '10.0.49.88';
+  const localhost = localStorage.getItem('localhost');
+  
   let navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -19,6 +20,7 @@ function Login() {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     try {
+      console.log(localhost);
       const response = await axios.post(`http://${localhost}:5000/api/login`, { // Update with your actual backend endpoint
           email,
           password,

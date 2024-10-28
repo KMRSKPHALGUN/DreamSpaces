@@ -8,7 +8,7 @@ export const PrivateRoute = () => {
 };
 
 export const AdminPrivateRoute = () => {
-    const localhost = '10.0.49.88';
+    const localhost = localStorage.getItem('localhost');
     const [isAdmin, setIsAdmin] = useState(null); // State to track if the user is an admin
     const token = localStorage.getItem('token');
 

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const VideoCallReceiver = () => {
-  const localhost = '10.0.49.88';
+  const localhost = localStorage.getItem('localhost');
   const location = useLocation();
   let navigate = useNavigate();
   const params = new URLSearchParams(location.search);
@@ -24,6 +24,12 @@ const VideoCallReceiver = () => {
   const socket = useRef(null);
 
   useEffect(() => {
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      console.log('getUserMedia not supported on this device or browser.');
+      return;
+    }
+
     // Access user's media (camera/microphone)
     navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
       setStream(stream);
@@ -137,7 +143,11 @@ const VideoCallReceiver = () => {
     <>
       <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
       <div>
-        <video muted ref={userVideo} autoPlay playsInline style={{ width: '300px' }} />
+      {navigator.mediaDevices ? (
+        <video muted ref={userVideo} autoPlay playsInline style={{ width: '300px' }} /> 
+      ) : (
+        <p>Video Call not supported on this device or browser</p>
+      )}
         <video ref={peerVideo} autoPlay playsInline style={{ width: '300px' }} />
       </div>
 

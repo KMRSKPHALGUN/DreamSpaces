@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const ResidentialRent = () => {
-  const localhost = '10.0.49.88';
+  const localhost = localStorage.getItem('localhost');
   let navigate = useNavigate;
   const [propertyDetailsVisible, setPropertyDetailsVisible] = useState(true);
   const [rentalDetailsVisible, setRentalDetailsVisible] = useState(false);

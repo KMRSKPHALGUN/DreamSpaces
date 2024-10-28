@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 
 const CallNotification = () => {
-  const localhost = '10.0.49.88';
+  const localhost = localStorage.getItem('localhost');
   const [incomingCall, setIncomingCall] = useState(null); // Call details
   const [roomId, setRoomId] = useState(null);
   const [ws, setWs] = useState(null); // WebSocket instance
