@@ -115,24 +115,35 @@ exports.register = async (req, res) => {
 
 exports.verifyUser = async(req, res) => {
     const { email, phone } = req.body;
+    try
+    {
+        const existingEmail = await Signup.findOne({ email: email });
+        if(existingEmail)
+        {
+            return res.status(409).json({ success: false, message: "Email already exists" });
+        }
+        const existingPhone = await Signup.findOne({ phone: phone });
+        if(existingPhone)
+        {
+            return res.status(409).json({ success: false, message: "Phone Number already exists" });
+        }
+        // Generate a 6-digit OTP
+        const otpEmail = generateOtp();
+        const otpPhone = generateOtp();
 
-    // Generate a 6-digit OTP
-    const otpEmail = generateOtp();
-    const otpPhone = generateOtp();
+        // Store OTP in cache with the email as the key
+        otpCache.set(email, otpEmail);
+        otpCache.set(phone, otpPhone);
 
-    // Store OTP in cache with the email as the key
-    otpCache.set(email, otpEmail);
-    otpCache.set(phone, otpPhone);
-
-    // Email message configuration
-    const mailOptions = {
-        from: process.env.NODE_MAILER_USER, // Sender address
-        to: email,                    // Recipient address
-        subject: 'Registration into DreamSpaces',
-        text: `Your DreamSpaces Verification Code is ${otpEmail}. It will expire in 5 minutes.`
-    };
-    // Send the email
-    try {
+        // Email message configuration
+        const mailOptions = {
+            from: process.env.NODE_MAILER_USER, // Sender address
+            to: email,                    // Recipient address
+            subject: 'Registration into DreamSpaces',
+            text: `Your DreamSpaces Verification Code is ${otpEmail}. It will expire in 5 minutes.`
+        };
+        // Send the email
+    
         // Send OTP via Twilio SMS
         await twilioClient.messages.create({
             body: `Your DreamSpaces Verification Code is ${otpPhone}. It will expire in 5 minutes.`,

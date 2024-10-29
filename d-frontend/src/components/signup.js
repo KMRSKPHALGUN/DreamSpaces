@@ -1,278 +1,3 @@
-// import axios from 'axios';
-// import React, { useState, useRef } from "react";
-// import { useNavigate } from 'react-router-dom';
-// import '../css/login_signup.css';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-// import Eye from '../images/eye.svg';
-// import EyeHide from '../images/hide.svg';
-// import Signupp from '../images/loginn.jpeg';
-
-// function Signup() {
-//     const localhost = localStorage.getItem('localhost');
-//     let navigate = useNavigate();
-//     // State for controlling password visibility
-//     const [showPassword, setShowPassword] = useState(false);
-//     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-//     const [formValidated, setFormValidated] = useState(false); // Toggle between form and OTP
-//     const [formData, setFormData] = useState({}); // Store form data
-    
-//     // State for OTP step
-//     const [isOtpStep, setIsOtpStep] = useState(false);
-//     const [otpEmail, setOtpEmail] = useState(new Array(6).fill(""));
-//     const [otpPhone, setOtpPhone] = useState(new Array(6).fill(""));
-
-//     // Refs for input fields
-//     const nameInputRef = useRef(null);
-//     const emailInputLoginRef = useRef(null);
-//     const phoneInputRef = useRef(null);
-//     const passwordInputRef = useRef(null);
-//     const confirmPasswordInputRef = useRef(null);
-    
-
-//     // Email validation function
-//     function validateEmail(email) {
-//         const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-//         return validRegex.test(email);
-//     }
-
-//     // Phone number validation function
-//     function validatePhone(phone) {
-//         return phone.length === 10; // Assuming phone numbers should be 10 digits
-//     }
-
-//     // Handle OTP input changes
-//     const handleEmailOtpChange = (element, index) => {
-//         const newOtp = [...otpEmail];
-//         newOtp[index] = element.value;
-//         setOtpEmail(newOtp);
-
-//         // Focus the next input field automatically
-//         if (element.nextSibling && element.value) {
-//             element.nextSibling.focus();
-//         }
-//     };
-
-//     const handlePhoneOtpChange = (element, index) => {
-//         const newOtp = [...otpPhone];
-//         newOtp[index] = element.value;
-//         setOtpPhone(newOtp);
-
-//         // Focus the next input field automatically
-//         if (element.nextSibling && element.value) {
-//             element.nextSibling.focus();
-//         }
-//     };
-
-//     // Final validation function on form submit
-//     const finalValidate = async (event) => {
-//         event.preventDefault(); // Prevent form submission by default
-
-//         const name = nameInputRef.current.value;
-//         const email = emailInputLoginRef.current.value;
-//         const phone = phoneInputRef.current.value;
-//         const password = passwordInputRef.current.value;
-//         const confirmPassword = confirmPasswordInputRef.current.value;
-
-//         // Name validation
-//         if (name.trim() === '') {
-//             alert("Name is required");
-//             return;
-//         }
-
-//         // Email validation
-//         else if (!validateEmail(email)) {
-//             alert("Invalid email format");
-//             return;
-//         }
-
-//         // Phone validation
-//         else if (!validatePhone(phone)) {
-//             alert("Invalid phone number");
-//             return;
-//         }
-
-//         // Password match validation
-//         else if (password !== confirmPassword) {
-//             alert("Passwords do not match");
-//             return;
-//         }
-//         else{
-//             if (name && email && phone && password === confirmPassword) {
-//                 // If validated, store the data in the state
-//                 setFormData({ name, email, phone, password, confirmPassword });
-//                 setFormValidated(true); // Move to OTP screen
-//             } else {
-//                 alert("Validation failed");
-//             }
-//         }
-
-//         // Send request to backend to initiate OTP process (but do not send the form data yet)
-//         try {
-//             const response = await axios.post(`http://${localhost}:5000/api/verifyUser`, { email, phone });
-//             if (response.data.success) {
-//                 setIsOtpStep(true); // Show OTP step after successful validation
-//             } else {
-//                 alert("Failed to send OTP. Check your Email.");
-//             }
-//         } catch (error) {
-//             alert("Something went wrong!");
-//         }
-//     };
-
-//     // Handle OTP submission
-//     const submitOtp = async (event) => {
-//         event.preventDefault();
-//         const otpEmailValue = otpEmail.join("");
-//         const otpPhoneValue = otpPhone.join("");
-//         if (otpEmailValue.length !== 6 || otpPhoneValue.length !== 6) {
-//             alert("Please enter a 6-digit OTP");
-//             return;
-//         }
-
-//         try {
-//             const response = await axios.post(`http://${localhost}:5000/api/register`, {
-//                 name: formData.name, email: formData.email, phone: formData.phone, password: formData.password, confirmPassword: formData.confirmPassword, otpEmail: otpEmailValue, otpPhone: otpPhoneValue
-//             });
-
-//             if (response.data.success) {
-//                 alert("Registration successful");
-//                 window.location.href = '/login'; // Redirect after success
-//             } else {
-//                 alert(response.data.error);
-//             }
-//         } catch (error) {
-//             alert("Something went wrong!");
-//         }
-//     };
-
-//     return (
-//         <section className="section">
-//             <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
-//             <div className="container active">
-//                 <div className="user signup">
-//                     <div className="form-box">
-//                         <div className="top">
-//                             <p>
-//                                 Already a member?
-//                                 <span data-id="#1a1aff"><a href="/login">Login now</a></span>
-//                             </p>
-//                         </div>
-
-//                         {isOtpStep ? (
-//                             // OTP Step
-//                             <form id="otpForm" onSubmit={submitOtp}>
-//                                 <div className="form-control">
-//                                     <h2>Enter OTP sent to Email</h2>
-//                                     <p>Check your email for the OTP.</p>
-
-//                                     <div className="otp-container">
-//                                         {otpEmail.map((digit, index) => (
-//                                             <input
-//                                                 key={index}
-//                                                 type="password"
-//                                                 maxLength="1"
-//                                                 className="otp-input"
-//                                                 value={digit}
-//                                                 onChange={(e) => handleEmailOtpChange(e.target, index)}
-//                                             />
-//                                         ))}
-//                                     </div>
-
-//                                     <h2>Enter OTP sent to Phone</h2>
-//                                     <p>Check your phone for the OTP.</p>
-
-//                                     <div className="otp-container">
-//                                         {otpPhone.map((digit, index) => (
-//                                             <input
-//                                                 key={index}
-//                                                 type="password"
-//                                                 maxLength="1"
-//                                                 className="otp-input"
-//                                                 value={digit}
-//                                                 onChange={(e) => handlePhoneOtpChange(e.target, index)}
-//                                             />
-//                                         ))}
-//                                     </div>
-
-//                                     <input type="submit" value="Verify OTP" />
-//                                 </div>
-//                             </form>
-//                         ) : (
-//                             // Signup Form
-//                             <form id="registrationForm">
-//                                 <div className="form-control">
-//                                     <h2>Welcome To DreamSpaces!</h2>
-//                                     <p>"Explore and enjoy."</p>
-//                                     <input
-//                                         type="text"
-//                                         id="name"
-//                                         name="name"
-//                                         placeholder="Enter Name"
-//                                         ref={nameInputRef}
-//                                         required
-//                                     />
-//                                     <input
-//                                         type="email"
-//                                         id="email"
-//                                         name="email"
-//                                         placeholder="Enter Email"
-//                                         ref={emailInputLoginRef}
-//                                         required
-//                                     />
-//                                     <input
-//                                         type="tel"
-//                                         id="phone"
-//                                         name="phone"
-//                                         placeholder="Enter Mobile Number"
-//                                         ref={phoneInputRef}
-//                                         required
-//                                     />
-
-//                                     <div>
-//                                         <input
-//                                             type={showPassword ? "text" : "password"}
-//                                             id="password"
-//                                             name="password"
-//                                             placeholder="Password"
-//                                             ref={passwordInputRef}
-//                                             required
-//                                         />
-//                                         <div className="icon form-icon" onClick={() => setShowPassword(!showPassword)}>
-//                                             <img src={showPassword ? EyeHide : Eye} alt="Toggle visibility" />
-//                                         </div>
-//                                     </div>
-//                                     <div>
-//                                         <input
-//                                             type={showConfirmPassword ? "text" : "password"}
-//                                             id="confirmpassword"
-//                                             name="confirmpassword"
-//                                             placeholder="Confirm Password"
-//                                             ref={confirmPasswordInputRef}
-//                                             required
-//                                         />
-//                                         <div className="icon form-icon" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-//                                             <img src={showConfirmPassword ? EyeHide : Eye} alt="Toggle visibility" />
-//                                         </div>
-//                                     </div>
-//                                     <input type="submit" value="Register" onClick={finalValidate} />
-//                                 </div>
-//                             </form>
-//                         )}
-//                     </div>
-//                     <div className="img-box">
-//                         <img src={Signupp} alt="" />
-//                     </div>
-//                 </div>
-//             </div>
-//         </section>
-//     );
-// }
-
-// export default Signup;
-
-
 import axios from 'axios';
 import React, { useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -303,6 +28,12 @@ function Signup() {
         confirmPassword: ''
     });
 
+    function validateName(name)
+    {
+        const validRegex = /^(?=.*[A-Za-z])[A-Za-z\s-\.+_@#$%^&*]{2,20}$/;
+        return validRegex.test(name);
+    }
+
     function validateEmail(email) {
         const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
         return validRegex.test(email);
@@ -320,16 +51,19 @@ function Signup() {
         // Real-time validation for each field
         if (field === 'name' && !value.trim()) {
             newErrors.name = "Name is required";
+        } else if (field === 'name' && value.length < 2) {
+            newErrors.name = "Name is too short";
+        } else if (field === 'name' && value.length > 20) {
+            newErrors.name = "Name is too long";
+        } else if (field === 'name' && !validateName(value)) {
+            newErrors.name = "Invalid name format";
         } else if (field === 'email' && !validateEmail(value)) {
             newErrors.email = "Invalid email format";
         } else if (field === 'phone' && !validatePhone(value)) {
             newErrors.phone = "Phone number must be 10 digits";
-        } else if (field === 'password' && inputs.confirmPassword && value !== inputs.confirmPassword) {
-            newErrors.password = "Passwords do not match";
+        } else if (field === 'password' && value.length < 6) {
+            newErrors.password = "Password is too short";
         } else if (field === 'confirmPassword' && inputs.password && value !== inputs.password) {
-            console.log(field);
-            console.log(value);
-            console.log(inputs.password);
             newErrors.confirmPassword = "Passwords do not match";
         } else {
             delete newErrors[field];
@@ -363,7 +97,6 @@ function Signup() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(errors);
         if (Object.keys(errors).length > 0) {
             alert("Please fix the errors before submitting");
             return;
@@ -376,11 +109,15 @@ function Signup() {
             const response = await axios.post(`http://${localhost}:5000/api/verifyUser`, { email: inputs.email, phone: inputs.phone });
             if (response.data.success) {
                 setIsOtpStep(true);
-            } else {
-                alert("Failed to send OTP. Check your Email.");
             }
         } catch (error) {
-            alert("Something went wrong!");
+            if (error.response && error.response.status === 409) {
+                // Handle the 409 Conflict status here
+                alert(error.response.data.message);
+            } else {
+                // Handle other types of errors
+                alert("Something went wrong!");
+            }
         }
     };
 
