@@ -10,7 +10,7 @@ const CallNotification = () => {
 
 
   useEffect(() => {
-    const webSocket = new WebSocket(`ws://${localhost}:5001`);
+    const webSocket = new WebSocket(`wss://${localhost}:5001`);
     setWs(webSocket);
 
     webSocket.onopen = () => {

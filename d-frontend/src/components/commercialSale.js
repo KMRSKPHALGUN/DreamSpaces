@@ -300,7 +300,7 @@ const handlePropertyTypeChange = (event) => {
 
     try
     {
-      const response = await axios.post(`http://${localhost}:5000/api/commercial_sale`, formData,
+      const response = await axios.post(`https://${localhost}:5000/api/commercial_sale`, formData,
     {
       headers: {
         Authorization: `Bearer ${token}`,

@@ -37,7 +37,7 @@ const PropertyListings = () => {
           setError('');
 
             // Send request to backend with the search parameters
-            const response = await axios.post(`http://${localhost}:5000/api/property_listings`, {
+            const response = await axios.post(`https://${localhost}:5000/api/property_listings`, {
               city: fetchedCity,
               property_type: fetchedPropertyType,
               ad_type: fetchedAdType,
@@ -112,7 +112,7 @@ const PropertyListings = () => {
   
       try {
         // Send request to backend with the search parameters
-        const response = await axios.post(`http://${localhost}:5000/api/property_listings`, {
+        const response = await axios.post(`https://${localhost}:5000/api/property_listings`, {
           city: city,
           property_type: propertyType,
           ad_type: adType,
@@ -136,7 +136,7 @@ const PropertyListings = () => {
     const handleViewProperty = async (propertyId) => {
       try{
 
-        const response = await axios.post(`http://${localhost}:5000/api/viewProperty`, {
+        const response = await axios.post(`https://${localhost}:5000/api/viewProperty`, {
           propertyId: propertyId
         }, {
           headers: {

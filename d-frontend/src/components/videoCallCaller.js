@@ -34,7 +34,7 @@ const VideoCallCaller = () => {
     });
 
     // Set up WebSocket connection
-    const webSocket = new WebSocket(`ws://${localhost}:5001`);
+    const webSocket = new WebSocket(`wss://${localhost}:5001`);
     socket.current = webSocket;
 
     webSocket.onopen = () => {

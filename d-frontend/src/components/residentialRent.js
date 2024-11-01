@@ -288,7 +288,7 @@ const ResidentialRent = () => {
 
         try
         {
-        const response = await axios.post(`http://${localhost}:5000/api/residential_rent`, formData,
+        const response = await axios.post(`https://${localhost}:5000/api/residential_rent`, formData,
         {
         headers: {
             Authorization: `Bearer ${token}`,

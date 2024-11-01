@@ -10,6 +10,8 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const WebSocket = require('ws');
 const os = require('os');
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
 const port = 5000;
@@ -25,6 +27,17 @@ app.use(cors({
     origin: '*'
 }));
 
+
+// Set up HTTPS server options
+const options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+};
+
+const server = https.createServer({
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+});
 
 // WebSocket connection
 // io.on('connection', (socket) => {
@@ -51,7 +64,7 @@ app.use(cors({
 //     });
 // });
 
-const wss = new WebSocket.Server({ port: 5001 });
+const wss = new WebSocket.Server({ server });
 
 wss.on('connection', ws => {
     ws.on('message', message => {
@@ -265,6 +278,15 @@ function verifyToken(req, res, next) {
 //     res.status(401).json({ error: 'User not authenticated' });
 // }
 
-app.listen(port, ()=>{
-    console.log(`Server is running on http://localhost:${port}`);
-})
+// app.listen(port, ()=>{
+//     console.log(`Server is running on http://localhost:${port}`);
+// })
+
+server.listen(5001, () => {
+    console.log('WebSocket server running at wss://localhost:5001');
+});
+
+// Create HTTPS server
+https.createServer(options, app).listen(port, () => {
+    console.log(`HTTPS server running at https://localhost:${port}`);
+});  
