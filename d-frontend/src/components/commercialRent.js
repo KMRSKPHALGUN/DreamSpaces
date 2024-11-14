@@ -321,7 +321,7 @@ const handlePropertyTypeChange = (event) => {
 
       alert(response.data.message);
 
-      window.location.href = '/home';
+      navigate('/home');
     }
     catch(error)
     {

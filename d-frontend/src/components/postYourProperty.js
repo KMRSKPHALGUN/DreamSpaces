@@ -44,7 +44,7 @@ function PostYourProperty() {
     else if (propertyType === 'land' && adType === 'development') path = '/commercialSale';
 
     if (path) {
-      window.location.href = path;
+      navigate(path);
     }
   };
 

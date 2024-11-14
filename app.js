@@ -27,78 +27,75 @@ app.use(cors({
     origin: '*'
 }));
 
-
 // Set up HTTPS server options
 const options = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
 };
 
-const server = https.createServer({
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-});
+const http = require("http")
+const server = https.createServer(options, app);
+const io = require("socket.io")(server, {
+	cors: {
+		origin: "*",
+		methods: [ "GET", "POST" ]
+	}
+})
 
-// WebSocket connection
-// io.on('connection', (socket) => {
-//     console.log('User connected:', socket.id);
-
-//     // Handle offer from user and send to the owner
-//     socket.on('offer', (data) => {
-//         io.to(data.targetSocketId).emit('offer', data.offer);
-//     });
-
-//     // Handle answer from the owner and send to the user
-//     socket.on('answer', (data) => {
-//         io.to(data.targetSocketId).emit('answer', data.answer);
-//     });
-
-//     // Handle ICE candidates
-//     socket.on('ice-candidate', (data) => {
-//         io.to(data.targetSocketId).emit('ice-candidate', data.candidate);
-//     });
-
-//     // Handle user disconnection
-//     socket.on('disconnect', () => {
-//         console.log('User disconnected:', socket.id);
-//     });
-// });
-
-const wss = new WebSocket.Server({ server });
-
-wss.on('connection', ws => {
-    ws.on('message', message => {
-      const data = JSON.parse(message);
-      if (data.type === 'call_request') {
-        // Notify the owner about the incoming call
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({
-                type: 'incoming_call',
-                ownerId: data.ownerId,
-                callerId: data.callerId,
-                callerName: data.callerName,
-            }));
-          }
-        });
-      }
-  
-      // Handle call accept/reject logic
-      if (data.type === 'call_response') {
-        const { response, callerId } = data;
-  
-        // Notify the caller about the response
-        wss.clients.forEach(client => {
-          if (client.readyState === WebSocket.OPEN && client.id === callerId) {
-            client.send(JSON.stringify({
-              type: 'call_response',
-              response,
-            }));
-          }
-        });
-      }
+io.on("connection", (socket) => {
+    socket.on("initialize", (userId) => {
+        socket.userId = userId;
     });
-});
+
+	socket.emit("me", socket.userId);
+
+	socket.on("disconnect", () => {
+		socket.broadcast.emit("callEnded")
+	});
+
+	socket.on("callUser", (data) => {
+        const connectedClients = Array.from(io.sockets.sockets.values());
+        connectedClients.forEach(client => {
+            if(client.userId === data.userToCall)
+            {
+                client.emit("callUser", {
+                    signal: data.signalData,
+                    from: data.from,
+                    to: data.userToCall,
+                    name: data.name
+                })
+            }
+        })
+	});
+
+    socket.on("call-accepted", (data) => {
+        const connectedClients = Array.from(io.sockets.sockets.values());
+        connectedClients.forEach(client => {
+            if(client.userId === data.to)
+            {
+                client.emit("call-accepted", {
+                    signal: data.signal,
+                    from: data.from,
+                    to: data.to,
+                    name: data.name
+                })
+            }
+        })
+	});
+
+	socket.on("answerCall", (data) => {
+        const connectedClients = Array.from(io.sockets.sockets.values());
+        connectedClients.forEach(client => {
+            if(client.userId === data.to)
+            {
+                client.emit("callAccepted", {
+                    signal: data.signal
+                })
+            }
+        })
+	});
+})
+
 
 
 // app.use(express.static(path.join(__dirname, 'd-frontend/build')));
@@ -267,26 +264,5 @@ function verifyToken(req, res, next) {
         res.status(401).json({ error: 'Invalid token' });
     }
 };
-// function isAuthenticated(req, res, next) {
-//     console.log('Session:', req.session);      // Log session info
-//     console.log('User:', req.user);            // Log the user info
-//     console.log('Authenticated:', req.isAuthenticated());  // Log the authentication status
-    
-//     if (req.isAuthenticated()) {
-//       return next();
-//     }
-//     res.status(401).json({ error: 'User not authenticated' });
-// }
 
-// app.listen(port, ()=>{
-//     console.log(`Server is running on http://localhost:${port}`);
-// })
-
-server.listen(5001, () => {
-    console.log('WebSocket server running at wss://localhost:5001');
-});
-
-// Create HTTPS server
-https.createServer(options, app).listen(port, () => {
-    console.log(`HTTPS server running at https://localhost:${port}`);
-});  
+server.listen(5000, () => console.log(`Server is running on https://localhost:${port}`))

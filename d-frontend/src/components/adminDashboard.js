@@ -142,7 +142,7 @@ function AdminDashboard() {
   const handleLogOut = () => {
     localStorage.removeItem('token');
     alert('Logged Out Successfully');
-    window.location.href = '/';
+    navigate('/');
   };
 
   return (

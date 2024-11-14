@@ -9,12 +9,13 @@ import Icon2 from '../images/icon-2.png';
 import Icon3 from '../images/icon-3.png';
 
 function LandingPage() {
-
     useEffect(() => {
         const getLocalHost = async() => {
             try
             {
+
                 const response = await axios.get(`https://10.0.55.0:5000/api/getLocalHost`);
+
                 if(response.data.localhost)
                 {
                     localStorage.setItem('localhost', response.data.localhost);

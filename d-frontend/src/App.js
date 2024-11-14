@@ -17,8 +17,8 @@ import PropertyListings from './components/propertyListings';
 import ComRentViewProperty from './components/propDetComRent';
 import { PrivateRoute, AdminPrivateRoute } from './components/privateRoute';
 import VideoCallCaller from './components/videoCallCaller';
-import CallNotification from './components/callNotification';
-import VideoCallReceiver from './components/videoCallReceiver';
+import { VideoCallReceiver } from './components/videoCallReceiver';
+import { VideoCall } from './components/videoCall';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 function App() {
@@ -35,45 +35,45 @@ function App() {
   // }, []);  // Empty dependency array ensures this runs once on mount
   return (
     <>
-      <CallNotification />
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage/>}></Route>
-          <Route path='/login' element={<Login/>}></Route>
-          <Route path='/signup' element={<Signup/>}></Route>
-          <Route path='/adminLogin' element={<AdminLogin/>}></Route>
-          <Route path='/admin' element={<AdminPrivateRoute/>}>
-            <Route path='/admin' element={<AdminDashboard/>}> </Route>
-          </Route>
-          <Route path='/home' element={<PrivateRoute/>}>
-            <Route path='/home' element={<HomePage/>}></Route>
-          </Route>
-          <Route path='/postYourProperty' element={<PrivateRoute/>}>
-            <Route path='/postYourProperty' element={<PostYourProperty/>}></Route>
-          </Route>
-          <Route path='/residentialRent' element={<PrivateRoute/>}>
-            <Route path='/residentialRent' element={<ResidentialRent/>}></Route>
-          </Route>
-          <Route path='/commercialRent' element={<PrivateRoute/>}>
-            <Route path='/commercialRent' element={<CommercialRent/>}></Route>
-          </Route>
-          <Route path='/commercialSale' element={<PrivateRoute/>}>
-            <Route path='/commercialSale' element={<CommercialSale/>}></Route>
-          </Route>
-          <Route path='/userProfile' element={<PrivateRoute/>}>
-            <Route path='/userProfile' element={<UserProfile/>}></Route>
-          </Route>
-          <Route path='/property_listings' element={<PrivateRoute/>}>
-            <Route path='/property_listings' element={<PropertyListings/>}></Route>
-          </Route>
-          <Route path='/comRentViewProperty' element={<PrivateRoute/>}>
-            <Route path='/comRentViewProperty' element={<ComRentViewProperty/>}></Route>
-          </Route>
-          <Route path="/videoCallCaller" element={<VideoCallCaller/>}></Route>
-          <Route path="/videoCallReceiver" element={<VideoCallReceiver/>}></Route>
-        </Routes>
-      </Router>
-      
+        <Router>
+          <VideoCall />
+          <Routes>
+            <Route path="/" element={<LandingPage/>}></Route>
+            <Route path='/login' element={<Login/>}></Route>
+            <Route path='/signup' element={<Signup/>}></Route>
+            <Route path='/adminLogin' element={<AdminLogin/>}></Route>
+            <Route path='/admin' element={<AdminPrivateRoute/>}>
+              <Route path='/admin' element={<AdminDashboard/>}> </Route>
+            </Route>
+            <Route path='/home' element={<PrivateRoute/>}>
+              <Route path='/home' element={<HomePage/>}></Route>
+            </Route>
+            <Route path='/postYourProperty' element={<PrivateRoute/>}>
+              <Route path='/postYourProperty' element={<PostYourProperty/>}></Route>
+            </Route>
+            <Route path='/residentialRent' element={<PrivateRoute/>}>
+              <Route path='/residentialRent' element={<ResidentialRent/>}></Route>
+            </Route>
+            <Route path='/commercialRent' element={<PrivateRoute/>}>
+              <Route path='/commercialRent' element={<CommercialRent/>}></Route>
+            </Route>
+            <Route path='/commercialSale' element={<PrivateRoute/>}>
+              <Route path='/commercialSale' element={<CommercialSale/>}></Route>
+            </Route>
+            <Route path='/userProfile' element={<PrivateRoute/>}>
+              <Route path='/userProfile' element={<UserProfile/>}></Route>
+            </Route>
+            <Route path='/property_listings' element={<PrivateRoute/>}>
+              <Route path='/property_listings' element={<PropertyListings/>}></Route>
+            </Route>
+            <Route path='/comRentViewProperty' element={<PrivateRoute/>}>
+              <Route path='/comRentViewProperty' element={<ComRentViewProperty/>}></Route>
+            </Route>
+            <Route path="/videoCallCaller" element={<VideoCallCaller/>}></Route>
+            <Route path="/videoCallReceiver" element={<VideoCallReceiver/>}></Route>
+            <Route path="/videoCall" element={<VideoCall/>}></Route>
+          </Routes>
+        </Router>
     </>
   );
 }

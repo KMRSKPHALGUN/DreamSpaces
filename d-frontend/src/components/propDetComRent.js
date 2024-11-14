@@ -45,7 +45,7 @@ const ComRentViewProperty = () => {
       if(response.data.message)
       {
         alert(response.data.message);
-        window.location.href = '/userProfile?tab=saved_properties'
+        navigate('/userProfile?tab=saved_properties');
       }
       else{
         alert(response.data.message2);
@@ -121,7 +121,7 @@ const ComRentViewProperty = () => {
   };
 
   const handleStartCall = () => {
-    window.location.href = `/videoCallCaller/?roomId=${property._id}&ownerId=${owner._id}&callerName=${client.name}&callerId=${client._id}`;
+    navigate(`/videoCall/?roomId=${property._id}&ownerId=${owner._id}&callerName=${client.name}&callerId=${client._id}`);
   };
 
   return (
