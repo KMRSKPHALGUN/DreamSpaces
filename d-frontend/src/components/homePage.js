@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/homePage.css'; // Ensure the path is correct
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import Logo from '../images/Logo.jpg';
 
 function HomePage() {
+    const navigate = useNavigate();
     // State to manage selected ad type options
     const [propertyType, setPropertyType] = useState('');
     const [adType, setAdType] = useState('');
@@ -51,7 +53,7 @@ function HomePage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        window.location.href = `/property_listings?propertyType=${propertyType}&adType=${adType}&city=${city}`;
+        navigate(`/property_listings?propertyType=${propertyType}&adType=${adType}&city=${city}`);
     };
 
     return (

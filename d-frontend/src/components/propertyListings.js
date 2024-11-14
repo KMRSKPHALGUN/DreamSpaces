@@ -154,37 +154,37 @@ const PropertyListings = () => {
         {
           if(response.data.adType === 'rent')
           {
-            window.location.href = '/resRentViewProperty';
+            navigate('/resRentViewProperty');
           }
           else if(response.data.adType === 'buy')
           {
-            window.location.href = '/resBuyViewProperty';
+            navigate('/resBuyViewProperty');
           }
           else if(response.data.adType === 'flatmates')
           {
-            window.location.href = '/resFlatViewProperty';
+            navigate('/resFlatViewProperty');
           }
         }
         else if(response.data.propertyType === 'commercial')
         {
           if(response.data.adType === 'rent')
           {
-            window.location.href = '/comRentViewProperty';
+            navigate('/comRentViewProperty');
           }
           else if(response.data.adType === 'buy')
           {
-            window.location.href = '/comBuyViewProperty';
+            navigate('/comBuyViewProperty');
           }
         }
         else if(response.data.propertyType === 'plot')
         {
           if(response.data.adType === 'buy')
           {
-            window.location.href = '/plotBuyViewProperty';
+            navigate('/plotBuyViewProperty');
           }
           else if(response.data.adType === 'development')
           {
-            window.location.href = '/plotDevViewProperty';
+            navigate('/plotDevViewProperty');
           }
         }
       }

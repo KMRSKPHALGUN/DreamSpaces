@@ -152,7 +152,7 @@ function UserProfile({}) {
   const logUserOut = () => {
     alert("User Logged Out Successfully");
     localStorage.clear();
-    window.location.href = '/';
+    navigate('/');
   }
 
   const confirmDelete = async(event) => {
@@ -166,7 +166,7 @@ function UserProfile({}) {
         },
       });
       alert(response.data.message);
-      window.location.href='/';
+      navigate('/');
     }
     catch(error)
     {

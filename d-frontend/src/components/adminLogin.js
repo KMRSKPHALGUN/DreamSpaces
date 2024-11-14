@@ -22,7 +22,7 @@ const AdminLogin = () => {
         });
         localStorage.setItem('token', response.data.token);
         alert(response.data.message);
-        window.location.href = '/admin'
+        navigate('/admin');
     }
     catch(error)
     {

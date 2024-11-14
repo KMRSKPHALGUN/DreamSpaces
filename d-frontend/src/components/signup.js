@@ -139,7 +139,7 @@ function Signup() {
 
             if (response.data.success) {
                 alert("Registration successful");
-                window.location.href = '/login';
+                navigate('/login');
             } else {
                 alert(response.data.error);
             }
