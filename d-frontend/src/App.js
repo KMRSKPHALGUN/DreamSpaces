@@ -16,8 +16,6 @@ import UserProfile from './components/userDetails';
 import PropertyListings from './components/propertyListings';
 import ComRentViewProperty from './components/propDetComRent';
 import { PrivateRoute, AdminPrivateRoute } from './components/privateRoute';
-import VideoCallCaller from './components/videoCallCaller';
-import { VideoCallReceiver } from './components/videoCallReceiver';
 import { VideoCall } from './components/videoCall';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
@@ -69,8 +67,6 @@ function App() {
             <Route path='/comRentViewProperty' element={<PrivateRoute/>}>
               <Route path='/comRentViewProperty' element={<ComRentViewProperty/>}></Route>
             </Route>
-            <Route path="/videoCallCaller" element={<VideoCallCaller/>}></Route>
-            <Route path="/videoCallReceiver" element={<VideoCallReceiver/>}></Route>
             <Route path="/videoCall" element={<VideoCall/>}></Route>
           </Routes>
         </Router>
