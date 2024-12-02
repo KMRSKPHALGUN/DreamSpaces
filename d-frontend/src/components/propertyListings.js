@@ -285,7 +285,6 @@ const PropertyListings = () => {
                         <p><FontAwesomeIcon icon={faMaximize}/><span>{property.built_up_area} sqft</span></p>
                       </div>
                       
-                      <textarea name="object_id" style={{ display: 'none' }} defaultValue={property._id}></textarea>
                       <button className="btn" type="submit" onClick={() => handleViewProperty(property._id)}>View Property</button>
                       
                     </div>
