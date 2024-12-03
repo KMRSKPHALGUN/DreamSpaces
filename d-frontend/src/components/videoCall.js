@@ -143,7 +143,7 @@ export const VideoCall = () => {
 			{location.pathname.startsWith("/videoCall") && (
 				<>
 					<div className="video-call">
-						<div className="container">
+						<div className="container-v">
 							<div className="video-container">
 								<div className="video">
 									{stream &&  <video playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
