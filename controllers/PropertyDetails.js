@@ -23,7 +23,7 @@ exports.viewProperty = async (req,res) =>{
         if(resRent) {
             const owner = await seller.findOne({ _id: resRent.ownerId });
             const Reviews = await reviews.findOne({ propertyId: object_id }) || [];
-            const len = Reviews.userId.length;
+            const len = Reviews.userId ? Reviews.userId.length : 0;
             var users = [];
             for(var i=0; i<len; i++)
             {
@@ -35,7 +35,7 @@ exports.viewProperty = async (req,res) =>{
         else if(resBuy) {
             const owner = await seller.findOne({ _id: resBuy.ownerId });
             const Reviews = await reviews.findOne({ propertyId: object_id }) || [];
-            const len = Reviews.userId.length;
+            const len = Reviews.userId ? Reviews.userId.length : 0;
             var users = [];
             for(var i=0; i<len; i++)
             {
@@ -47,7 +47,7 @@ exports.viewProperty = async (req,res) =>{
         else if(resFlat) {
             const owner = await seller.findOne({ _id: resFlat.ownerId });
             const Reviews = await reviews.findOne({ propertyId: object_id }) || [];
-            const len = Reviews.userId.length;
+            const len = Reviews.userId ? Reviews.userId.length : 0;
             var users = [];
             for(var i=0; i<len; i++)
             {
@@ -59,7 +59,9 @@ exports.viewProperty = async (req,res) =>{
         else if(comRent) {
             const owner = await seller.findOne({ _id: comRent.ownerId });
             const Reviews = await reviews.findOne({ propertyId: object_id }) || [];
-            const len = Reviews.userId.length || 0;
+
+            const len = Reviews.userId ? Reviews.userId.length : 0;
+
             var users = [];
             for(var i=0; i<len; i++)
             {
@@ -70,7 +72,7 @@ exports.viewProperty = async (req,res) =>{
         else if(comBuy) {
             const owner = await seller.findOne({ _id: comBuy.ownerId });
             const Reviews = await reviews.findOne({ propertyId: object_id }) || [];
-            const len = Reviews.userId.length;
+            const len = Reviews.userId ? Reviews.userId.length : 0;
             var users = [];
             for(var i=0; i<len; i++)
             {
@@ -82,7 +84,7 @@ exports.viewProperty = async (req,res) =>{
         else if(landBuy) {
             const owner = await seller.findOne({ _id: landBuy.ownerId });
             const Reviews = await reviews.findOne({ propertyId: object_id }) || [];
-            const len = Reviews.userId.length;
+            const len = Reviews.userId ? Reviews.userId.length : 0;
             var users = [];
             for(var i=0; i<len; i++)
             {
@@ -94,7 +96,7 @@ exports.viewProperty = async (req,res) =>{
         else if(landDev) {
             const owner = await seller.findOne({ _id: landDev.ownerId });
             const Reviews = await reviews.findOne({ propertyId: object_id }) || [];
-            const len = Reviews.userId.length;
+            const len = Reviews.userId ? Reviews.userId.length : 0;
             var users = [];
             for(var i=0; i<len; i++)
             {

@@ -24,7 +24,7 @@
    color: var(--white);
 }
 
-/* reviews and comments setion code */
+
 .comment-container {
    width: 100%;
    max-width: 700px;
@@ -43,8 +43,8 @@
    border-top: 2px solid #ccc;
    padding: 2rem;
    box-sizing: border-box;
-   overflow: hidden; /* Hide overflowing content */
-   word-wrap: break-word; /* Wrap long words to prevent overflow */
+   overflow: hidden;
+   word-wrap: break-word;
 }
 #comment_input {
    height: 100px;
@@ -340,10 +340,6 @@ section{
    text-decoration: underline;
 }
 
-
-
-/* media queries  */
-
 @media (max-width:991px){
 
    html{
@@ -389,12 +385,12 @@ section{
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
-   background-color: #f9f9f9; /* Decent background color */
+   background-color: #f9f9f9;
    padding: 20px;
    border: 1px solid #ccc;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
    z-index: 1000;
-   animation: popupFadeIn 0.5s ease-in-out; /* Animation */
+   animation: popupFadeIn 0.5s ease-in-out;
 }
 
 .overlay {
@@ -406,10 +402,9 @@ section{
    height: 100%;
    background-color: rgba(0, 0, 0, 0.5);
    z-index: 999;
-   animation: overlayFadeIn 0.5s ease-in-out; /* Animation */
+   animation: overlayFadeIn 0.5s ease-in-out;
 }
 
-/* Keyframes for the fade-in animation */
 @keyframes popupFadeIn {
    from {
       opacity: 0;
@@ -430,9 +425,8 @@ section{
    }
 }
 
-/* Styles for the submit button */
 .popup button {
-   background-color: #936c4ac7; /* Green background color */
+   background-color: #936c4ac7;
    color: white;
    padding: 10px 20px;
    border: none;
@@ -442,7 +436,7 @@ section{
 }
 
 .popup button:hover {
-   background-color: #936c4ac7; /* Darker green on hover */
+   background-color: #936c4ac7;
 }
 
 

@@ -1,6 +1,5 @@
-/* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
-/* BASIC RESET */
+
 * {
   margin: 0;
   padding: 0;
@@ -9,7 +8,7 @@
 }
 
 :root {
-  /* Colors */
+
   --white: #fff;
   --custom: #67934ac7;
 }
@@ -35,8 +34,8 @@
   background-image: url("../images/background.jpeg");
   /* opacity: 0.3px;
   z-index: -1; */
-  background-size: cover; /* Ensures the background image covers the entire container */
-  background-position: center; /* Centers the background image within the container */
+  background-size: cover; 
+  background-position: center;
   background-repeat: no-repeat;
 }
 
@@ -227,7 +226,6 @@
   margin-right: 15px;
 }
 
-/* Functionality */
 
 .section .container .signup {
   pointer-events: none;

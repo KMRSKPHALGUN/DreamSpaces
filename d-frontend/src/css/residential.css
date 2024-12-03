@@ -14,8 +14,8 @@
 }
 
 .container {
-    overflow: hidden; /* Clear the floats */
-    margin: 20px auto; /* Center the container horizontally */
+    overflow: hidden; 
+    margin: 20px auto; 
 }
 .sidebar {
     width: 15%; 
@@ -28,26 +28,26 @@
 
 .sidebar nav ul {
     list-style-type: none;
-    padding: 0; /* Remove default padding */
+    padding: 0; 
 }
 
 .sidebar nav ul li {
     margin-bottom: 15px;
 }
 
-/* Add green border-left to active link */
+
 .sidebar nav ul li a.active {
-    background-color:#66934ac7; /* Set active item background color */
-    color: #66934ac7; /* Set active item text color */
-    border-left: 3px solid #28a745; /* Add green left border for active item */
-    padding-left: 12px; /* Adjust padding to make space for the border */
+    background-color:#66934ac7; 
+    color: #66934ac7; 
+    border-left: 3px solid #28a745; 
+    padding-left: 12px; 
 }
 
 .sidebar nav ul li {
     margin-bottom: 15px;
     border-bottom: 1px solid #dee2e689;
-    display: flex; /* Align icon and text horizontally */
-    align-items: center; /* Center the icon vertically */
+    display: flex; 
+    align-items: center; 
 }
 
 /* .sidebar nav ul li i {
@@ -59,11 +59,11 @@
 .sidebar nav ul li a {
     text-decoration: none;
     font-size: 18px;
-    color: #e6ebef9d; /* Set link color */
+    color: #e6ebef9d; 
     display: block;
     padding: 10px 15px;
     border-radius: 5px;
-    transition: background-color 0.3s; /* Add transition effect */
+    transition: background-color 0.3s; 
 }
 
 .sidebar nav ul li:hover {
@@ -73,11 +73,11 @@
 }
 
 .sidebar nav ul li.active a {
-    background-color: #66934ac7; /* Set active item background color */
-    color:#66934ac7; /* Set active item text color */
+    background-color: #66934ac7; 
+    color:#66934ac7; 
 }
 
-/* Indicator for active item */
+
 .sidebar nav ul li.active::before {
     content: '';
     position: absolute;
@@ -92,11 +92,11 @@
 
 
 .forms {
-    width: calc(80% - 40px); /* Take up the remaining 80% minus sidebar width and margin */
-    float: left; /* Float the forms to the left */
-    padding: 20px; /* Add padding */
-    margin-bottom: 30px; /* Add margin bottom for spacing */
-    height: calc(100vh - 20px); /* Height of viewport minus top and bottom margins */
+    width: calc(80% - 40px); 
+    float: left; 
+    padding: 20px; 
+    margin-bottom: 30px; 
+    height: calc(100vh - 20px); 
     
 }
 #PropertyDetailsform,
@@ -104,56 +104,53 @@
 #LocalityDetailsform,
 #Gallery,
 #Amenities {
-    width: auto; /* Set width to auto to allow it to adjust */
+    width: auto; 
     background-color: #f0f0f0;
     padding: 20px;
     margin-bottom: 30px;
     border-radius: 5px;
-    display: inline-block; /* Display the form elements inline */
-    vertical-align: top; /* Align the elements to the top of the line */
+    display: inline-block; 
+    vertical-align: top; 
 }
 
-/* Ensure elements within the forms stay on the same line */
+
 #PropertyDetailsform .input-group,
 #RentalDetailsform .input-group,
 #LocalityDetailsform .input-group,
 #Gallery .input-group,
 #Amenities .input-group {
     display: inline-block;
-    width: calc(50% - 20px); /* Adjust the width as needed */
-    margin-right: 20px; /* Add some margin between elements */
-    vertical-align: top; /* Align elements to the top */
+    width: calc(50% - 20px); 
+    margin-right: 20px; 
+    vertical-align: top; 
 }
 
 .mobile-view.fa-solid.fa-bars {
     display: none;
  }
 
-/* Adjust width and margins for smaller screens */
-
-/* Adjust width and margins for smaller screens */
 @media (max-width: 992px) {
     .sidebar {
-        width: 25%; /* Adjust sidebar width for smaller screens */
-        margin-right: 0; /* Remove margin between sidebar and forms */
+        width: 25%; 
+        margin-right: 0; 
     }
     .forms {
-        width: calc(75% - 20px); /* Adjust width of forms for smaller screens */
-        margin-left: 20px; /* Add margin between forms and sidebar */
+        width: calc(75% - 20px); 
+        margin-left: 20px; 
     }
 }
 
 @media (max-width: 768px) {
     .sidebar {
-        width: 100%; /* Adjust sidebar width for mobile screens */
-        margin-top: 0; /* Remove margin between header and sidebar */
-        margin-right: 0; /* Remove margin between sidebar and forms */
-        border-right: none; /* Remove right border for mobile screens */
-        border-bottom: 1px solid #dee2e6; /* Add bottom border for mobile screens */
+        width: 100%; 
+        margin-top: 0; 
+        margin-right: 0; 
+        border-right: none; 
+        border-bottom: 1px solid #dee2e6; 
     }
     .forms {
-        width: 100%; /* Adjust width of forms for mobile screens */
-        margin-left: 0; /* Remove margin between forms and sidebar */
+        width: 100%;
+        margin-left: 0; 
     }
 }
 
@@ -164,7 +161,7 @@
 }
 
 .form {
-    position: relative; /* Set position to relative */
+    position: relative; 
     background-color: #fff;
     padding: 20px;
     margin-bottom: 30px;
@@ -188,7 +185,7 @@
 .input-group input,
 .input-group select,
 .input-group textarea {
-    width: calc(100% - 22px); /* Adjust the width of input fields */
+    width: calc(100% - 22px); 
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
@@ -244,27 +241,27 @@ button:hover {
 #imageContainer {
     display: flex;
     flex-wrap: wrap;
-    max-height: 300px; /* Set a maximum height for the container */
-    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 300px; 
+    overflow-y: auto; 
 }
 
 #imageContainer img {
-    max-width: 100%; /* Set maximum width for images */
-    max-height: 150px; /* Set maximum height for images */
-    margin: 5px; /* Add margin to create space between images */
-    border: 1px solid #ccc; /* Add border for better visibility */
+    max-width: 100%; 
+    max-height: 150px; 
+    margin: 5px;
+    border: 1px solid #ccc; 
 }
-/* Adjust image size for smaller screens */
+
 @media (max-width: 767px) {
     #imageContainer img {
-        flex: 0 1 calc(33.33% - 10px); /* Set flex to fit three images per row with some spacing */
+        flex: 0 1 calc(33.33% - 10px); 
     }
 }
 
-/* Adjust image size for smaller screens */
+
 @media (max-width: 574px) {
     #imageContainer img {
-        flex: 0 1 calc(50% - 10px); /* Set flex to fit two images per row with some spacing */
+        flex: 0 1 calc(50% - 10px); 
     }
 }
 
