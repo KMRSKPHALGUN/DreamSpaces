@@ -58,7 +58,7 @@ exports.userDetails = async(req,res)=>{
                 }
             }
         }
-        res.status(200).json({ property: property, len: len, owner: owner, s_owner: s_owner, s_len: s_len, s_property: s_property, myDetails: owner });
+        res.status(200).json({ property: property, len: len, owner: owner, s_owner: s_owner, s_len: s_len, s_property: s_property });
     }
     catch(error){
         console.error(error);
@@ -88,5 +88,37 @@ exports.deleteAccount = async(req,res) => {
     } catch (error) {
         console.error(error);
         res.status(401).json({ error: 'Something went wrong' });
+    }
+}
+
+exports.deleteProperty = async(req, res) => {
+    try {
+        const { propertyId } = req.body;
+        // Delete the property from the Property collection
+        await res_rent.deleteOne({ _id: propertyId });
+        await res_buy.deleteOne({ _id: propertyId });
+        await res_flat.deleteOne({ _id: propertyId });
+        await com_rent.deleteOne({ _id: propertyId });
+        await com_buy.deleteOne({ _id: propertyId });
+        await land_buy.deleteOne({ _id: propertyId });
+        await land_dev.deleteOne({ _id: propertyId });
+        
+
+        // Remove the property from the owner's postedProperties array
+        await seller.updateOne(
+            { _id: req.userId }, // Assuming ownerId is stored in the property document
+            { $pull: { postedProperties: propertyId } }
+        );
+
+        // Remove the property from savedProperties arrays of other users
+        await seller.updateMany(
+            { savedProperties: propertyId },
+            { $pull: { savedProperties: propertyId } }
+        );
+
+        return res.status(200).json({ message: 'Property deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting property:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
 }

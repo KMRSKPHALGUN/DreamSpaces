@@ -8,6 +8,10 @@ const cors = require("cors");
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const WebSocket = require('ws');
+const os = require('os');
+const https = require('https');
+const fs = require('fs');
 
 const app = express();
 const port = 5000;
@@ -18,10 +22,79 @@ const mongoStore = MongoStore.create({mongoUrl: 'mongodb://localhost:27017/Dream
 
 app.use(bodyParser.json());
 
+// Allow all origins
 app.use(cors({
-    origin: 'http://localhost:3000',  // Your frontend URL
-    credentials: true                 // Allow sending credentials (cookies)
+    origin: '*'
 }));
+
+// Set up HTTPS server options
+const options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+};
+
+const http = require("http")
+const server = https.createServer(options, app);
+const io = require("socket.io")(server, {
+	cors: {
+		origin: "*",
+		methods: [ "GET", "POST" ]
+	}
+})
+
+io.on("connection", (socket) => {
+    socket.on("initialize", (userId) => {
+        socket.userId = userId;
+    });
+
+	socket.emit("me", socket.userId);
+
+	socket.on("disconnect", () => {
+		socket.broadcast.emit("callEnded")
+	});
+
+	socket.on("callUser", (data) => {
+        const connectedClients = Array.from(io.sockets.sockets.values());
+        connectedClients.forEach(client => {
+            if(client.userId === data.userToCall)
+            {
+                client.emit("callUser", {
+                    signal: data.signalData,
+                    from: data.from,
+                    to: data.userToCall,
+                    name: data.name
+                })
+            }
+        })
+	});
+
+    socket.on("call-accepted", (data) => {
+        const connectedClients = Array.from(io.sockets.sockets.values());
+        connectedClients.forEach(client => {
+            if(client.userId === data.to)
+            {
+                client.emit("call-accepted", {
+                    signal: data.signal,
+                    from: data.from,
+                    to: data.to,
+                    name: data.name
+                })
+            }
+        })
+	});
+
+	socket.on("answerCall", (data) => {
+        const connectedClients = Array.from(io.sockets.sockets.values());
+        connectedClients.forEach(client => {
+            if(client.userId === data.to)
+            {
+                client.emit("callAccepted", {
+                    signal: data.signal
+                })
+            }
+        })
+	});
+})
 
 
 
@@ -29,7 +102,7 @@ app.use(cors({
 
 const Signup = require('./models/Signup');
 const Admin = require('./models/Admin');
-const registration = require('./controllers/Registration');
+const Registration = require('./controllers/Registration');
 const Residentialrent = require('./controllers/Residential_rent');
 const Commercialrent = require('./controllers/Commercial_rent');
 const Commercialsale = require('./controllers/Commercial_sale');
@@ -57,7 +130,10 @@ const upload = multer({storage: ds});
 //     res.sendFile(path.join(__dirname, 'd-frontend/build', 'index.html'));
 // });
 
-app.post('/api/register', registration.register);
+app.post('/api/register', Registration.register);
+
+app.post('/api/verifyUser', Registration.verifyUser);
+
 app.post('/api/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -72,7 +148,7 @@ app.post('/api/login', async (req, res) => {
         const token = jwt.sign({ userId: user._id }, 'DreamSpacesSecret', {
         expiresIn: '1h',
         });
-        res.status(200).json({ token, message: 'Login Successful' });
+        res.status(200).json({ token: token, client: user, message: 'Login Successful' });
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }
@@ -116,6 +192,8 @@ app.post('/api/deleteUser', verifyToken, AdminDashboard.deleteUser);
 
 app.post('/api/deleteAccount', verifyToken, UserDetails.deleteAccount);
 
+app.post('/api/deleteProperty', verifyToken, UserDetails.deleteProperty);
+
 app.post('/api/viewProperty', verifyToken, PropertyDetails.viewProperty);
 
 app.post('/api/saveProperty', verifyToken, SaveProperty.save_property);
@@ -124,9 +202,54 @@ app.post('/api/reportProperty', verifyToken, Report.reports);
 
 app.post('/api/reviewProperty', verifyToken, Reviews.review);
 
+app.get('/api/getLocalHost', async(req, res) => {
+    try
+    {
+        const networkInterfaces = os.networkInterfaces();
+        for (const interfaceName in networkInterfaces)
+        {
+            const interfaces = networkInterfaces[interfaceName];
+            for (const iface of interfaces)
+            {
+                if(iface.family === 'IPv4' && !iface.internal)
+                {
+                    return res.status(200).json({ localhost: `${iface.address}` });
+                }
+            }
+        }
+    }
+    catch(error)
+    {
+        res.status(500).json({ localhostdefault: '10.0.48.153' });
+    }
+});
+
 app.get('/api/userDetails', verifyToken, UserDetails.userDetails);
 
 app.get('/api/adminDashboard', verifyToken, AdminDashboard.getAdminDashboard);
+
+app.get('/api/adminCheck', async(req, res) => {
+    try{
+        let token = req.header('Authorization');
+        if (!token) return res.status(401).json({ error: 'Access denied' });
+        if (token.startsWith('Bearer ')) {
+            token = token.slice(7, token.length).trim(); // Remove 'Bearer ' prefix
+        }
+        const decoded = jwt.verify(token, 'DreamSpacesSecret');
+        const exAdmin = await Admin.findOne({ _id: decoded.userId});
+        if(exAdmin) {
+            res.status(200).json({ message: 'yes' });
+        }
+        else
+        {
+            res.status(200).json({ message: 'false' });
+        }
+    }
+    catch(error)
+    {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+});
 
 function verifyToken(req, res, next) {
     let token = req.header('Authorization');
@@ -145,7 +268,7 @@ function verifyToken(req, res, next) {
 };
 // function isAuthenticated(req, res, next) {
 //     console.log('Session:', req.session);      // Log session info
-//     console.log('User:', req.user);           // Log the user info
+//     console.log('User:', req.user);            // Log the user info
 //     console.log('Authenticated:', req.isAuthenticated());  // Log the authentication status
     
 //     if (req.isAuthenticated()) {

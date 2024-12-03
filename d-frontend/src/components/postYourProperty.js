@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../css/postYourProperty.css'; // Assuming the CSS is in the same location
-
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 function PostYourProperty() {
+  let navigate = useNavigate();
   const [propertyType, setPropertyType] = useState('');
   const [adTypeOptions, setAdTypeOptions] = useState([]);
   const [adType, setAdType] = useState('');
@@ -46,13 +49,14 @@ function PostYourProperty() {
 
 
     if (path) {
-      window.location.href = path;
+      navigate(path);
     }
   };
 
   return (
 
     <div className="search-form-post">
+        <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
         <select id="property-type" name="property-type" value={propertyType} onChange={e => setPropertyType(e.target.value)}>
           <option value="">Property Type</option>
           <option value="residential">Residential</option>

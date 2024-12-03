@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/prop_det_list.css'; // Custom CSS
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faImage, faMapMarkerAlt, faBed, faBath, faMaximize } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faImage, faMapMarkerAlt, faBed, faBath, faMaximize, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 const PropertyListings = () => {
+    const localhost = localStorage.getItem('localhost');
+    let navigate = useNavigate();
     const [city, setCity] = useState('');
     const [propertyType, setPropertyType] = useState('');
     const [adType, setAdType] = useState('');
@@ -34,7 +37,7 @@ const PropertyListings = () => {
           setError('');
 
             // Send request to backend with the search parameters
-            const response = await axios.post('http://localhost:5000/api/property_listings', {
+            const response = await axios.post(`https://${localhost}:5000/api/property_listings`, {
               city: fetchedCity,
               property_type: fetchedPropertyType,
               ad_type: fetchedAdType,
@@ -109,7 +112,7 @@ const PropertyListings = () => {
   
       try {
         // Send request to backend with the search parameters
-        const response = await axios.post('http://localhost:5000/api/property_listings', {
+        const response = await axios.post(`https://${localhost}:5000/api/property_listings`, {
           city: city,
           property_type: propertyType,
           ad_type: adType,
@@ -133,7 +136,7 @@ const PropertyListings = () => {
     const handleViewProperty = async (propertyId) => {
       try{
 
-        const response = await axios.post('http://localhost:5000/api/viewProperty', {
+        const response = await axios.post(`https://${localhost}:5000/api/viewProperty`, {
           propertyId: propertyId
         }, {
           headers: {
@@ -145,42 +148,43 @@ const PropertyListings = () => {
         localStorage.setItem('owner', JSON.stringify(response.data.owner));
         localStorage.setItem('reviews', JSON.stringify(response.data.reviews));
         localStorage.setItem('users', JSON.stringify(response.data.users));
+        localStorage.setItem('client', JSON.stringify(response.data.client));
         
         if(response.data.propertyType === 'residential')
         {
           if(response.data.adType === 'rent')
           {
-            window.location.href = '/resRentViewProperty';
+            navigate('/resRentViewProperty');
           }
           else if(response.data.adType === 'buy')
           {
-            window.location.href = '/resBuyViewProperty';
+            navigate('/resBuyViewProperty');
           }
           else if(response.data.adType === 'flatmates')
           {
-            window.location.href = '/resFlatViewProperty';
+            navigate('/resFlatViewProperty');
           }
         }
         else if(response.data.propertyType === 'commercial')
         {
           if(response.data.adType === 'rent')
           {
-            window.location.href = '/comRentViewProperty';
+            navigate('/comRentViewProperty');
           }
           else if(response.data.adType === 'buy')
           {
-            window.location.href = '/comBuyViewProperty';
+            navigate('/comBuyViewProperty');
           }
         }
         else if(response.data.propertyType === 'plot')
         {
           if(response.data.adType === 'buy')
           {
-            window.location.href = '/plotBuyViewProperty';
+            navigate('/plotBuyViewProperty');
           }
           else if(response.data.adType === 'development')
           {
-            window.location.href = '/plotDevViewProperty';
+            navigate('/plotDevViewProperty');
           }
         }
       }
@@ -192,7 +196,8 @@ const PropertyListings = () => {
     };
   
     return (
-      <>  
+      <> 
+        <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
         {/* Search Filter Section */}
         <div className="search-container">
           <section className="filters section-det">
@@ -280,7 +285,6 @@ const PropertyListings = () => {
                         <p><FontAwesomeIcon icon={faMaximize}/><span>{property.built_up_area} sqft</span></p>
                       </div>
                       
-                      <textarea name="object_id" style={{ display: 'none' }} defaultValue={property._id}></textarea>
                       <button className="btn" type="submit" onClick={() => handleViewProperty(property._id)}>View Property</button>
                       
                     </div>

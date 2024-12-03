@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../css/residential.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faDollarSign, faMapMarkerAlt, faCamera, faUtensils, faHome, faBath, faDoorOpen, faTint, faDumbbell, faDrumstickBite, faShieldAlt, faArrowAltCircleUp, faWifi, faLandmark, faChild, faTree, faGasPump, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faDollarSign, faMapMarkerAlt, faCamera, faUtensils, faHome, faBath, faDoorOpen, faTint, faDumbbell, faDrumstickBite, faShieldAlt, faArrowAltCircleUp, faWifi, faLandmark, faChild, faTree, faGasPump, faPaperPlane, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ResidentialRent = () => {
+  const localhost = localStorage.getItem('localhost');
+  let navigate = useNavigate;
   const [propertyDetailsVisible, setPropertyDetailsVisible] = useState(true);
   const [rentalDetailsVisible, setRentalDetailsVisible] = useState(false);
   const [localityDetailsVisible, setLocalityDetailsVisible] = useState(false);
@@ -285,7 +288,7 @@ const ResidentialRent = () => {
 
         try
         {
-        const response = await axios.post('http://localhost:5000/api/residential_rent', formData,
+        const response = await axios.post(`https://${localhost}:5000/api/residential_rent`, formData,
         {
         headers: {
             Authorization: `Bearer ${token}`,
@@ -294,7 +297,7 @@ const ResidentialRent = () => {
 
         alert(response.data.message);
 
-        window.location.href = '/home';
+        navigate('/home');
         }
         catch(error)
         {
@@ -313,6 +316,7 @@ const ResidentialRent = () => {
 
   return (
       <div className="commercial-body">
+        <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
         <Sidebar/>
 
         <form className="forms" encType='multipart/form-data'>

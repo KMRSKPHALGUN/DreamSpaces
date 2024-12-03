@@ -5,11 +5,14 @@ import '../css/propDetList.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import EmptyProfile from '../images/empty_profile.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faMapMarkerAlt, faCheck, faTag, faClock, faUser, faBuilding, faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faMapMarkerAlt, faCheck, faTag, faClock, faUser, faBuilding, faCalendar, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
 
 
 // Assuming that property, owner, and users are passed as props or fetched from an API
 const ComRentViewProperty = () => {
+  const localhost = localStorage.getItem('localhost');
+  let navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
   const [mainImage, setMainImage] = useState(null);
   const reportDescriptionRef = useRef(null);
@@ -20,6 +23,7 @@ const ComRentViewProperty = () => {
   const owner = JSON.parse(localStorage.getItem('owner'));
   const reviews = JSON.parse(localStorage.getItem('reviews'));
   const users = JSON.parse(localStorage.getItem('users'));
+  const client = JSON.parse(localStorage.getItem('client'));
 
   useEffect(() => {
     setMainImage(property.image[0]);
@@ -31,7 +35,7 @@ const ComRentViewProperty = () => {
 
   const saveProperty = async (propId) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/saveProperty', {
+      const response = await axios.post(`https://${localhost}:5000/api/saveProperty`, {
         propId: propId
       },{
         headers:{
@@ -41,7 +45,7 @@ const ComRentViewProperty = () => {
       if(response.data.message)
       {
         alert(response.data.message);
-        window.location.href = '/userProfile?tab=saved_properties'
+        navigate('/userProfile?tab=saved_properties');
       }
       else{
         alert(response.data.message2);
@@ -57,7 +61,7 @@ const ComRentViewProperty = () => {
 
   const reportProperty = async (reportedPropertyId, report_description) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/reportProperty', {
+      const response = await axios.post(`https://${localhost}:5000/api/reportProperty`, {
         reportedPropertyId: reportedPropertyId,
         report_description: report_description
       },{
@@ -82,7 +86,7 @@ const ComRentViewProperty = () => {
 
   const reviewProperty = async (propertyId, comment_input) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/reviewProperty', {
+      const response = await axios.post(`https://${localhost}:5000/api/reviewProperty`, {
         propertyId: propertyId,
         comment_input: comment_input
       },{
@@ -116,8 +120,13 @@ const ComRentViewProperty = () => {
     setShowPopup(false);
   };
 
+  const handleStartCall = () => {
+    navigate(`/videoCall/?roomId=${property._id}&ownerId=${owner._id}&callerName=${client.name}&callerId=${client._id}`);
+  };
+
   return (
     <>
+      <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
       {property && owner ? (
         <section className="view-property">
           <div className="details">
@@ -361,6 +370,10 @@ const ComRentViewProperty = () => {
           <p>No reviews to show</p>
         )}
       </div>
+      <div>
+        {/* Render other property details */}
+        <button onClick={handleStartCall}>Start Video Call with Owner</button>
+      </div> 
     </>
   );
 };
