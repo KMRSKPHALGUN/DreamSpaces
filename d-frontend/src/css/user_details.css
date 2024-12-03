@@ -37,8 +37,10 @@ body{
 }
 
 .btn-2, .dltbtn{
-	margin-left: 10px;
-	background-color: red;
+	margin-left: 70px;
+	margin-top: 15px;
+	border-radius: 25px;
+	background-color: rgba(112, 17, 17, 0.284);
 	color: black;
 }
 .list-group{
@@ -90,6 +92,7 @@ ul{
     background-clip: border-box;
     box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.08);
 	width: 15%;
+	height: 810px;
   }
 
   .card-right{
@@ -151,23 +154,31 @@ ul{
 	display: none;
 }
 
+.listings .section-det{
+	height: 50px;
+}
 
 
 
 
-
-.listings .box-container {
-	max-width: 100%;
-	margin: 0 auto; 
-	padding: 0 2rem; 
+.listings .box-container-user {
+	/* max-width: 100%; */
+	/* margin: 0 auto;  */
+	
+	/* padding: 0 2rem;  */
 	display: flex;
 	flex-wrap: wrap; 
-	justify-content: center; 
+	/* justify-content: center;  */
+	overflow: scroll;
 	gap: 2rem; 
+	width: 100rem; 
+	margin: 0;
+	height: 700px;
  }
  
- .listings .box-container .box {
+ .listings .box-container-user .box {
 	width: 30rem; 
+	border-radius: 10px;
 	background-color: var(--white);
 	box-shadow: var(--box-shodow); 
 	padding: 2rem;
@@ -177,13 +188,13 @@ ul{
  
  
  
- .listings .box-container .box .admin{
+ .listings .box-container-user .box .admin{
 	display: flex;
 	align-items: center;
 	gap: 1.5rem;
  }
  
- .listings .box-container .box .admin h3{
+ .listings .box-container-user .box .admin h3{
 	height: 4.5rem;
 	line-height: 4.4rem;
 	width: 4.5rem;
@@ -194,35 +205,35 @@ ul{
 	text-align:center;
  }
  
- .listings .box-container .box .admin p{
+ .listings .box-container-user .box .admin p{
 	font-size: 1.7rem;
 	color: var(--black);
 	padding-bottom: .3rem;
  }
  
- .listings .box-container .box .admin span{
+ .listings .box-container-user .box .admin span{
 	font-size: 1.5rem;
 	color: var(--light-color);
  }
  
- .listings .box-container .box .thumb{
+ .listings .box-container-user .box .thumb{
 	position: relative;
 	height: 20rem;
 	overflow: hidden;
 	margin: 1.5rem 0;
  }
  
- .listings .box-container .box .thumb img{
+ .listings .box-container-user .box .thumb img{
 	height: 100%;
 	width: 100%;
 	transition: .2s linear;
  }
  
- .listings .box-container .box:hover .thumb img{
+ .listings .box-container-user .box:hover .thumb img{
 	transform: scale(1.1);
  }
  
- .listings .box-container .box .thumb .total-images{
+ .listings .box-container-user .box .thumb .total-images{
 	position: absolute;
 	top: 1rem; left: 1rem;
 	background-color: rgba(0,0,0,.3);
@@ -232,17 +243,17 @@ ul{
 	z-index: 1;
  }
  
- .listings .box-container .box .thumb .total-images i{
+ .listings .box-container-user .box .thumb .total-images i{
 	margin-right: .7rem;
  }
  
- .listings .box-container .box .thumb .type{
+ .listings .box-container-user .box .thumb .type{
 	position: absolute;
 	bottom: 1rem; left: .7rem;
 	z-index: 1;
  }
  
- .listings .box-container .box .thumb .type span{
+ .listings .box-container-user .box .thumb .type span{
 	margin-right: .7rem;
 	padding: .5rem 1.5rem;
 	color: var(--white);
@@ -250,13 +261,13 @@ ul{
 	font-size: 1.6rem;
  }
  
- .listings .box-container .box .thumb .save{
+ .listings .box-container-user .box .thumb .save{
 	position: absolute;
 	top: 1rem; right: 1rem;
 	z-index: 1;
  }
  
- .listings .box-container .box .thumb .save button{
+ .listings .box-container-user .box .thumb .save button{
 	background-color: rgba(0,0,0,.3);
 	color: var(--white);
 	padding: .7rem 1rem;
@@ -264,11 +275,11 @@ ul{
 	cursor: pointer;
  }
  
- .listings .box-container .box .thumb .save button:hover{
+ .listings .box-container-user .box .thumb .save button:hover{
 	background-color: var(--main-color);
  }
  
- .listings .box-container .box .name{
+ .listings .box-container-user .box .name{
 	font-size: 2rem;
 	text-overflow: ellipsis;
 	overflow-x: hidden;
@@ -276,18 +287,18 @@ ul{
 	margin-bottom: .5rem;
  }
  
- .listings .box-container .box .location{
+ .listings .box-container-user .box .location{
 	padding-top: 1rem;
 	font-size: 1.6rem;
 	color: var(--light-color);
  }
  
- .listings .box-container .box .location i{
+ .listings .box-container-user .box .location i{
 	margin-right: 1rem;
 	color: var(--main-color);
  }
  
- .listings .box-container .box .flex{
+ .listings .box-container-user .box .flex{
 	display: flex;
 	background-color: var(--light-bg);
 	padding: 1.5rem;
@@ -298,16 +309,16 @@ ul{
 	gap: 1.5rem;
  }
  
- .listings .box-container .box .flex p{
+ .listings .box-container-user .box .flex p{
 	font-size: 1.6rem;
 	flex: 1 1 4rem;
  }
  
- .listings .box-container .box .flex p span{
+ .listings .box-container-user .box .flex p span{
 	color: var(--light-color);
  }
  
- .listings .box-container .box .flex p i{
+ .listings .box-container-user .box .flex p i{
 	margin-right: 1rem;
 	color: var(--main-color);
  }
