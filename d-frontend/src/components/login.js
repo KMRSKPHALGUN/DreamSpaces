@@ -1,22 +1,25 @@
-import React, {useRef} from "react";
+import React, {useRef, useEffect} from "react";
 import '../css/login_signup.css';
 import Loginn from '../images/loginn.jpeg';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 function Login() {
-  const localhost = localStorage.getItem('localhost');
+  const localhost = useSelector((state) => state.lh.localhost);
   
   let navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
+  useEffect(() => {
+    console.log("Updated localhost:", localhost);
+  }, [localhost]);
 
   const login = async (event) => {
     event.preventDefault();
-
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     try {
