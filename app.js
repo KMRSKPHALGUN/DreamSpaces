@@ -119,7 +119,7 @@ const Reviews = require('./controllers/Reviews');
 const ds=multer.diskStorage({
     destination: "./d-frontend/public/uploads",
     filename:(req,file,cb)=>{
-        cb(null, req.userId+"_"+file.originalname.replaceAll(' ', '_'));
+        cb(null, req.userId+""+file.originalname.replaceAll(' ', ''));
     }
 });
 
@@ -266,17 +266,5 @@ function verifyToken(req, res, next) {
         res.status(401).json({ error: 'Invalid token' });
     }
 };
-// function isAuthenticated(req, res, next) {
-//     console.log('Session:', req.session);      // Log session info
-//     console.log('User:', req.user);            // Log the user info
-//     console.log('Authenticated:', req.isAuthenticated());  // Log the authentication status
-    
-//     if (req.isAuthenticated()) {
-//       return next();
-//     }
-//     res.status(401).json({ error: 'User not authenticated' });
-// }
 
-app.listen(port, ()=>{
-    console.log(`Server is running on http://localhost:${port}`);
-})
+server.listen(5000, () => console.log(`Server is running on https://localhost:${port}`))

@@ -586,7 +586,7 @@ function UserProfile({}) {
             {/* Saved Properties Tab */}
             {activeTab === 'saved_properties' && (
               <section className="listings section-det">
-                  <div className="box-container">
+                  <div className="box-container-user">
                     {savedProperties && savedProperties.length > 0 ? (
                       savedProperties.map((property, i) => (
                         <div className="box" key={i}>
@@ -631,7 +631,7 @@ function UserProfile({}) {
             {/* Posted Properties Tab */}
             {activeTab === 'posted_properties' && (
               <section className="listings section-det">
-                <div className="box-container">
+                <div className="box-container-user">
                   {postedProperties && postedProperties.length > 0 ? (
                     postedProperties.map((property, i) => (
                       <div className="box" key={i}>

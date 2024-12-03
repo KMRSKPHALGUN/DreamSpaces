@@ -180,6 +180,7 @@ html{
 
 .listings .box-container{
    display: grid;
+   margin-right: 13rem;
    grid-template-columns: auto auto auto;
    gap: 2rem;
    justify-content: center;
@@ -192,6 +193,8 @@ html{
    box-shadow: var(--box-shodow);
    padding: 2rem;
    overflow-x: hidden;
+   width: 300px;
+   border-radius: 15px;
 }
 
 .listings .box-container .box .admin{
@@ -350,7 +353,8 @@ html{
    background-color: rgba(255, 255, 255, 0.798);
    box-shadow: var(--box-shodow);
    padding: 4rem;
-   height: 760px;
+   height: 700px;
+   margin-top: 60px;
    /* padding-top: 3.5rem; */
 }
 
@@ -600,7 +604,7 @@ html{
    border: none;
    font-size: 24px;
    cursor: pointer;
-   background-color: #08f117; /* or choose a color that suits your design */
+   background-color: #234d26; /* or choose a color that suits your design */
  }
  
  .back-button:hover {
