@@ -36,6 +36,11 @@ function UserProfile({}) {
   const [deleteAccount, setDeleteAccount] = useState('');
   const token = localStorage.getItem('token');
 
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [otp, setOtp] = useState(new Array(6).fill(""));
+
+  const [dltProp, setDltProp] = useState(false);
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
@@ -44,6 +49,9 @@ function UserProfile({}) {
             Authorization: `Bearer ${token}`,
           },
         });
+        setSavedProperties(response.data.s_property);
+        setPostedProperties(response.data.property);
+        setOwners(response.data.s_owner);
         setMyDetails({
           name: response.data.owner.name,
           email: response.data.owner.email,
@@ -174,6 +182,104 @@ function UserProfile({}) {
       alert("Someting went wrong");
     }
   }
+
+  const openPopup = () => {
+    setDltProp(true);
+  };
+
+  const closePopup = () => {
+    setDltProp(false);
+  };
+
+  const handleDltProp = async (propertyId) => {
+    setDltProp(false);
+    try {
+      const response = await axios.post(`https://${localhost}:5000/api/deleteProperty`, {
+        propertyId: propertyId
+      }, {
+        headers: {
+          Authorization : `Bearer ${token}`
+        }
+      });
+
+      // Display the success message from the server
+      if (response.status === 200 && response.data.message) {
+        alert(`Success: ${response.data.message}`);
+        navigate('/home');
+      }
+      else {
+        alert('Property deleted successfully!'); // Fallback message
+      }
+    } catch (error) {
+        // Handle error message from the server
+        if (error.response && error.response.data && error.response.data.message) {
+            alert(`Error: ${error.response.data.message}`);
+        } else {
+            alert('Something went wrong');
+        }
+    }
+  }
+
+  const handleViewProperty = async (propertyId) => {
+    try{
+      const response = await axios.post(`https://${localhost}:5000/api/viewProperty`, {
+        propertyId: propertyId
+      }, {
+        headers: {
+          Authorization : `Bearer ${token}`
+        }
+      });
+
+      localStorage.setItem('property', JSON.stringify(response.data.property));
+      localStorage.setItem('owner', JSON.stringify(response.data.owner));
+      localStorage.setItem('reviews', JSON.stringify(response.data.reviews));
+      localStorage.setItem('users', JSON.stringify(response.data.users));
+      localStorage.setItem('client', JSON.stringify(response.data.client));
+      
+      if(response.data.propertyType === 'residential')
+      {
+        if(response.data.adType === 'rent')
+        {
+          navigate('/resRentViewProperty');
+        }
+        else if(response.data.adType === 'buy')
+        {
+          navigate('/resBuyViewProperty');
+        }
+        else if(response.data.adType === 'flatmates')
+        {
+          navigate('/resFlatViewProperty');
+        }
+      }
+      else if(response.data.propertyType === 'commercial')
+      {
+        if(response.data.adType === 'rent')
+        {
+          navigate('/comRentViewProperty');
+        }
+        else if(response.data.adType === 'buy')
+        {
+          navigate('/comBuyViewProperty');
+        }
+      }
+      else if(response.data.propertyType === 'plot')
+      {
+        if(response.data.adType === 'buy')
+        {
+          navigate('/plotBuyViewProperty');
+        }
+        else if(response.data.adType === 'development')
+        {
+          navigate('/plotDevViewProperty');
+        }
+      }
+    }
+    catch(error)
+    {
+      console.log('Something went wrong');
+      alert('Something went wrong');
+    }
+  };
 
   return (
     <div className="container-user-det pt-0">
@@ -511,10 +617,8 @@ function UserProfile({}) {
                             <p><FontAwesomeIcon icon={faBath}/><span>{property.bathrooms}</span></p>
                             <p><FontAwesomeIcon icon={faMaximize}/><span>{property.built_up_area} sqft</span></p>
                           </div>
-                          <form action="/property_details" method="post">
-                            <textarea name="object_id" style={{ display: 'none' }} defaultValue={property._id}></textarea>
-                            <button className="btn" type="submit">View Property</button>
-                          </form>
+                          
+                          <button className="btn" type="submit" onClick={() => handleViewProperty(property._id)}>View Property</button>
                         </div>
                       ))
                     ) : (
@@ -558,11 +662,20 @@ function UserProfile({}) {
                           <p><FontAwesomeIcon icon={faBath}/><span>{property.bathrooms}</span></p>
                           <p><FontAwesomeIcon icon={faMaximize}/><span>{property.built_up_area} sqft</span></p>
                         </div>
-                        <form action="/property_details" method="post">
-                          <textarea name="object_id" style={{ display: 'none' }} defaultValue={property._id}></textarea>
-                          <button className="btn" type="submit">View Property</button>
-                        </form>
+                        
+                        <button className="btn" type="submit" onClick={() => handleViewProperty(property._id)}>View Property</button>
+                        <button className="dltbtn" type="button" onClick={openPopup}>Delete Property</button>
+
+                        {dltProp && (
+                          <div>
+                            <div className="overlay" onClick={closePopup}></div>
+                            <div className="popup">
+                              <button className="dltbtn" type="button" onClick={() => handleDltProp(property._id)}>Permanently Delete this Property</button>
+                            </div>
+                          </div>
+                        )}
                       </div>
+                      
                     ))
                   ) : (
                     <p>You haven't Posted any Properties yet.</p>
@@ -570,6 +683,8 @@ function UserProfile({}) {
                 </div>
               </section>
             )}
+
+              
 
             {/* Log Out Tab */}
             {activeTab === 'logout' && (

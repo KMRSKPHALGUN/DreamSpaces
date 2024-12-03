@@ -192,6 +192,8 @@ app.post('/api/deleteUser', verifyToken, AdminDashboard.deleteUser);
 
 app.post('/api/deleteAccount', verifyToken, UserDetails.deleteAccount);
 
+app.post('/api/deleteProperty', verifyToken, UserDetails.deleteProperty);
+
 app.post('/api/viewProperty', verifyToken, PropertyDetails.viewProperty);
 
 app.post('/api/saveProperty', verifyToken, SaveProperty.save_property);
@@ -218,7 +220,7 @@ app.get('/api/getLocalHost', async(req, res) => {
     }
     catch(error)
     {
-        res.status(500).json({ localhostdefault: '10.0.49.88' });
+        res.status(500).json({ localhostdefault: '10.0.48.153' });
     }
 });
 
