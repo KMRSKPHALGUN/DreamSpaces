@@ -145,7 +145,7 @@ function verifyToken(req, res, next) {
 };
 // function isAuthenticated(req, res, next) {
 //     console.log('Session:', req.session);      // Log session info
-//     console.log('User:', req.user);            // Log the user info
+//     console.log('User:', req.user);           // Log the user info
 //     console.log('Authenticated:', req.isAuthenticated());  // Log the authentication status
     
 //     if (req.isAuthenticated()) {
