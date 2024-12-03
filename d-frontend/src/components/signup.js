@@ -111,11 +111,12 @@ function Signup() {
                 setIsOtpStep(true);
             }
         } catch (error) {
-            if (error.response && error.response.status === 409) {
+            if (error.response) {
                 // Handle the 409 Conflict status here
                 alert(error.response.data.message);
             } else {
                 // Handle other types of errors
+                console.log("errrorrrrr!!!1")
                 alert("Something went wrong!");
             }
         }
