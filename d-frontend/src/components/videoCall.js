@@ -8,42 +8,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Peer from "simple-peer";
 import io from "socket.io-client";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import socket from './socketInstance.js';
 import "../css/videoCall.css";
 import "../css/callNotification.css";
-
-// export const CallNotification = () => {
-// 	const navigate = useNavigate();
-// 	const [ receivingCall, setReceivingCall ] = useState(false)
-// 	const [ caller, setCaller ] = useState("")
-// 	const [ callerSignal, setCallerSignal ] = useState()
-// 	const [ callAccepted, setCallAccepted ] = useState(false)
-// 	const [ callEnded, setCallEnded] = useState(false)
-// 	const [ name, setName ] = useState("")
-
-// 	useEffect(() => {
-// 		socket.on("callUser", (data) => {
-// 			setReceivingCall(true)
-// 			setCaller(data.from)
-// 			setName(data.name)
-// 			setCallerSignal(data.signal)
-// 		})
-// 	}, []);
-
-// 	return (
-// 		<>
-// 			{receivingCall && !callAccepted ? (
-// 				<div className='notification-overlay'>
-// 					<div className='notification-popup'>
-// 						<h1 >{name} is calling...</h1>
-// 						<button onClick={() => navigate('/videoCall')}>Accept</button>
-//             			<button>Reject</button>
-// 					</div>
-// 				</div>
-// 			) : null}
-// 		</>
-// 	);
-// }
 
 export const VideoCall = () => {
 	const location = useLocation();
@@ -61,7 +30,7 @@ export const VideoCall = () => {
 	const [ callerSignal, setCallerSignal ] = useState()
 	const [ callAccepted, setCallAccepted ] = useState(false)
 	// const [ idToCall, setIdToCall ] = useState("")
-	const [ callEnded, setCallEnded] = useState(false)
+	const [ callEnded, setCallEnded] = useState(true)
 	// const [ name, setName ] = useState("")
 	const myVideo = useRef()
 	const userVideo = useRef()
@@ -105,6 +74,7 @@ export const VideoCall = () => {
 				from: callerId,
 				name: name,
 			});
+			setCallEnded(false);
 		});
 		peer.on("stream", (stream) => {
 			userVideo.current.srcObject = stream;
@@ -128,34 +98,37 @@ export const VideoCall = () => {
 		}
 	}, [isInitiator, idToCall, location.pathname]);
 
-		const answerCall =() =>  {
-			setCallAccepted(true)
-			const peer = new Peer({
-				initiator: false,
-				trickle: false,
-				stream: stream
-			})
-			peer.on("signal", (data) => {
-				socket.emit("answerCall", { signal: data, to: caller })
-			})
-			peer.on("stream", (stream) => {
-				userVideo.current.srcObject = stream
-			})
+	const answerCall =() =>  {
+		setCallAccepted(true)
+		const peer = new Peer({
+			initiator: false,
+			trickle: false,
+			stream: stream
+		})
+		peer.on("signal", (data) => {
+			socket.emit("answerCall", { signal: data, to: caller })
+		})
+		peer.on("stream", (stream) => {
+			userVideo.current.srcObject = stream
+		})
 
-			console.log(callerSignal)
-			peer.signal(callerSignal)
-			connectionRef.current = peer
-			navigate('/videoCall');
-		}
+		console.log(callerSignal)
+		peer.signal(callerSignal)
+		connectionRef.current = peer
+		navigate('/videoCall');
+	}
 
 	const leaveCall = () => {
-		setCallEnded(true)
-		connectionRef.current.destroy()
+		setCallEnded(true);
+		connectionRef.current.destroy();
+		userVideo.current.destroy();
+		navigate(-1);
 	}
 
 	return (
 		<>
 			{/* Call notification visible on all pages */}
+			<button className="back-button" onClick={() => leaveCall()}><FontAwesomeIcon icon={faArrowLeft}/></button>
 			{receivingCall && !callAccepted ? (
 				<div className='notification-overlay'>
 					<div className='notification-popup'>
@@ -183,7 +156,7 @@ export const VideoCall = () => {
 							</div>
 							<div className="myId">
 								<div className="call-button">
-									{callAccepted && !callEnded && (
+									{!callEnded && (
 										<Button variant="contained" color="secondary" onClick={leaveCall}>
 											End Call
 										</Button>
