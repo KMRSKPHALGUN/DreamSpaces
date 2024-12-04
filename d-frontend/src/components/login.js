@@ -37,7 +37,7 @@ function Login() {
 
       alert(message);
       // Handle successful registration (e.g., redirect to login page or show a success message)
-      window.location.href = '/home'; // Example of redirection
+      navigate('/home'); // Example of redirection
     }
     catch (error) {
       if(error.response)

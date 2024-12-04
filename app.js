@@ -171,11 +171,11 @@ app.post('/api/login', async (req, res) => {
         const { email, password } = req.body;
         const user = await Signup.findOne({ email: email });
         if (!user) {
-        return res.status(401).json({ error: 'Authentication failed' });
+        return res.status(401).json({ error: 'User Not Found' });
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-        return res.status(401).json({ error: 'Authentication failed' });
+        return res.status(401).json({ error: 'Wrong Password' });
         }
         const token = jwt.sign({ userId: user._id }, 'DreamSpacesSecret', {
         expiresIn: '1h',
@@ -240,7 +240,7 @@ app.get('/api/getLocalHost', async(req, res) => {
         const networkInterfaces = os.networkInterfaces();
         for (const interfaceName in networkInterfaces)
         {
-            if(interfaceName.toLowerCase().includes('wi-fi') || interfaceName.toLowerCase().includes('wlan'))
+            if(interfaceName.toLowerCase().includes('wi-fi') || interfaceName.toLowerCase().includes('wlan') || interfaceName.toLowerCase().includes('wifi'))
             {
                 const interfaces = networkInterfaces[interfaceName];
                 for (const iface of interfaces)

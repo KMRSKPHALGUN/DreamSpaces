@@ -17,7 +17,7 @@ function LandingPage({ onSetLocalhost }) {
             {
                 const response = await axios.get(`https://10.0.50.168:5000/api/getLocalHost`);
 
-                if(response.data.localhost)1
+                if(response.data.localhost)
                 {
                     console.log(response.data.localhost);
                     onSetLocalhost(response.data.localhost);
@@ -28,7 +28,7 @@ function LandingPage({ onSetLocalhost }) {
             {
                 if(error.response)
                 {
-                    alert(error.response.data.error);
+                    alert(error.response.data.message);
                 }
                 else
                 {
