@@ -15,12 +15,13 @@ function LandingPage({ onSetLocalhost }) {
         const getLocalHost = async() => {
             try
             {
-                const response = await axios.get(`https://10.0.51.35:5000/api/getLocalHost`);
+                const response = await axios.get(`https://localhost:5000/api/getLocalHost`);
 
                 if(response.data.localhost)
                 {
                     console.log(response.data.localhost);
                     onSetLocalhost(response.data.localhost);
+                    localStorage.setItem('localhost', response.data.localhost);
                 }
             }
             catch(error)
@@ -65,9 +66,9 @@ function LandingPage({ onSetLocalhost }) {
                                     To Connect
                                 </button>
                                 <ul>
-                                    <li><button onClick={() => navigate('/login')}>Login</button></li>
-                                    <li><button onClick={() => navigate('/signup')}>Signup</button></li>
-                                    <li><button onClick={() => navigate('/adminLogin')}>Admin</button></li>
+                                    <li className="to-connect"><button onClick={() => navigate('/login')}>Login</button></li>
+                                    <li className="to-connect"><button onClick={() => navigate('/signup')}>Signup</button></li>
+                                    <li className="to-connect"><button onClick={() => navigate('/adminLogin')}>Admin</button></li>
                                 </ul>
                             </li>
                             {/* Add more list items as needed */}

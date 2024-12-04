@@ -34,7 +34,9 @@ background-color: var(--light-bg);
 background-image: url("../images/white-bg.avif");
 background-repeat: no-repeat;
 }
-
+.to-connect{
+   background-color: rgb(245, 245, 245);
+}
 
 
 .home-land {
@@ -155,13 +157,13 @@ margin: 0 auto;
     margin-right: 0.8rem;
     color: var(--black);
     background-color: rgb(245, 245, 245);
+    width: 200px;
     /* border-radius: 5px; */
  }
  
  .header .navbar .flex ul li button:hover{
     background-color: rgb(4, 50, 5);
     color: var(--white);
-    border-radius: 0px;
  }
  
  .header .navbar .flex ul li button i{
