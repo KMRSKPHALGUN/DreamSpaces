@@ -78,7 +78,7 @@ function AdminDashboard() {
     { name: 'No Activity', value: noActivityCount}
   ];
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  const COLORS = ['#091057', '#001F3F', '#355F2E', '#FF2929'];
 
   // Email validation function (example)
   const validateEmail = (email) => {
@@ -240,11 +240,12 @@ function AdminDashboard() {
           <div className="content-section active" id="adminDashboard">
             <div className="mb-3 ">
               <h3 className="fw-bold fs-2 m-5">User Statistics</h3>
-              <PieChart width={400} height={400}>
+              <PieChart width={1500} height={600}>
                 <Pie
+                  className="fs-2"
                   data={pieData}
-                  cx={200}
-                  cy={200}
+                  cx={600}
+                  cy={250}
                   labelLine={false}
                   label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                   outerRadius={150}
@@ -294,12 +295,14 @@ function AdminDashboard() {
 
         {/* Properties Section */}
         {activeSection === "properties" && properties && (
-          <div className="content-section" id="properties">
+          <div>
             <h3 className="fw-bold fs-1 m-5">Properties</h3>
+          <div className="content-section" id="properties">
+            {/* <h3 className="fw-bold fs-1 m-5">Properties</h3> */}
             {properties.length > 0 ? (
               properties.map((property, i) => (
                 <div className="listings" key={i}>
-                  <div className="box-container">
+                  <div className="box-container-admin">
                     <div className="box">
                       <div className="admin">
                         <h3>{owners[i].name.charAt(0)}</h3>
@@ -337,6 +340,7 @@ function AdminDashboard() {
               <p>No properties available.</p>
             )}
           </div> 
+          </div>
         )}
 
         {/* Reports Section */}

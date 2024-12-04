@@ -28,7 +28,7 @@ function LandingPage({ onSetLocalhost }) {
             {
                 if(error.response)
                 {
-                    alert(error.response.data.error);
+                    alert(error.response.data.message);
                 }
                 else
                 {

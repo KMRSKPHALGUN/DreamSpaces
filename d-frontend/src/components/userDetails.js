@@ -530,10 +530,10 @@ function UserProfile({}) {
                   {/* Pie Chart */}
                   <div className='card-body'>
                       <h3>Property Overview (Pie Chart)</h3>
-                      <PieChart width={400} height={400}>
+                      <PieChart width={1500} height={600}>
                           <Pie
                               data={statisticsData}
-                              cx={200}
+                              cx={500}
                               cy={200}
                               labelLine={false}
                               label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}

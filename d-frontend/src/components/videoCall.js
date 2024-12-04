@@ -24,6 +24,7 @@ export const VideoCall = () => {
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
   const [caller, setCaller] = useState("");
+  const [callerName, setCallerName] = useState("");
   const [callerSignal, setCallerSignal] = useState();
   const [isInitiator, setIsInitiator] = useState(!!idToCall);
   const [callAccepted, setCallAccepted] = useState(false);
@@ -50,6 +51,7 @@ export const VideoCall = () => {
       setReceivingCall(true);
       setCaller(data.from);
       setCallerSignal(data.signal);
+      setCallerName(data.name);
     });
 
     socket.on("endCall", (data) => {
@@ -78,7 +80,7 @@ export const VideoCall = () => {
     setCallEnded(false);
 
     peer.on("stream", (remoteStream) => {
-		  console.log("call")
+		  //console.log("call")
       userVideo.current.srcObject = remoteStream;
     });
 
@@ -229,7 +231,7 @@ export const VideoCall = () => {
       {receivingCall && !callAccepted ? (
         <div className='notification-overlay'>
           <div className='notification-popup'>
-            <h1>{name} is calling...</h1>
+            <h1>{callerName} is calling...</h1>
             <button onClick={answerCall}>Accept</button>
             <button onClick={rejectCall}>Reject</button>
           </div>
@@ -237,32 +239,32 @@ export const VideoCall = () => {
       ) : null}
 
       {location.pathname.startsWith("/videoCall") && (
-        <div className="video-call">
-            <div className="container">
+        
+            <div className="container-v">
               <div className="video-container">
                 <div className="video">
-                  {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
+                  {stream && <video playsInline ref={myVideo} autoPlay style={{ width: "550px" }} />}
                 </div>
                 <div className="video">
                   {callAccepted && !callEnded && (
-                  <video playsInline ref={userVideo} autoPlay style={{ width: "300px" }} />
+                  <video playsInline ref={userVideo} autoPlay style={{ width: "550px" }} />
                   )}
                 </div>
               </div>
 
               <div className="controls">
-                <IconButton onClick={toggleVideo} color={isVideoOn ? "primary" : "secondary"}>
+                <IconButton className="video-buttons" onClick={toggleVideo} color={isVideoOn ? "primary" : "secondary"} sx={{ fontSize: "2rem", width: "60px", height: "60px" }}>
                   {isVideoOn ? <VideocamIcon /> : <VideocamOffIcon />}
                 </IconButton>
-                <IconButton onClick={toggleMic} color={isMicOn ? "primary" : "secondary"}>
+                <IconButton className="video-buttons" onClick={toggleMic} color={isMicOn ? "primary" : "secondary"} sx={{ fontSize: "2rem", width: "60px", height: "60px" }}>
                   {isMicOn ? <MicIcon /> : <MicOffIcon />}
                 </IconButton>
-                <Button variant="contained" color="secondary" onClick={leaveCall}>
+                <Button className="video-buttons" variant="contained" color="secondary" onClick={leaveCall} sx={{ fontSize: "2rem", width: "200px", height: "60px" }}>
                   End Call
                 </Button>
               </div>
             </div>
-        </div>
+        
       )}
     </>
   );

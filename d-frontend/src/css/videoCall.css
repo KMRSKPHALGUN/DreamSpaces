@@ -1,7 +1,21 @@
 .container-v {
-	display: grid;
-	grid-template-columns: 7fr 3fr;
+	/* display: grid;
+	grid-template-columns: 7fr 3fr; */
 	/* margin-bottom: 10rem; */
+	height: 740px;
+	background-image: url(../images/video-call.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.controls{
+	justify-content: center;
+	padding-left: 650px;
+	margin-bottom: 0px;
+	height: 50px;
+	/* padding-top: 150px; */
+}
+.video-buttons{
+	font-size: 100px;
 }
 
 .myId {
@@ -30,12 +44,14 @@
 
 .video-container {
 	display: grid;
-	width: 300px;
+	width: 1000px;
 	grid-template-columns: 1fr 1fr;
+	gap: 10rem;
 	justify-content: center;
 	align-content: center;
-	margin-top: 10rem;
-	margin-left: 35rem;
+	/* margin-top: 10rem; */
+	padding-top: 110px;
+	margin-left: 25rem;
 	margin-bottom: 7rem;
 }
 
@@ -47,16 +63,3 @@
 	width : -200px;
 } */
 
-.video-call {
-	/* background: #4776e6; 
-	background: -webkit-linear-gradient(to right, #8e54e9, #4776e6); 
-	background: linear-gradient(
-		to right,
-		#8e54e9,
-		#4776e6
-	);  */
-	background-image: url(../images/video-call.avif);
-	background-repeat: no-repeat;
-	background-size: cover;
-	/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
