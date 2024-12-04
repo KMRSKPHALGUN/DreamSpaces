@@ -15,7 +15,7 @@ function LandingPage({ onSetLocalhost }) {
         const getLocalHost = async() => {
             try
             {
-                const response = await axios.get(`https://10.0.49.250:5000/api/getLocalHost`);
+                const response = await axios.get(`https://10.0.51.35:5000/api/getLocalHost`);
 
                 if(response.data.localhost)
                 {

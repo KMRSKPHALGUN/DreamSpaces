@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 function Login() {
-  const localhost = useSelector((state) => state.lh.localhost);
+  const localhost = useSelector((state) => state.lh.localhost) || localStorage.getItem('localhost');
   
   let navigate = useNavigate();
   const emailRef = useRef(null);

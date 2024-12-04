@@ -121,7 +121,7 @@ const ComRentViewProperty = () => {
   };
 
   const handleStartCall = () => {
-    navigate(`/videoCall/?roomId=${property._id}&ownerId=${owner._id}&callerName=${client.name}&callerId=${client._id}`);
+    navigate(`/videoCall/?ownerId=${owner._id}&callerName=${client.name}&callerId=${client._id}`);
   };
 
   return (

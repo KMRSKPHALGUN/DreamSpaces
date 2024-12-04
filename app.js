@@ -95,25 +95,37 @@ io.on("connection", (socket) => {
         })
 	});
 
-    socket.on("toggleVideo", ({ callerId, isVideoOn }) => {
+    socket.on("toggleVideo", ({ to, isVideoOn }) => {
         const connectedClients = Array.from(io.sockets.sockets.values());
         connectedClients.forEach(client => {
-            if(client.userId === data.to)
+            if(client.userId === to)
             {
                 client.emit("peerVideoToggle", { isVideoOn });
             }
         })
     });
 
-    socket.on("toggleMic", ({ callerId, isMicOn }) => {
+    socket.on("toggleMic", ({ to, isMicOn }) => {
         const connectedClients = Array.from(io.sockets.sockets.values());
         connectedClients.forEach(client => {
-            if(client.userId === data.to)
+            if(client.userId === to)
             {
                 client.emit("peerMicToggle", { isMicOn });
             }
         })
     });
+
+    socket.on("endCall", ({ to }) => {
+        const connectedClients = Array.from(io.sockets.sockets.values());
+        connectedClients.forEach(client => {
+            if(client.userId === to)
+            {
+                client.emit("endCall", {
+                    message: "endCall"
+                })
+            }
+        })
+    })
 })
 
 
