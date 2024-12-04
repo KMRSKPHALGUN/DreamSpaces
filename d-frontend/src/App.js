@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useLocation, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 // import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 // import 'font-awesome/css/font-awesome.min.css';
@@ -24,7 +24,7 @@ import { store } from './redux/store';
 
 function App() {
   const localhost = useSelector((state) => state.lh.localhost);
-
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const handleSetLocalhost = (localhost) => {
@@ -36,8 +36,7 @@ function App() {
   return (
     <>
       <Provider store={store}>
-        <Router>
-          <VideoCall />
+          {!location.pathname.startsWith("/videoCall") && <VideoCall />}
           <Routes>
             <Route path="/" element={<LandingPage onSetLocalhost={handleSetLocalhost} />}></Route>
             <Route path='/login' element={<Login/>}></Route>
@@ -72,7 +71,6 @@ function App() {
             </Route>
             <Route path="/videoCall" element={<VideoCall/>}></Route>
           </Routes>
-        </Router>
       </Provider>
     </>
   );
