@@ -40,10 +40,6 @@ function PostYourProperty() {
     else if (propertyType === 'residential' && adType === 'flatmates') path = '/residentialRent';
     else if (propertyType === 'commercial' && adType === 'rent') path = '/commercialRent';
     else if (propertyType === 'commercial' && adType === 'sale') path = '/commercialSale';
-
-    else if (propertyType === 'land' && adType === 'sale') path = '/plot_sale';
-    else if (propertyType === 'land' && adType === 'development') path = '/plotDev';
-
     else if (propertyType === 'land' && adType === 'sale') path = '/commercialSale';
     else if (propertyType === 'land' && adType === 'development') path = '/commercialSale';
 

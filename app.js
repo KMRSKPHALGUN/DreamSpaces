@@ -240,12 +240,15 @@ app.get('/api/getLocalHost', async(req, res) => {
         const networkInterfaces = os.networkInterfaces();
         for (const interfaceName in networkInterfaces)
         {
-            const interfaces = networkInterfaces[interfaceName];
-            for (const iface of interfaces)
+            if(interfaceName.toLowerCase().includes('wi-fi') || interfaceName.toLowerCase().includes('wlan'))
             {
-                if(iface.family === 'IPv4' && !iface.internal)
+                const interfaces = networkInterfaces[interfaceName];
+                for (const iface of interfaces)
                 {
-                    return res.status(200).json({ localhost: `${iface.address}` });
+                    if(iface.family === 'IPv4' && !iface.internal)
+                    {
+                        return res.status(200).json({ localhost: `${iface.address}` });
+                    }
                 }
             }
         }

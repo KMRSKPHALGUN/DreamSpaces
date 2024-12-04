@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ResidentialRent = () => {
   const localhost = localStorage.getItem('localhost');
-  let navigate = useNavigate;
+  let navigate = useNavigate();
   const [propertyDetailsVisible, setPropertyDetailsVisible] = useState(true);
   const [rentalDetailsVisible, setRentalDetailsVisible] = useState(false);
   const [localityDetailsVisible, setLocalityDetailsVisible] = useState(false);

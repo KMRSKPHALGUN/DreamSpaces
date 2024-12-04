@@ -183,6 +183,7 @@ html{
    margin-right: 13rem;
    grid-template-columns: auto auto auto;
    gap: 2rem;
+   
    justify-content: center;
    align-items: flex-start;
 }
