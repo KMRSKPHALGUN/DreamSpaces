@@ -7,17 +7,20 @@ import Logo from '../images/Logo.jpg';
 import Icon1 from '../images/icon-1.png';
 import Icon2 from '../images/icon-2.png';
 import Icon3 from '../images/icon-3.png';
+import { useNavigate } from 'react-router-dom';
 
-function LandingPage() {
+function LandingPage({ onSetLocalhost }) {
+    const navigate = useNavigate();
     useEffect(() => {
         const getLocalHost = async() => {
             try
             {
-                const response = await axios.get(`https://10.0.49.250:5000/api/getLocalHost`);
+                const response = await axios.get(`https://10.0.51.35:5000/api/getLocalHost`);
 
                 if(response.data.localhost)
                 {
-                    localStorage.setItem('localhost', response.data.localhost);
+                    console.log(response.data.localhost);
+                    onSetLocalhost(response.data.localhost);
                 }
             }
             catch(error)
@@ -58,13 +61,13 @@ function LandingPage() {
                         <FontAwesomeIcon icon={faBars} className="mobile-view" />
                         <ul id="top-menu">
                             <li>
-                                <a href="#">
+                                <button>
                                     To Connect
-                                </a>
+                                </button>
                                 <ul>
-                                    <li><a href='/login'>Login</a></li>
-                                    <li><a href='/signup'>Signup</a></li>
-                                    <li><a href='/adminLogin'>Admin</a></li>
+                                    <li><button onClick={() => navigate('/login')}>Login</button></li>
+                                    <li><button onClick={() => navigate('/signup')}>Signup</button></li>
+                                    <li><button onClick={() => navigate('/adminLogin')}>Admin</button></li>
                                 </ul>
                             </li>
                             {/* Add more list items as needed */}
