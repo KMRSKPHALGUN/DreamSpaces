@@ -18,25 +18,28 @@ import ComRentViewProperty from './components/propDetComRent';
 import { PrivateRoute, AdminPrivateRoute } from './components/privateRoute';
 import { VideoCall } from './components/videoCall';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { setLocalhost } from './redux/reducer';
+import { store } from './redux/store';
 
 function App() {
-  // useEffect(() => {
-  //   // Remove token from local storage when window is closed
-  //   window.onbeforeunload = function() {
-  //     localStorage.removeItem('token');
-  //   };
+  const localhost = useSelector((state) => state.lh.localhost);
 
-  //   // Cleanup on component unmount
-  //   return () => {
-  //     window.onbeforeunload = null;  // Ensure no memory leaks
-  //   };
-  // }, []);  // Empty dependency array ensures this runs once on mount
+  const dispatch = useDispatch();
+
+  const handleSetLocalhost = (localhost) => {
+    console.log(localhost);
+    dispatch(setLocalhost(localhost));
+    console.log("complete dispatch");
+  };
+
   return (
     <>
+      <Provider store={store}>
         <Router>
           <VideoCall />
           <Routes>
-            <Route path="/" element={<LandingPage/>}></Route>
+            <Route path="/" element={<LandingPage onSetLocalhost={handleSetLocalhost} />}></Route>
             <Route path='/login' element={<Login/>}></Route>
             <Route path='/signup' element={<Signup/>}></Route>
             <Route path='/adminLogin' element={<AdminLogin/>}></Route>
@@ -70,6 +73,7 @@ function App() {
             <Route path="/videoCall" element={<VideoCall/>}></Route>
           </Routes>
         </Router>
+      </Provider>
     </>
   );
 }
