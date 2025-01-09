@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import '../css/admin_dashboard.css'; // Adjust your CSS path as needed
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -7,6 +7,8 @@ import { faHome, faDashboard, faUser, faBuilding, faBug, faTrashCan, faImage, fa
 import { Tooltip, PieChart, Pie, Cell } from 'recharts';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 function AdminDashboard() {
   const localhost = localStorage.getItem('localhost');
@@ -18,6 +20,8 @@ function AdminDashboard() {
   const [reports, setReports] = useState([]);
   const [makeAdmin, setMakeAdmin] = useState('');
   const token = localStorage.getItem('token');
+
+  const downloadRef = useRef();
 
   useEffect(() => {
     const fetchDetails = async() => {
@@ -145,6 +149,26 @@ function AdminDashboard() {
     navigate('/');
   };
 
+  const handleDownloadPDF = async () => {
+    console.log('Download button clicked');
+    try {
+      if (!downloadRef.current) {
+        console.error('downloadRef is null. Ensure the content is rendered correctly.');
+        return;
+      }
+
+      const canvas = await html2canvas(downloadRef.current);
+      const imgData = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'PNG', 10, 10, 190, 0); // Adjust dimensions
+      pdf.save('Admin Statistics.pdf');
+      console.log('PDF downloaded successfully');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
+
   return (
     <div className="wrapper">
       <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
@@ -238,7 +262,7 @@ function AdminDashboard() {
 
         {activeSection === 'statistics' && (
           <div className="content-section active" id="adminDashboard">
-            <div className="mb-3 ">
+            <div className="mb-3 " ref={downloadRef}>
               <h3 className="fw-bold fs-2 m-5">User Statistics</h3>
               <PieChart width={1500} height={600}>
                 <Pie
@@ -259,6 +283,7 @@ function AdminDashboard() {
                 <Tooltip />
               </PieChart>
             </div>
+            <button onClick={handleDownloadPDF}>Download Statistics as PDF</button>
           </div>
         )}
 

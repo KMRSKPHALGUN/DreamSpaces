@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import '../css/user_details.css'; // Import your CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faMapMarkerAlt, faBed, faBath, faMaximize, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 import { useNavigate } from 'react-router-dom';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 
 function UserProfile({}) {
@@ -40,6 +42,8 @@ function UserProfile({}) {
   const [otp, setOtp] = useState(new Array(6).fill(""));
 
   const [dltProp, setDltProp] = useState(false);
+
+  const downloadRef = useRef();
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -281,6 +285,26 @@ function UserProfile({}) {
     }
   };
 
+  const handleDownloadPDF = async () => {
+    console.log('Download button clicked');
+    try {
+      if (!downloadRef.current) {
+        console.error('downloadRef is null. Ensure the content is rendered correctly.');
+        return;
+      }
+
+      const canvas = await html2canvas(downloadRef.current);
+      const imgData = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'PNG', 10, 10, 190, 0); // Adjust dimensions
+      pdf.save('statistics.pdf');
+      console.log('PDF downloaded successfully');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
+
   return (
     <div className="container-user-det pt-0">
       <button className="back-button" onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft}/></button>
@@ -503,8 +527,8 @@ function UserProfile({}) {
             {/* Statistics Tab */}
 
             {activeTab === 'statistics' && (
-              <div className='tab-pane fade show active'>
-                <div className='card'>
+              <div className='tab-pane fade show active' >
+                <div className='card' ref={downloadRef}>
                   <div className='card-header'>
                     <h2>User Statistics</h2>
                   </div>
@@ -549,6 +573,7 @@ function UserProfile({}) {
                       </PieChart>
                   </div>
                 </div>
+                <button onClick={handleDownloadPDF}>Download Statistics as PDF</button>
               </div>
             )}
 
