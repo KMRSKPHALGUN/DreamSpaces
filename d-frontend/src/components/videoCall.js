@@ -243,7 +243,7 @@ export const VideoCall = () => {
             <div className="container-v">
               <div className="video-container">
                 <div className="video">
-                  {stream && <video playsInline ref={myVideo} autoPlay style={{ width: "550px" }} />}
+                  {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "550px" }} />}
                 </div>
                 <div className="video">
                   {callAccepted && !callEnded && (
