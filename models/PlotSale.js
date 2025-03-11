@@ -36,7 +36,9 @@ const propertySchema = new mongoose.Schema({
   Directions : String,
 
   image: [String],
-  ownerId: String, // Array of image URLs
+  ownerId: String,
+
+  savedBy: [String]
 });
 
 // Define a model based on the schema

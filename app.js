@@ -3,15 +3,13 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const path = require("path");
 const cors = require("cors");
-const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const WebSocket = require('ws');
 const os = require('os');
 const https = require('https');
 const fs = require('fs');
+const helmet = require('helmet');
 
 const app = express();
 const port = 5000;
@@ -21,6 +19,13 @@ mongoose.connect('mongodb://localhost:27017/DreamSpaces2');
 const mongoStore = MongoStore.create({mongoUrl: 'mongodb://localhost:27017/DreamSpaces2', collectionName: 'sessions'});
 
 app.use(bodyParser.json());
+app.use(helmet());
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
 
 // Allow all origins
 app.use(cors({
@@ -33,7 +38,6 @@ const options = {
     cert: fs.readFileSync('cert.pem')
 };
 
-const http = require("http")
 const server = https.createServer(options, app);
 const io = require("socket.io")(server, {
 	cors: {
