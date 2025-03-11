@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 function Login() {
-  const localhost = useSelector((state) => state.lh.localhost);
+  const localhost = useSelector((state) => state.lh.localhost) || localStorage.getItem('localhost');
   
   let navigate = useNavigate();
   const emailRef = useRef(null);
@@ -37,7 +37,7 @@ function Login() {
 
       alert(message);
       // Handle successful registration (e.g., redirect to login page or show a success message)
-      window.location.href = '/home'; // Example of redirection
+      navigate('/home'); // Example of redirection
     }
     catch (error) {
       if(error.response)

@@ -1,9 +1,16 @@
 const mongoose = require('mongoose');
 const users = require('../models/Signup');
+const res_rent = require('../models/ResidentialRent');
+const res_buy = require('../models/ResidentialSale');
+const res_flat = require('../models/ResidentialFlatmates');
+const com_rent = require('../models/CommercialRent');
+const com_buy = require('../models/CommercialSale');
+const land_buy = require('../models/PlotSale');
+const land_dev = require('../models/PlotDev');
 
 exports.save_property = async(req,res) => {
     try {
-        const {propId} = req.body;
+        const {propId, propertyType, adType} = req.body;
         const id = req.userId;
         const client = await users.findOne({_id: id});
         if(!client.savedProperties)
@@ -24,6 +31,8 @@ exports.save_property = async(req,res) => {
                 res.status(200).json({message: 'Property Saved Successfully'});
             }
         }
+
+        
     }
     catch(error) {
         console.log(error);

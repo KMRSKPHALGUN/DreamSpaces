@@ -154,15 +154,15 @@ const PropertyListings = () => {
         {
           if(response.data.adType === 'rent')
           {
-            navigate('/resRentViewProperty');
+            navigate('/comRentViewProperty');
           }
           else if(response.data.adType === 'buy')
           {
-            navigate('/resBuyViewProperty');
+            navigate('/comRentViewProperty');
           }
           else if(response.data.adType === 'flatmates')
           {
-            navigate('/resFlatViewProperty');
+            navigate('/comRentViewProperty');
           }
         }
         else if(response.data.propertyType === 'commercial')
@@ -180,11 +180,11 @@ const PropertyListings = () => {
         {
           if(response.data.adType === 'buy')
           {
-            navigate('/plotBuyViewProperty');
+            navigate('/comRentViewProperty');
           }
           else if(response.data.adType === 'development')
           {
-            navigate('/plotDevViewProperty');
+            navigate('/comRentViewProperty');
           }
         }
       }

@@ -3,15 +3,13 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const path = require("path");
 const cors = require("cors");
-const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
-const WebSocket = require('ws');
 const os = require('os');
 const https = require('https');
 const fs = require('fs');
+const helmet = require('helmet');
 
 const app = express();
 const port = 5000;
@@ -21,6 +19,13 @@ mongoose.connect('mongodb://localhost:27017/DreamSpaces2');
 const mongoStore = MongoStore.create({mongoUrl: 'mongodb://localhost:27017/DreamSpaces2', collectionName: 'sessions'});
 
 app.use(bodyParser.json());
+app.use(helmet());
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
 
 // Allow all origins
 app.use(cors({
@@ -33,7 +38,6 @@ const options = {
     cert: fs.readFileSync('cert.pem')
 };
 
-const http = require("http")
 const server = https.createServer(options, app);
 const io = require("socket.io")(server, {
 	cors: {
@@ -95,25 +99,37 @@ io.on("connection", (socket) => {
         })
 	});
 
-    socket.on("toggleVideo", ({ callerId, isVideoOn }) => {
+    socket.on("toggleVideo", ({ to, isVideoOn }) => {
         const connectedClients = Array.from(io.sockets.sockets.values());
         connectedClients.forEach(client => {
-            if(client.userId === data.to)
+            if(client.userId === to)
             {
                 client.emit("peerVideoToggle", { isVideoOn });
             }
         })
     });
 
-    socket.on("toggleMic", ({ callerId, isMicOn }) => {
+    socket.on("toggleMic", ({ to, isMicOn }) => {
         const connectedClients = Array.from(io.sockets.sockets.values());
         connectedClients.forEach(client => {
-            if(client.userId === data.to)
+            if(client.userId === to)
             {
                 client.emit("peerMicToggle", { isMicOn });
             }
         })
     });
+
+    socket.on("endCall", ({ to }) => {
+        const connectedClients = Array.from(io.sockets.sockets.values());
+        connectedClients.forEach(client => {
+            if(client.userId === to)
+            {
+                client.emit("endCall", {
+                    message: "endCall"
+                })
+            }
+        })
+    })
 })
 
 
@@ -159,11 +175,11 @@ app.post('/api/login', async (req, res) => {
         const { email, password } = req.body;
         const user = await Signup.findOne({ email: email });
         if (!user) {
-        return res.status(401).json({ error: 'Authentication failed' });
+        return res.status(401).json({ error: 'User Not Found' });
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-        return res.status(401).json({ error: 'Authentication failed' });
+        return res.status(401).json({ error: 'Wrong Password' });
         }
         const token = jwt.sign({ userId: user._id }, 'DreamSpacesSecret', {
         expiresIn: '1h',
@@ -228,12 +244,15 @@ app.get('/api/getLocalHost', async(req, res) => {
         const networkInterfaces = os.networkInterfaces();
         for (const interfaceName in networkInterfaces)
         {
-            const interfaces = networkInterfaces[interfaceName];
-            for (const iface of interfaces)
+            if(interfaceName.toLowerCase().includes('wi-fi') || interfaceName.toLowerCase().includes('wlan') || interfaceName.toLowerCase().includes('wifi'))
             {
-                if(iface.family === 'IPv4' && !iface.internal)
+                const interfaces = networkInterfaces[interfaceName];
+                for (const iface of interfaces)
                 {
-                    return res.status(200).json({ localhost: `${iface.address}` });
+                    if(iface.family === 'IPv4' && !iface.internal)
+                    {
+                        return res.status(200).json({ localhost: `${iface.address}` });
+                    }
                 }
             }
         }

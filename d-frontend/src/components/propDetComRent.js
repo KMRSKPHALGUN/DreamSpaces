@@ -36,7 +36,9 @@ const ComRentViewProperty = () => {
   const saveProperty = async (propId) => {
     try {
       const response = await axios.post(`https://${localhost}:5000/api/saveProperty`, {
-        propId: propId
+        propId: propId,
+        propertyType: "commercial",
+        adType: "rent",
       },{
         headers:{
           Authorization: `Bearer ${token}`
@@ -121,7 +123,7 @@ const ComRentViewProperty = () => {
   };
 
   const handleStartCall = () => {
-    navigate(`/videoCall/?roomId=${property._id}&ownerId=${owner._id}&callerName=${client.name}&callerId=${client._id}`);
+    navigate(`/videoCall/?ownerId=${owner._id}&callerName=${client.name}&callerId=${client._id}`);
   };
 
   return (

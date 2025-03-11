@@ -18,15 +18,17 @@ export const VideoCall = () => {
   const name = params.get('callerName');
   const idToCall = params.get('ownerId');
   const callerId = params.get('callerId');
+  const user = JSON.parse(localStorage.getItem('client'));
 
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
   const [caller, setCaller] = useState("");
+  const [callerName, setCallerName] = useState("");
   const [callerSignal, setCallerSignal] = useState();
   const [isInitiator, setIsInitiator] = useState(!!idToCall);
   const [callAccepted, setCallAccepted] = useState(false);
-  const [callEnded, setCallEnded] = useState(false);
+  const [callEnded, setCallEnded] = useState(true);
   const [isVideoOn, setIsVideoOn] = useState(true);
   const [isMicOn, setIsMicOn] = useState(true);
 
@@ -49,7 +51,14 @@ export const VideoCall = () => {
       setReceivingCall(true);
       setCaller(data.from);
       setCallerSignal(data.signal);
+      setCallerName(data.name);
     });
+
+    socket.on("endCall", (data) => {
+        setCallEnded(true);
+        endCall();
+    })
+
   }, [location.pathname]);
 
   const callUser = () => {
@@ -68,8 +77,10 @@ export const VideoCall = () => {
       });
     });
 
+    setCallEnded(false);
+
     peer.on("stream", (remoteStream) => {
-		console.log("call")
+		  //console.log("call")
       userVideo.current.srcObject = remoteStream;
     });
 
@@ -79,6 +90,12 @@ export const VideoCall = () => {
     });
 
     connectionRef.current = peer;
+
+    socket.on("endCall", (data) => {
+        setCallEnded(true);
+        endCall();
+
+    })
   };
 
   // Call user if idToCall is present (initiator)
@@ -91,6 +108,7 @@ export const VideoCall = () => {
 
   const answerCall = () => {
     setCallAccepted(true);
+    setCallEnded(false);
     const peer = new Peer({
       initiator: false,
       trickle: false,
@@ -108,20 +126,58 @@ export const VideoCall = () => {
     peer.signal(callerSignal);
     connectionRef.current = peer;
     navigate('/videoCall');
+
+    socket.on("endCall", (data) => {
+
+        setCallEnded(true);
+        endCall();
+
+    })
   };
 
   const leaveCall = () => {
     setCallEnded(true);
-    connectionRef.current.destroy();
-    navigate('/home');
+    if(user._id === idToCall)
+    {
+      socket.emit("endCall", {
+        to: callerId,
+      });
+    }
+    else
+    {
+      socket.emit("endCall", {
+        to: idToCall,
+      });
+    }
+    endCall();
   };
+
+  const endCall = () => {
+    if(callAccepted === true)
+    {
+      connectionRef.current.destroy();
+    }
+    navigate('/home');
+  }
+
+  const rejectCall = () => {
+    setCallEnded(true);
+  }
 
   // Toggle video
   const toggleVideo = () => {
     const videoTrack = stream.getVideoTracks()[0];
     videoTrack.enabled = !videoTrack.enabled;
     setIsVideoOn(videoTrack.enabled);
-    socket.emit("toggleVideo", { callerId, isVideoOn: videoTrack.enabled });
+    if(user._id === idToCall)
+    {
+      socket.emit("toggleVideo", { to: callerId, isVideoOn: videoTrack.enabled });
+    }
+    else
+    {
+      socket.emit("toggleVideo", { to: idToCall, isVideoOn: videoTrack.enabled });
+    }
+    
   };
 
   // Toggle microphone
@@ -129,17 +185,41 @@ export const VideoCall = () => {
 	const audioTrack = stream.getAudioTracks()[0];
 	audioTrack.enabled = !audioTrack.enabled;
 	setIsMicOn(audioTrack.enabled);
-	socket.emit("toggleMic", { callerId, isMicOn: audioTrack.enabled });
+  if(user._id === idToCall)
+  {
+    socket.emit("toggleMic", { to: callerId, isMicOn: audioTrack.enabled });
+  }
+  else
+  {
+    socket.emit("toggleMic", { to: idToCall, isMicOn: audioTrack.enabled });
+  }
+	
   };
   
 
   // Listen for video toggle from peer
   useEffect(() => {
     socket.on("peerVideoToggle", ({ isVideoOn }) => {
-      if (userVideo.current && !isVideoOn) {
-        userVideo.current.srcObject = null;
-      } else {
-        userVideo.current.srcObject = stream;
+      if (userVideo.current && userVideo.current.srcObject) {
+        const videoTrack = userVideo.current.srcObject.getVideoTracks()[0]; // Get the video track
+  
+        if (videoTrack) {
+          videoTrack.enabled = isVideoOn; // Enable or disable the video track
+        }
+      }
+    });
+
+    return () => socket.off("peerVideoToggle");
+  }, [stream]);
+
+  useEffect(() => {
+    socket.on("peerMicToggle", ({ isMicOn }) => {
+      if (userVideo.current && userVideo.current.srcObject) {
+        const audioTrack = userVideo.current.srcObject.getAudioTracks()[0]; // Get the video track
+  
+        if (audioTrack) {
+          audioTrack.enabled = isMicOn; // Enable or disable the video track
+        }
       }
     });
 
@@ -151,40 +231,40 @@ export const VideoCall = () => {
       {receivingCall && !callAccepted ? (
         <div className='notification-overlay'>
           <div className='notification-popup'>
-            <h1>{name} is calling...</h1>
+            <h1>{callerName} is calling...</h1>
             <button onClick={answerCall}>Accept</button>
-            <button onClick={leaveCall}>Reject</button>
+            <button onClick={rejectCall}>Reject</button>
           </div>
         </div>
       ) : null}
 
       {location.pathname.startsWith("/videoCall") && (
-        <div className="video-call">
-        	<div className="container">
-				<div className="video-container">
-					<div className="video">
-						{stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
-					</div>
-					<div className="video">
-						{callAccepted && !callEnded && (
-						<video playsInline ref={userVideo} autoPlay style={{ width: "300px" }} />
-						)}
-					</div>
-				</div>
+        
+            <div className="container-v">
+              <div className="video-container">
+                <div className="video">
+                  {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "550px" }} />}
+                </div>
+                <div className="video">
+                  {callAccepted && !callEnded && (
+                  <video playsInline ref={userVideo} autoPlay style={{ width: "550px" }} />
+                  )}
+                </div>
+              </div>
 
-				<div className="controls">
-					<IconButton onClick={toggleVideo} color={isVideoOn ? "primary" : "secondary"}>
-						{isVideoOn ? <VideocamIcon /> : <VideocamOffIcon />}
-					</IconButton>
-					<IconButton onClick={toggleMic} color={isMicOn ? "primary" : "secondary"}>
-						{isMicOn ? <MicIcon /> : <MicOffIcon />}
-					</IconButton>
-					<Button variant="contained" color="secondary" onClick={leaveCall}>
-						End Call
-					</Button>
-				</div>
-          	</div>
-        </div>
+              <div className="controls">
+                <IconButton className="video-buttons" onClick={toggleVideo} color={isVideoOn ? "primary" : "secondary"} sx={{ fontSize: "2rem", width: "60px", height: "60px" }}>
+                  {isVideoOn ? <VideocamIcon /> : <VideocamOffIcon />}
+                </IconButton>
+                <IconButton className="video-buttons" onClick={toggleMic} color={isMicOn ? "primary" : "secondary"} sx={{ fontSize: "2rem", width: "60px", height: "60px" }}>
+                  {isMicOn ? <MicIcon /> : <MicOffIcon />}
+                </IconButton>
+                <Button className="video-buttons" variant="contained" color="secondary" onClick={leaveCall} sx={{ fontSize: "2rem", width: "200px", height: "60px" }}>
+                  End Call
+                </Button>
+              </div>
+            </div>
+        
       )}
     </>
   );
