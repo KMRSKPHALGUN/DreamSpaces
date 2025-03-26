@@ -50,15 +50,15 @@ function generateOtp() {
 // Handle user registration
 exports.register = async (req, res) => {
     try {
-        const { name, email, password, confirmPassword, phone, otpEmail, otpPhone } = req.body;
+        const { name, email, password, confirmPassword, phone, otpEmail } = req.body;
 
         const cachedOtpEmail = otpCache.get(email);
-        const cachedOtpPhone = otpCache.get(phone);
+        // const cachedOtpPhone = otpCache.get(phone);
 
-        if (cachedOtpEmail === otpEmail && cachedOtpPhone === otpPhone) {
+        if (cachedOtpEmail === otpEmail) {
             // OTP is correct, proceed with user registration
             otpCache.del(email); // Clear OTP after successful verification
-            otpCache.del(phone)
+            // otpCache.del(phone)
 
             // Check if email format is valid
             if (!validateEmail(email)) {
@@ -114,7 +114,7 @@ exports.register = async (req, res) => {
 
 
 exports.verifyUser = async(req, res) => {
-    const { email, phone } = req.body;
+    const { email } = req.body;
     try
     {
         const existingEmail = await Signup.findOne({ email: email });
@@ -122,18 +122,18 @@ exports.verifyUser = async(req, res) => {
         {
             return res.status(409).json({ success: false, message: "Email already exists" });
         }
-        const existingPhone = await Signup.findOne({ phone: phone });
-        if(existingPhone)
-        {
-            return res.status(409).json({ success: false, message: "Phone Number already exists" });
-        }
+        // const existingPhone = await Signup.findOne({ phone: phone });
+        // if(existingPhone)
+        // {
+        //     return res.status(409).json({ success: false, message: "Phone Number already exists" });
+        // }
         // Generate a 6-digit OTP
         const otpEmail = generateOtp();
-        const otpPhone = generateOtp();
+        // const otpPhone = generateOtp();
 
         // Store OTP in cache with the email as the key
         otpCache.set(email, otpEmail);
-        otpCache.set(phone, otpPhone);
+        // otpCache.set(phone, otpPhone);
 
         // Email message configuration
         const mailOptions = {
@@ -144,12 +144,12 @@ exports.verifyUser = async(req, res) => {
         };
         // Send the email
     
-        // Send OTP via Twilio SMS
-        await twilioClient.messages.create({
-            body: `Your DreamSpaces Verification Code is ${otpPhone}. It will expire in 5 minutes.`,
-            from: '+12088377815',
-            to: `+91${phone}`,
-        });
+        // // Send OTP via Twilio SMS
+        // await twilioClient.messages.create({
+        //     body: `Your DreamSpaces Verification Code is ${otpPhone}. It will expire in 5 minutes.`,
+        //     from: '+12088377815',
+        //     to: `+91${phone}`,
+        // });
         await transporter.sendMail(mailOptions);
         res.status(200).json({ success: true, message: 'OTP sent successfully' });
     } catch (error) {

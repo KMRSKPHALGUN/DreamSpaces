@@ -84,16 +84,16 @@ function Signup() {
         }
     };
 
-    const handlePhoneOtpChange = (element, index) => {
-        const newOtp = [...otpPhone];
-        newOtp[index] = element.value;
-        setOtpPhone(newOtp);
+    // const handlePhoneOtpChange = (element, index) => {
+    //     const newOtp = [...otpPhone];
+    //     newOtp[index] = element.value;
+    //     setOtpPhone(newOtp);
 
-        // Focus the next input field automatically
-        if (element.nextSibling && element.value) {
-            element.nextSibling.focus();
-        }
-    };
+    //     // Focus the next input field automatically
+    //     if (element.nextSibling && element.value) {
+    //         element.nextSibling.focus();
+    //     }
+    // };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -106,7 +106,7 @@ function Signup() {
         setFormValidated(true);
 
         try {
-            const response = await axios.post(`https://${localhost}:5000/api/verifyUser`, { email: inputs.email, phone: inputs.phone });
+            const response = await axios.post(`https://${localhost}:5000/api/verifyUser`, { email: inputs.email });
             if (response.data.success) {
                 setIsOtpStep(true);
             }
@@ -125,8 +125,8 @@ function Signup() {
     const submitOtp = async (event) => {
         event.preventDefault();
         const otpEmailValue = otpEmail.join("");
-        const otpPhoneValue = otpPhone.join("");
-        if (otpEmailValue.length !== 6 || otpPhoneValue.length !== 6) {
+        // const otpPhoneValue = otpPhone.join("");
+        if (otpEmailValue.length !== 6) {
             alert("Please enter a 6-digit OTP");
             return;
         }
@@ -135,7 +135,7 @@ function Signup() {
             const response = await axios.post(`https://${localhost}:5000/api/register`, {
                 ...inputs,
                 otpEmail: otpEmailValue,
-                otpPhone: otpPhoneValue
+                // otpPhone: otpPhoneValue
             });
 
             if (response.data.success) {
@@ -181,7 +181,7 @@ function Signup() {
                                         ))}
                                     </div>
 
-                                    <h2>Enter OTP sent to Phone</h2>
+                                    {/*<h2>Enter OTP sent to Phone</h2>
                                     <p>Check your phone for the OTP.</p>
 
                                     <div className="otp-container">
@@ -195,7 +195,7 @@ function Signup() {
                                                 onChange={(e) => handlePhoneOtpChange(e.target, index)}
                                             />
                                         ))}
-                                    </div>
+                                    </div>*/}
 
                                     <input type="submit" value="Verify OTP" />
                                 </div>
