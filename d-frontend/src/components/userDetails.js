@@ -48,7 +48,7 @@ function UserProfile({}) {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`https://${localhost}:5000/api/userDetails`, {
+        const response = await axios.get(`http://localhost:5000/api/userDetails`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -96,7 +96,7 @@ function UserProfile({}) {
     }
 
     try {
-      const response = await axios.post(`https://${localhost}:5000/api/updateMyDetails`, formData, {
+      const response = await axios.post(`http://localhost:5000/api/updateMyDetails`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -142,7 +142,7 @@ function UserProfile({}) {
   const handleChangePassword = async(e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`https://${localhost}:5000/api/changePassword`, passwordsState, {
+      const response = await axios.post(`http://localhost:5000/api/changePassword`, passwordsState, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -170,7 +170,7 @@ function UserProfile({}) {
   const confirmDelete = async(event) => {
     event.preventDefault();
     try{
-      const response = await axios.post(`https://${localhost}:5000/api/deleteAccount`, {
+      const response = await axios.post(`http://localhost:5000/api/deleteAccount`, {
         password: deleteAccount
       }, {
         headers: {
@@ -198,7 +198,7 @@ function UserProfile({}) {
   const handleDltProp = async (propertyId) => {
     setDltProp(false);
     try {
-      const response = await axios.post(`https://${localhost}:5000/api/deleteProperty`, {
+      const response = await axios.post(`http://localhost:5000/api/deleteProperty`, {
         propertyId: propertyId
       }, {
         headers: {
@@ -226,7 +226,7 @@ function UserProfile({}) {
 
   const handleViewProperty = async (propertyId) => {
     try{
-      const response = await axios.post(`https://${localhost}:5000/api/viewProperty`, {
+      const response = await axios.post(`http://localhost:5000/api/viewProperty`, {
         propertyId: propertyId
       }, {
         headers: {

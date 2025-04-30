@@ -15,7 +15,7 @@ export const AdminPrivateRoute = () => {
     useEffect(() => {
         const checkAdminStatus = async () => {
             try {
-                const response = await axios.get(`https://${localhost}:5000/api/adminCheck`, {
+                const response = await axios.get(`http://localhost:5000/api/adminCheck`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

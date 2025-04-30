@@ -11,35 +11,35 @@ import { useNavigate } from 'react-router-dom';
 
 function LandingPage({ onSetLocalhost }) {
     const navigate = useNavigate();
-    useEffect(() => {
-        const getLocalHost = async() => {
-            try
-            {
-                const response = await axios.get(`https://10.0.49.77:5000/api/getLocalHost`);
+    // useEffect(() => {
+    //     const getLocalHost = async() => {
+    //         try
+    //         {
+    //             const response = await axios.get(`http://localhost:5000/api/getLocalHost`);
 
-                if(response.data.localhost)
-                {
-                    console.log(response.data.localhost);
-                    onSetLocalhost(response.data.localhost);
-                    localStorage.setItem('localhost', response.data.localhost);
-                }
-            }
-            catch(error)
-            {
-                if(error.response)
-                {
-                    alert(error.response.data.message);
-                }
-                else
-                {
-                    console.log("in frontend");
-                    alert("Something went wrong!");
-                }
-            }
-        }
+    //             if(response.data.localhost)
+    //             {
+    //                 console.log(response.data.localhost);
+    //                 onSetLocalhost(response.data.localhost);
+    //                 localStorage.setItem('localhost', response.data.localhost);
+    //             }
+    //         }
+    //         catch(error)
+    //         {
+    //             if(error.response)
+    //             {
+    //                 alert(error.response.data.message);
+    //             }
+    //             else
+    //             {
+    //                 console.log("in frontend");
+    //                 alert("Something went wrong!");
+    //             }
+    //         }
+    //     }
 
-        getLocalHost();
-    }, []);
+    //     getLocalHost();
+    // }, []);
 
     return (
         <div className="land-body">

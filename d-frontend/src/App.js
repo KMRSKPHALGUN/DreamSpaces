@@ -16,7 +16,7 @@ import UserProfile from './components/userDetails';
 import PropertyListings from './components/propertyListings';
 import ComRentViewProperty from './components/propDetComRent';
 import { PrivateRoute, AdminPrivateRoute } from './components/privateRoute';
-import { VideoCall } from './components/videoCall';
+// import { VideoCall } from './components/videoCall';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { setLocalhost } from './redux/reducer';
@@ -36,7 +36,7 @@ function App() {
   return (
     <>
       <Provider store={store}>
-          {!location.pathname.startsWith("/videoCall") && <VideoCall />}
+          {/* {!location.pathname.startsWith("/videoCall") && <VideoCall />} */}
           <Routes>
             <Route path="/" element={<LandingPage onSetLocalhost={handleSetLocalhost} />}></Route>
             <Route path='/login' element={<Login/>}></Route>
@@ -69,7 +69,7 @@ function App() {
             <Route path='/comRentViewProperty' element={<PrivateRoute/>}>
               <Route path='/comRentViewProperty' element={<ComRentViewProperty/>}></Route>
             </Route>
-            <Route path="/videoCall" element={<VideoCall/>}></Route>
+            {/* <Route path="/videoCall" element={<VideoCall/>}></Route> */}
           </Routes>
       </Provider>
     </>

@@ -43,7 +43,7 @@ const swaggerOptions = {
             version:'1.0.0'
         },
         servers:[{
-            url: 'https://localhost:5000',
+            url: 'http://localhost:5000',
             description: 'Local Server'
         }]
     },
@@ -199,27 +199,12 @@ const upload = multer({storage: ds});
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               password:
- *                 type: string
- *               confirmPassword:
- *                 type: string
- *               phone:
- *                 type: string
- *               otpEmail:
- *                 type: string
+ *             $ref: './models/Signup'
  *     responses:
- *       '200':
- *         description: Registration Successful
- *       '400':
- *         description: Invalid or Expired OTP
- *       '500':
- *         description: Something went wrong
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Invalid input
  */
 app.post('/api/register', Registration.register);
 
@@ -381,7 +366,7 @@ app.post('/api/commercial_sale', verifyToken, upload.array("image", 10), Commerc
  *                   type: array
  *                   items:
  *                     oneOf:
- *                       - $ref: "./models/ResidentialRent.js"
+ *                       - "$ref": "./models/ResidentialRent.js"
  *                       - $ref: "./models/ResidentialSale.js"
  *                       - $ref: "./models/ResidentialFlatmates.js"
  *                       - $ref: "./models/CommercialRent.js"
@@ -498,4 +483,4 @@ function verifyToken(req, res, next) {
     }
 };
 
-server.listen(5000, () => console.log(`Server is running on https://localhost:${port}`))
+app.listen(5000, () => console.log(`Server is running on http://localhost:${port}`))

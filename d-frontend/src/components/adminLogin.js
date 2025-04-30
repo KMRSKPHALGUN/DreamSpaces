@@ -16,7 +16,7 @@ const AdminLogin = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try{
-        const response = await axios.post(`https://${localhost}:5000/api/adminLogin`,{
+        const response = await axios.post(`http://localhost:5000/api/adminLogin`,{
             email: adminEmail,
             password: adminPassword
         });
