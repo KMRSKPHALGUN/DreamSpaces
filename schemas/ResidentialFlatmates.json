@@ -1,0 +1,54 @@
+{
+    "type": "object",
+    "properties": {
+      "apartment_type": { "type": "string" },
+      "bhk_type": { "type": "string" },
+      "floor_number": { "type": "number" },
+      "total_floors": { "type": "number" },
+      "property_age": { "type": "number" },
+      "Room_Type": { "type": "string" },
+      "Tenant_Type": { "type": "string" },
+      "facing": { "type": "string" },
+      "built_up_area": { "type": "number" },
+  
+      "expected_rent": { "type": "number" },
+      "expected_deposit": { "type": "number" },
+      "rent_negotiable": { "type": "string" },
+      "monthly_maintenance": { "type": "string" },
+      "available_from": { "type": "string", "format": "date" },
+      "furnishing": { "type": "string" },
+      "parking": { "type": "string" },
+      "rental_description": { "type": "string" },
+  
+      "city": { "type": "string" },
+      "locality": { "type": "string" },
+      "landmark_street": { "type": "string" },
+      "locality_description": { "type": "string" },
+  
+      "bathrooms": { "type": "string" },
+      "ac_room": { "type": "string" },
+      "smoking": { "type": "string" },
+      "drinking": { "type": "string" },
+      "balcony": { "type": "string" },
+      "gym": { "type": "string" },
+      "gated_security": { "type": "string" },
+      "availability_to_show_property": { "type": "string" },
+      "start_time": { "type": "string" },
+      "end_time": { "type": "string" },
+      
+      "amenities": {
+        "type": "array",
+        "items": {}
+      },
+  
+      "image": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "ownerId": { "type": "string" },
+      "savedBy": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    }
+}  

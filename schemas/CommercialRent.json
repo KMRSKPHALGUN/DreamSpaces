@@ -1,0 +1,47 @@
+{
+    "type": "object",
+    "properties": {
+      "property_type": { "type": "string" },
+      "building_type": { "type": "string" },
+      "floors": { "type": "number" },
+      "totalfloor": { "type": "number" },
+      "age": { "type": "number" },
+      "builtuparea": { "type": "number" },
+      "carpetarea": { "type": "number" },
+      "furnish": { "type": "string" },
+  
+      "Expected_rent": { "type": "number" },
+      "Rent_Negotiable": { "type": "string" },
+      "Expected_deposit": { "type": "number" },
+      "lease": { "type": "number" },
+      "available_from": { "type": "string", "format": "date" },
+      "Propertytax": { "type": "string" },
+      "Occupancy": { "type": "string" },
+  
+      "city": { "type": "string" },
+      "locality": { "type": "string" },
+      "landmark_street": { "type": "string" },
+      "locality_description": { "type": "string" },
+  
+      "wash": { "type": "string" },
+      "lift": { "type": "string" },
+      "powerbackup": { "type": "string" },
+      "water_supply": { "type": "string" },
+      "parking": { "type": "string" },
+      "security": { "type": "string" },
+      "Availability": { "type": "string" },
+      "start_time": { "type": "string" },
+      "end_time": { "type": "string" },
+      "Directions": { "type": "string" },
+  
+      "image": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "ownerId": { "type": "string" },
+      "savedBy": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    }
+}  

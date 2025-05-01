@@ -1,0 +1,44 @@
+{
+    "type": "object",
+    "properties": {
+      "plot_area": { "type": "number" },
+      "length": { "type": "number" },
+      "width": { "type": "number" },
+      "bWall": { "type": "string" },
+      "built_up_area": { "type": "number" },
+      "floors": { "type": "number" },
+      "project": { "type": "string" },
+  
+      "Expected_rent": { "type": "number" },
+      "rent_negotiable": { "type": "string" },
+      "available_from": { "type": "string", "format": "date" },
+      "Propertytax": { "type": "string" },
+      "Occupancy": { "type": "string" },
+  
+      "city": { "type": "string" },
+      "locality": { "type": "string" },
+      "landmark_street": { "type": "string" },
+      "locality_description": { "type": "string" },
+  
+      "water_supply": { "type": "string" },
+      "electricity_supply": { "type": "string" },
+      "sewage_connection": { "type": "string" },
+      "road": { "type": "number" },
+      "security": { "type": "string" },
+      "Availability": { "type": "string" },
+      "startTime": { "type": "string" },
+      "endTime": { "type": "string" },
+      "Directions": { "type": "string" },
+  
+      "image": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "ownerId": { "type": "string" },
+  
+      "savedBy": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    }
+}  

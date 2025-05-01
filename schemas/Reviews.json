@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+      "propertyId": {
+        "type": "string"
+      },
+      "comment_input": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "userId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": ["propertyId", "comment_input", "userId"]
+} 

@@ -1,0 +1,47 @@
+{
+    "type": "object",
+    "properties": {
+      "apartment_type": { "type": "string" },
+      "bhk_type": { "type": "string" },
+      "floor_number": { "type": "number" },
+      "total_floors": { "type": "number" },
+      "property_age": { "type": "number" },
+      "facing": { "type": "string" },
+      "built_up_area": { "type": "number" },
+      "expected_price": { "type": "number" },
+      "price_negotiable": { "type": "string" },
+      "available_from": { "type": "string", "format": "date" },
+      "kitchen_type": { "type": "string" },
+      "furnishing": { "type": "string" },
+      "parking": { "type": "string" },
+      "property_tax": { "type": "string" },
+      "occupancy_certificate": { "type": "string" },
+      "sale_description": { "type": "string" },
+      "city": { "type": "string" },
+      "locality": { "type": "string" },
+      "landmark_street": { "type": "string" },
+      "locality_description": { "type": "string" },
+      "bathrooms": { "type": "number" },
+      "balcony": { "type": "number" },
+      "water_supply": { "type": "string" },
+      "gym": { "type": "string" },
+      "non_veg": { "type": "string" },
+      "gated_security": { "type": "string" },
+      "availability": { "type": "string" },
+      "start_time": { "type": "string" },
+      "end_time": { "type": "string" },
+      "amenities": {
+        "type": "array",
+        "items": {}
+      },
+      "image": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "ownerId": { "type": "string" },
+      "savedBy": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    }
+}  

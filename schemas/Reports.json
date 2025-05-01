@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+      "reportedPropertyId": {
+        "type": "string"
+      },
+      "reportedUserId": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "date": {
+        "type": "array",
+        "items": { "type": "string", "format": "date-time" },
+        "default": []
+      },
+      "description": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "required": ["reportedPropertyId", "reportedUserId", "description"]
+}  

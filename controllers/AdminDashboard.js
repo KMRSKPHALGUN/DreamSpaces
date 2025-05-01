@@ -54,7 +54,7 @@ exports.deleteUser = async(req,res)=>{
     }
     catch(error) {
         console.log(error);
-        res.status(401).json({error: 'Something went wrong'});
+        res.status(500).json({error: 'Internal Server Error'});
     }
     
 }
@@ -82,6 +82,6 @@ exports.makeAdmin = async(req,res)=> {
     }
     catch(error) {
         console.log(error);
-        res.status(401).json({error: 'Something went wrong'});
+        res.status(500).json({error: 'Internal Server Error'});
     }
 }

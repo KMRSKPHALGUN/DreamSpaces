@@ -35,12 +35,39 @@ app.use(cors({
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
 
+const AdminSchema = require("./schemas/Admin.json");
+const CommercialRentSchema = require("./schemas/CommercialRent.json");
+const CommercialSaleSchema = require("./schemas/CommercialSale.json");
+const PlotDevSchema = require("./schemas/PlotDev.json");
+const PlotSaleSchema = require("./schemas/PlotSale.json");
+const ReportsSchema = require("./schemas/Reports.json");
+const ResidentialFlatmatesSchema = require("./schemas/ResidentialFlatmates.json");
+const ResidentialRentSchema = require("./schemas/ResidentialRent.json");
+const ResidentialSaleSchema = require("./schemas/ResidentialSale.json");
+const ReviewsSchema = require("./schemas/Reviews.json");
+const SignupSchema = require("./schemas/Signup.json");
+
 const swaggerOptions = {
     definition:{
         openapi:'3.0.0',
         info:{
             title:'DreamSpaces API Documentation',
             version:'1.0.0'
+        },
+        components: {
+            schemas: {
+                Admin: AdminSchema,
+                CommercialRent: CommercialRentSchema,
+                CommercialSale: CommercialSaleSchema,
+                PlotDev: PlotDevSchema,
+                PlotSale: PlotSaleSchema,
+                Reports: ReportsSchema,
+                ResidentialFlatmates: ResidentialFlatmatesSchema,
+                ResidentialRent: ResidentialRentSchema,
+                ResidentialSale: ResidentialSaleSchema,
+                Reviews: ReviewsSchema,
+                Signup: SignupSchema
+            }
         },
         servers:[{
             url: 'http://localhost:5000',
@@ -199,7 +226,7 @@ const upload = multer({storage: ds});
  *       content:
  *         application/json:
  *           schema:
- *             $ref: './models/Signup'
+ *             $ref: '#/components/schemas/Signup'
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -318,10 +345,74 @@ app.post('/api/adminLogin', async (req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/residential_rent:
+ *   post:
+ *     summary: Post a new Residential Rental property
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ResidentialRent'
+ *     responses:
+ *       201:
+ *         description: Property listed successfully
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
 app.post('/api/residential_rent', verifyToken, upload.array("image", 10), Residentialrent.residentialRent);
 
+
+/**
+ * @swagger
+ * /api/commercial_rent:
+ *   post:
+ *     summary: Post a new Commercial Rental property
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CommercialRent'
+ *     responses:
+ *       201:
+ *         description: Property listed successfully
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
 app.post('/api/commercial_rent', verifyToken, upload.array("image", 10), Commercialrent.commercialRent);
 
+/**
+ * @swagger
+ * /api/commercial_sale:
+ *   post:
+ *     summary: Post a new Commercial Sale property
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CommercialSale'
+ *     responses:
+ *       201:
+ *         description: Property listed successfully
+ *       400:
+ *         description: Invalid input
+ *       401:
+ *         description: Unauthorized
+ */
 app.post('/api/commercial_sale', verifyToken, upload.array("image", 10), Commercialsale.commercialSale);
 
 /**
@@ -366,17 +457,17 @@ app.post('/api/commercial_sale', verifyToken, upload.array("image", 10), Commerc
  *                   type: array
  *                   items:
  *                     oneOf:
- *                       - "$ref": "./models/ResidentialRent.js"
- *                       - $ref: "./models/ResidentialSale.js"
- *                       - $ref: "./models/ResidentialFlatmates.js"
- *                       - $ref: "./models/CommercialRent.js"
- *                       - $ref: "./models/CommercialSale.js"
- *                       - $ref: "./models/PlotSale.js"
- *                       - $ref: "./models/PlotDev.js"
+ *                       - $ref: "#/components/schemas/ResidentialRent"
+ *                       - $ref: "#/components/schemas/ResidentialSale"
+ *                       - $ref: "#/components/schemas/ResidentialFlatmates"
+ *                       - $ref: "#/components/schemas/CommercialRent"
+ *                       - $ref: "#/components/schemas/CommercialSale"
+ *                       - $ref: "#/components/schemas/PlotSale"
+ *                       - $ref: "#/components/schemas/PlotDev"
  *                 owners:
  *                   type: array
  *                   items:
- *                     $ref: "./models/Signup.js"
+ *                     $ref: "#/components/schemas/Signup"
  *       '400':
  *         description: Invalid request data
  *       '401':
@@ -384,24 +475,312 @@ app.post('/api/commercial_sale', verifyToken, upload.array("image", 10), Commerc
  */
 app.post('/api/property_listings', verifyToken, PropertyListings.property_listings);
 
+/**
+ * @swagger
+ * /api/updateMyDetails:
+ *   post:
+ *     summary: Update details of logged-in uer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Signup'
+ *     responses:
+ *       200:
+ *         description: Details updated successfully
+ *       401:
+ *         description: Something went wrong
+ */
 app.post('/api/updateMyDetails', verifyToken, upload.array("image", 1), UpdateMyDetails.update);
 
+/**
+ * @swagger
+ * /api/changePassword:
+ *   post:
+ *     summary: Change logged-in user's password
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               inputPasswordCurrent:
+ *                 type: string
+ *                 example: "securePassword123"
+ *               inputPasswordNew:
+ *                 type: string
+ *                 example: "securePassword123"
+ *               inputPasswordNew2:
+ *                 type: string
+ *                 example: "securePassword123"
+ *     responses:
+ *       200:
+ *         description: Password Updated Successfully
+ *       401:
+ *         description: New Password and Verify Pssword did not match / Current Passowrd is wrong
+ *       500:
+ *         description: Internal Server Error
+ */
 app.post('/api/changePassword', verifyToken, UpdateMyDetails.changePassword);
 
+/**
+ * @swagger
+ * /api/makeAdmin:
+ *   post:
+ *     summary: Make Admin a particular user
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User made as Admin successfully / Already an Admin
+ *       500:
+ *         description: Internal Server Error
+ */
 app.post('/api/makeAdmin', verifyToken, AdminDashboard.makeAdmin);
 
+/**
+ * @swagger
+ * /api/deleteUser:
+ *   post:
+ *     summary: Delete a particular user
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User and his Properties are deleted successfully
+ *       500:
+ *         description: Internal Server Error
+ */
 app.post('/api/deleteUser', verifyToken, AdminDashboard.deleteUser);
 
+/**
+ * @swagger
+ * /api/deleteAccount:
+ *   post:
+ *     summary: Delete the logged-in user's account
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 example: "securePassword123"
+ *     responses:
+ *       200:
+ *         description: Account deleted permanently
+ *       401:
+ *         description: Current password is wrong
+ *       500:
+ *         description: Internal Server Error
+ */
 app.post('/api/deleteAccount', verifyToken, UserDetails.deleteAccount);
 
+/**
+ * @swagger
+ * /api/deleteProperty:
+ *   post:
+ *     summary: Delete a property
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               propertyId:
+ *                 type: string
+ *                 example: "609e129e834f1c001f57b2a1"
+ *     responses:
+ *       200:
+ *         description: Property deleted successfully
+ *       500:
+ *         description: Internal Servor Error
+ */
 app.post('/api/deleteProperty', verifyToken, UserDetails.deleteProperty);
 
+/**
+ * @swagger
+ * /api/viewProperty:
+ *   post:
+ *     summary: Get details of a specific property
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               propertyId:
+ *                 type: string
+ *                 example: "609e129e834f1c001f57b2a1"
+ *     responses:
+ *       '200':
+ *         description: Returns property details and owner
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 properties:
+ *                   type: array
+ *                   items:
+ *                     oneOf:
+ *                       - $ref: "#/components/schemas/ResidentialRent"
+ *                       - $ref: "#/components/schemas/ResidentialSale"
+ *                       - $ref: "#/components/schemas/ResidentialFlatmates"
+ *                       - $ref: "#/components/schemas/CommercialRent"
+ *                       - $ref: "#/components/schemas/CommercialSale"
+ *                       - $ref: "#/components/schemas/PlotSale"
+ *                       - $ref: "#/components/schemas/PlotDev"
+ *                 owner:
+ *                     $ref: "#/components/schemas/Signup"
+ *                 client:
+ *                     $ref: "#/components/schemas/Signup"
+ *                 reviews:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/Reviews"
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/Signup"
+ *                 property_type:
+ *                   type: string
+ *                   enum: ["residential", "commercial", "land"]
+ *                 ad_type:
+ *                   oneOf:
+ *                      - type: string
+ *                        enum: ["rent", "buy", "flatmates"]
+ *                        description: "Allowed only when property_type is residential"
+ *                      - type: string
+ *                        enum: ["rent", "buy"]
+ *                        description: "Allowed only when property_type is commercial"
+ *                      - type: string
+ *                        enum: ["buy", "development"]
+ *                        description: "Allowed only when property_type is land"
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
+ */
 app.post('/api/viewProperty', verifyToken, PropertyDetails.viewProperty);
 
+/**
+ * @swagger
+ * /api/saveProperty:
+ *   post:
+ *     summary: Save a property to user's saved list
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               propertyId:
+ *                 type: string
+ *                 example: "609e129e834f1c001f57b2a1"
+ *     responses:
+ *       200:
+ *         description: Property saved successfully
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
+ */
 app.post('/api/saveProperty', verifyToken, SaveProperty.save_property);
 
+/**
+ * @swagger
+ * /api/reportProperty:
+ *   post:
+ *     summary: Report a property for issues
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               propertyId:
+ *                 type: string
+ *                 example: "609e129e834f1c001f57b2a1"
+ *               reason:
+ *                 type: string
+ *                 example: "Spam or misleading listing"
+ *     responses:
+ *       200:
+ *         description: Report submitted successfully
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
+ */
 app.post('/api/reportProperty', verifyToken, Report.reports);
 
+/**
+ * @swagger
+ * /api/reviewProperty:
+ *   post:
+ *     summary: Report a property for issues
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               propertyId:
+ *                 type: string
+ *                 example: "609e129e834f1c001f57b2a1"
+ *               comment:
+ *                 type: string
+ *                 example: "Nice House"
+ *     responses:
+ *       200:
+ *         description: Report submitted successfully
+ *       400:
+ *         description: Invalid request
+ *       401:
+ *         description: Unauthorized
+ */
 app.post('/api/reviewProperty', verifyToken, Reviews.review);
 
 app.get('/api/getLocalHost', async(req, res) => {
@@ -431,8 +810,61 @@ app.get('/api/getLocalHost', async(req, res) => {
     }
 });
 
+/**
+ * @swagger
+ * /api/userDetails:
+ *   get:
+ *     summary: Get user details
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user details
+ *       401:
+ *         description: Unauthorized
+ */
 app.get('/api/userDetails', verifyToken, UserDetails.userDetails);
 
+/**
+ * @swagger
+ * /api/adminDashboard:
+ *   get:
+ *     summary: Get data for Admin Dashboard
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 properties:
+ *                   type: array
+ *                   items:
+ *                       - $ref: "#/components/schemas/ResidentialRent"
+ *                       - $ref: "#/components/schemas/ResidentialSale"
+ *                       - $ref: "#/components/schemas/ResidentialFlatmates"
+ *                       - $ref: "#/components/schemas/CommercialRent"
+ *                       - $ref: "#/components/schemas/CommercialSale"
+ *                       - $ref: "#/components/schemas/PlotSale"
+ *                       - $ref: "#/components/schemas/PlotDev"
+ *                 owner:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/Signup"
+ *                 reports:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/Reports"
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/Signup"
+ *       500:
+ *         description: Internal Server Error
+ */
 app.get('/api/adminDashboard', verifyToken, AdminDashboard.getAdminDashboard);
 
 app.get('/api/adminCheck', async (req, res) => {
