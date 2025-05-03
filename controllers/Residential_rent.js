@@ -84,7 +84,7 @@ exports.residentialRent = async(req, res) => {
         res.status(201).json({ message: 'Property Posted Successfully' });
 
     }catch(error){
-        console.error(error);
+        console.error('Multer error or route crash:', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 }

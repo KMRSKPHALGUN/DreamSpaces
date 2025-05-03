@@ -901,7 +901,10 @@ app.get('/api/adminCheck', async (req, res) => {
 
 function verifyToken(req, res, next) {
     let token = req.header('Authorization');
-    if (!token) return res.status(401).json({ error: 'Access denied' });
+    if (!token) {
+        console.log("No Token(in verifyToken)");
+        return res.status(401).json({ error: 'Access denied' });
+    }
     if (token.startsWith('Bearer ')) {
         token = token.slice(7, token.length).trim(); // Remove 'Bearer ' prefix
     }
@@ -915,4 +918,10 @@ function verifyToken(req, res, next) {
     }
 };
 
-app.listen(5000, () => console.log(`Server is running on http://localhost:${port}`))
+module.exports = app;
+
+if (require.main === module) {
+    app.listen(5000, () => {
+      console.log("Server is running on http://localhost:5000");
+    });
+  }
