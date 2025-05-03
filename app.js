@@ -82,104 +82,104 @@ const swaggerspec = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerspec))
 
 // Set up HTTPS server options
-const options = {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-};
+// const options = {
+//     key: fs.readFileSync('key.pem'),
+//     cert: fs.readFileSync('cert.pem')
+// };
 
-const server = https.createServer(options, app);
-const io = require("socket.io")(server, {
-	cors: {
-		origin: "*",
-		methods: [ "GET", "POST" ]
-	}
-})
+// const server = https.createServer(options, app);
+// const io = require("socket.io")(server, {
+// 	cors: {
+// 		origin: "*",
+// 		methods: [ "GET", "POST" ]
+// 	}
+// })
 
-io.on("connection", (socket) => {
-    socket.on("initialize", (userId) => {
-        socket.userId = userId;
-    });
+// io.on("connection", (socket) => {
+//     socket.on("initialize", (userId) => {
+//         socket.userId = userId;
+//     });
 
-	socket.emit("me", socket.userId);
+// 	socket.emit("me", socket.userId);
 
-	socket.on("disconnect", () => {
-		socket.broadcast.emit("callEnded")
-	});
+// 	socket.on("disconnect", () => {
+// 		socket.broadcast.emit("callEnded")
+// 	});
 
-	socket.on("callUser", (data) => {
-        const connectedClients = Array.from(io.sockets.sockets.values());
-        connectedClients.forEach(client => {
-            if(client.userId === data.userToCall)
-            {
-                client.emit("callUser", {
-                    signal: data.signalData,
-                    from: data.from,
-                    to: data.userToCall,
-                    name: data.name
-                })
-            }
-        })
-	});
+// 	socket.on("callUser", (data) => {
+//         const connectedClients = Array.from(io.sockets.sockets.values());
+//         connectedClients.forEach(client => {
+//             if(client.userId === data.userToCall)
+//             {
+//                 client.emit("callUser", {
+//                     signal: data.signalData,
+//                     from: data.from,
+//                     to: data.userToCall,
+//                     name: data.name
+//                 })
+//             }
+//         })
+// 	});
 
-    socket.on("call-accepted", (data) => {
-        const connectedClients = Array.from(io.sockets.sockets.values());
-        connectedClients.forEach(client => {
-            if(client.userId === data.to)
-            {
-                client.emit("call-accepted", {
-                    signal: data.signal,
-                    from: data.from,
-                    to: data.to,
-                    name: data.name
-                })
-            }
-        })
-	});
+//     socket.on("call-accepted", (data) => {
+//         const connectedClients = Array.from(io.sockets.sockets.values());
+//         connectedClients.forEach(client => {
+//             if(client.userId === data.to)
+//             {
+//                 client.emit("call-accepted", {
+//                     signal: data.signal,
+//                     from: data.from,
+//                     to: data.to,
+//                     name: data.name
+//                 })
+//             }
+//         })
+// 	});
 
-	socket.on("answerCall", (data) => {
-        const connectedClients = Array.from(io.sockets.sockets.values());
-        connectedClients.forEach(client => {
-            if(client.userId === data.to)
-            {
-                client.emit("callAccepted", {
-                    signal: data.signal
-                })
-            }
-        })
-	});
+// 	socket.on("answerCall", (data) => {
+//         const connectedClients = Array.from(io.sockets.sockets.values());
+//         connectedClients.forEach(client => {
+//             if(client.userId === data.to)
+//             {
+//                 client.emit("callAccepted", {
+//                     signal: data.signal
+//                 })
+//             }
+//         })
+// 	});
 
-    socket.on("toggleVideo", ({ to, isVideoOn }) => {
-        const connectedClients = Array.from(io.sockets.sockets.values());
-        connectedClients.forEach(client => {
-            if(client.userId === to)
-            {
-                client.emit("peerVideoToggle", { isVideoOn });
-            }
-        })
-    });
+//     socket.on("toggleVideo", ({ to, isVideoOn }) => {
+//         const connectedClients = Array.from(io.sockets.sockets.values());
+//         connectedClients.forEach(client => {
+//             if(client.userId === to)
+//             {
+//                 client.emit("peerVideoToggle", { isVideoOn });
+//             }
+//         })
+//     });
 
-    socket.on("toggleMic", ({ to, isMicOn }) => {
-        const connectedClients = Array.from(io.sockets.sockets.values());
-        connectedClients.forEach(client => {
-            if(client.userId === to)
-            {
-                client.emit("peerMicToggle", { isMicOn });
-            }
-        })
-    });
+//     socket.on("toggleMic", ({ to, isMicOn }) => {
+//         const connectedClients = Array.from(io.sockets.sockets.values());
+//         connectedClients.forEach(client => {
+//             if(client.userId === to)
+//             {
+//                 client.emit("peerMicToggle", { isMicOn });
+//             }
+//         })
+//     });
 
-    socket.on("endCall", ({ to }) => {
-        const connectedClients = Array.from(io.sockets.sockets.values());
-        connectedClients.forEach(client => {
-            if(client.userId === to)
-            {
-                client.emit("endCall", {
-                    message: "endCall"
-                })
-            }
-        })
-    })
-})
+//     socket.on("endCall", ({ to }) => {
+//         const connectedClients = Array.from(io.sockets.sockets.values());
+//         connectedClients.forEach(client => {
+//             if(client.userId === to)
+//             {
+//                 client.emit("endCall", {
+//                     message: "endCall"
+//                 })
+//             }
+//         })
+//     })
+// })
 
 
 
