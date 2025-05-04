@@ -89,3 +89,31 @@ exports.residentialRent = async(req, res) => {
     }
 }
 
+
+const redis = require('../upstashClient');
+
+exports.getAllProperties = async (req, res) => {
+  try {
+    const cacheKey = 'residential_properties';
+
+    console.time('response-time');
+
+    const cached = await redis.get(cacheKey);
+    if (cached) {
+      console.timeEnd('response-time');
+      return res.status(200).json(JSON.parse(cached));
+    }
+
+    const properties = await residential_rent_model.find();
+
+    await redis.set(cacheKey, JSON.stringify(properties), {
+      EX: 60 * 5 // cache for 5 mins
+    });
+
+    console.timeEnd('response-time');
+    res.status(200).json(properties);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+};

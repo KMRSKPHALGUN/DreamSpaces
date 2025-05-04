@@ -10,13 +10,20 @@ const os = require('os');
 const https = require('https');
 const fs = require('fs');
 const helmet = require('helmet');
+require('dotenv').config()
 
 const app = express();
 const port = 5000;
 
 
-mongoose.connect('mongodb://localhost:27017/DreamSpaces2');
-const mongoStore = MongoStore.create({mongoUrl: 'mongodb://localhost:27017/DreamSpaces2', collectionName: 'sessions'});
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }).then(() => {
+    console.log("Connected to MongoDB Atlas");
+  }).catch((err) => {
+    console.error("MongoDB Atlas connection error:", err);
+});
 
 app.use(bodyParser.json());
 app.use(helmet());
@@ -292,7 +299,7 @@ app.post('/api/login', async (req, res) => {
         if (!passwordMatch) {
         return res.status(401).json({ error: 'Wrong Password' });
         }
-        const token = jwt.sign({ userId: user._id }, 'DreamSpacesSecret', {
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: '1h',
         });
         res.status(200).json({ token: token, client: user, message: 'Login Successful' });
@@ -368,6 +375,8 @@ app.post('/api/adminLogin', async (req, res) => {
  */
 app.post('/api/residential_rent', verifyToken, upload.array("image", 10), Residentialrent.residentialRent);
 
+// NEW GET route with Redis caching
+app.get('/api/residential_rent', Residentialrent.getAllProperties);
 
 /**
  * @swagger
