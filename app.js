@@ -216,7 +216,7 @@ const ds=multer.diskStorage({
     }
 });
 
-const upload = multer({storage: ds});
+const upload = require("./cloudinary");
 
 
 // app.get('*', (req, res) => {

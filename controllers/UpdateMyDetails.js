@@ -5,7 +5,7 @@ const endUsers = require('../models/Signup');
 exports.update = async(req,res) => {
     try{
         const {name, email, phone, bio, motive, image} = req.body;
-        const imagePaths = req.files.map(file => file.path.slice(18, file.path.length));
+        const imagePaths = req.files.map(file => file.path);
         await endUsers.findOneAndUpdate({_id: req.userId}, {$set: { name: name, email: email, phone: phone, bio: bio, profile_pic: imagePaths[0], motive: motive }});
         res.status(200).json({ message: 'Details Updated Successfully' });
     }

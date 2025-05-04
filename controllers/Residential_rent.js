@@ -40,7 +40,7 @@ exports.residentialRent = async(req, res) => {
             
         } = req.body;
 
-        const imagePaths = req.files.map(file => file.path.slice(18, file.path.length));
+        const imagePaths = req.files.map(file => file.path);
         const newAd = new residential_rent_model({
             building_type,
             bhk_type,
@@ -100,9 +100,10 @@ exports.getAllProperties = async (req, res) => {
 
     const cached = await redis.get(cacheKey);
     if (cached) {
-      console.timeEnd('response-time');
-      return res.status(200).json(JSON.parse(cached));
+      const parsedData = typeof cached === 'string' ? JSON.parse(cached) : cached;
+      return res.status(200).json(parsedData);
     }
+
 
     const properties = await residential_rent_model.find();
 

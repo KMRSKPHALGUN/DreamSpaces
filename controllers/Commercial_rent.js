@@ -43,7 +43,7 @@ exports.commercialRent = async(req, res) => {
             
         } = req.body;
 
-        const imagePaths = req.files.map(file => file.path.slice(18, file.path.length));
+        const imagePaths = req.files.map(file => file.path);
         const newAd = new commercial_rent_model({
             property_type,
             building_type ,
