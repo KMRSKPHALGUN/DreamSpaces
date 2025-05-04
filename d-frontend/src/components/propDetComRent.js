@@ -35,7 +35,7 @@ const ComRentViewProperty = () => {
 
   const saveProperty = async (propId) => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/saveProperty`, {
+      const response = await axios.post(`https://dreamspaces.onrender.com/api/saveProperty`, {
         propId: propId,
         propertyType: "commercial",
         adType: "rent",
@@ -63,7 +63,7 @@ const ComRentViewProperty = () => {
 
   const reportProperty = async (reportedPropertyId, report_description) => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/reportProperty`, {
+      const response = await axios.post(`https://dreamspaces.onrender.com/api/reportProperty`, {
         reportedPropertyId: reportedPropertyId,
         report_description: report_description
       },{
@@ -88,7 +88,7 @@ const ComRentViewProperty = () => {
 
   const reviewProperty = async (propertyId, comment_input) => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/reviewProperty`, {
+      const response = await axios.post(`https://dreamspaces.onrender.com/api/reviewProperty`, {
         propertyId: propertyId,
         comment_input: comment_input
       },{

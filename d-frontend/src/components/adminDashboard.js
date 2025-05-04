@@ -26,7 +26,7 @@ function AdminDashboard() {
   useEffect(() => {
     const fetchDetails = async() => {
       try{
-        const response = await axios.get(`http://localhost:5000/api/adminDashboard`, {
+        const response = await axios.get(`https://dreamspaces.onrender.com/api/adminDashboard`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -92,7 +92,7 @@ function AdminDashboard() {
 
   const handleMakeAdmin = async () => {
     try{
-      const response = await axios.post(`http://localhost:5000/api/makeAdmin`, {
+      const response = await axios.post(`https://dreamspaces.onrender.com/api/makeAdmin`, {
         useremail: makeAdmin
       }, {
         headers: {
@@ -119,7 +119,7 @@ function AdminDashboard() {
 
   const handleDeleteUser = async (email) => {
     try{
-      const response = await axios.post(`http://localhost:5000/api/deleteUser`, {
+      const response = await axios.post(`https://dreamspaces.onrender.com/api/deleteUser`, {
         u_email: email
       }, {
         headers: {

@@ -106,7 +106,7 @@ function Signup() {
         setFormValidated(true);
 
         try {
-            const response = await axios.post(`http://localhost:5000/api/verifyUser`, { email: inputs.email });
+            const response = await axios.post(`https://dreamspaces.onrender.com/api/verifyUser`, { email: inputs.email });
             if (response.data.success) {
                 setIsOtpStep(true);
             }
@@ -132,7 +132,7 @@ function Signup() {
         }
 
         try {
-            const response = await axios.post(`http://localhost:5000/api/register`, {
+            const response = await axios.post(`https://dreamspaces.onrender.com/api/register`, {
                 ...inputs,
                 otpEmail: otpEmailValue,
                 // otpPhone: otpPhoneValue
