@@ -58,7 +58,7 @@ describe('POST /api/residential_rent', () => {
           .field('expected_rent', 25000)
           .field('expected_deposit', 50000)
           .field('rent_negotiable', 'true')
-          .field('monthly_maintenance', 1000)
+          .field('monthly_maintenance', '1000')
           .field('available_from', '2024-05-01')
           .field('preferred_tenants', 'Family')
           .field('furnishing', 'Fully Furnished')
@@ -79,8 +79,8 @@ describe('POST /api/residential_rent', () => {
           .field('end_time', '18:00')
           .field('amenities', 'Lift') // If you're sending an array, you can repeat this line
           .attach('image', imagePath) //Upload the image file
-        
-        console.log('Upload Response:', res.body);
+
+        console.log("Response: ", res.body);
         expect(res.statusCode).toBe(201);
         expect(res.body).toHaveProperty('message');
     });
@@ -120,8 +120,6 @@ describe('POST /api/residential_rent', () => {
           .field('end_time', '18:00')
           .field('amenities', 'Lift') // If you're sending an array, you can repeat this line
 
-      
-      console.log('Upload Response:', res.body);
       expect(res.statusCode).toBe(401);
     });
 });

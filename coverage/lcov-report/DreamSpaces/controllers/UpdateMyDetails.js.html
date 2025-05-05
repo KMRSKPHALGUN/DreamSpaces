@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">19.23% </span>
+                <span class="strong">65.38% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/26</span>
+                <span class='fraction'>17/26</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">20% </span>
+                <span class="strong">64% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/25</span>
+                <span class='fraction'>16/25</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -102,55 +102,55 @@
 <a name='L37'></a><a href='#L37'>37</a>
 <a name='L38'></a><a href='#L38'>38</a>
 <a name='L39'></a><a href='#L39'>39</a>
-<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L40'></a><a href='#L40'>40</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const endUsers = require('../models/Signup');
 &nbsp;
-exports.update = <span class="fstat-no" title="function not covered" >as</span>ync(req,res) =&gt; {
-<span class="cstat-no" title="statement not covered" >    try{</span>
-        const {name, email, phone, bio, motive, image} = <span class="cstat-no" title="statement not covered" >req.body;</span>
-        const imagePaths = <span class="cstat-no" title="statement not covered" >req.files.map(<span class="fstat-no" title="function not covered" >fi</span>le =&gt; <span class="cstat-no" title="statement not covered" >file.path)</span>;</span>
-<span class="cstat-no" title="statement not covered" >        await endUsers.findOneAndUpdate({_id: req.userId}, {$set: { name: name, email: email, phone: phone, bio: bio, profile_pic: imagePaths[0], motive: motive }});</span>
-<span class="cstat-no" title="statement not covered" >        res.status(200).json({ message: 'Details Updated Successfully' });</span>
+exports.update = async(req,res) =&gt; {
+    try{
+        const {name, email, phone, bio, motive, image} = req.body;
+        const imagePaths = req.files.map(file =&gt; file.path);
+        await endUsers.findOneAndUpdate({_id: req.userId}, {$set: { name: name, email: email, phone: phone, bio: bio, profile_pic: imagePaths[0], motive: motive }});
+        res.status(200).json({ message: 'Details Updated Successfully' });
     }
     catch(error) {
 <span class="cstat-no" title="statement not covered" >        console.log(error);</span>
@@ -158,11 +158,11 @@ exports.update = <span class="fstat-no" title="function not covered" >as</span>y
     }
 }
 &nbsp;
-exports.changePassword = <span class="fstat-no" title="function not covered" >as</span>ync(req,res) =&gt; {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-        const {inputPasswordCurrent, inputPasswordNew, inputPasswordNew2} = <span class="cstat-no" title="statement not covered" >req.body;</span>
-        const client = <span class="cstat-no" title="statement not covered" >await endUsers.findOne({_id: req.userId});</span>
-        const match = <span class="cstat-no" title="statement not covered" >await bcrypt.compare(inputPasswordCurrent, client.password);</span>
+exports.changePassword = async(req,res) =&gt; {
+    try {
+        const {inputPasswordCurrent, inputPasswordNew, inputPasswordNew2} = req.body;
+        const client = await endUsers.findOne({_id: req.userId});
+        const match = await bcrypt.compare(inputPasswordCurrent, client.password);
 <span class="cstat-no" title="statement not covered" >        if(match) {</span>
 <span class="cstat-no" title="statement not covered" >            if(inputPasswordNew === inputPasswordNew2) {</span>
                 const hashedPassword = <span class="cstat-no" title="statement not covered" >await bcrypt.hash(inputPasswordNew, 10);</span>
@@ -177,8 +177,8 @@ exports.changePassword = <span class="fstat-no" title="function not covered" >as
 <span class="cstat-no" title="statement not covered" >            res.status(401).json({ error: 'Current Passowrd is wrong' });</span>
         }
     } catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error(error);</span>
-<span class="cstat-no" title="statement not covered" >        res.status(500).json({ error: 'Internal Server error' });</span>
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server error' });
     }
 }</pre></td></tr></table></pre>
 
@@ -187,7 +187,7 @@ exports.changePassword = <span class="fstat-no" title="function not covered" >as
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-04T16:17:39.878Z
+                at 2025-05-04T21:22:10.814Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.66% </span>
+                <span class="strong">86.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/15</span>
+                <span class='fraction'>13/15</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">85.71% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/14</span>
+                <span class='fraction'>12/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -162,13 +162,13 @@
 <a name='L97'></a><a href='#L97'>97</a>
 <a name='L98'></a><a href='#L98'>98</a>
 <a name='L99'></a><a href='#L99'>99</a>
-<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<a name='L100'></a><a href='#L100'>100</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -205,10 +205,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -249,12 +249,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -265,9 +265,9 @@
 const commercial_rent_model = require('../models/CommercialRent');
 const owners = require('../models/Signup');
 &nbsp;
-exports.commercialRent = <span class="fstat-no" title="function not covered" >as</span>ync(req, res) =&gt; {
+exports.commercialRent = async(req, res) =&gt; {
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try{</span>
+    try{
         const{ 
             property_type,
             building_type ,
@@ -304,10 +304,10 @@ exports.commercialRent = <span class="fstat-no" title="function not covered" >as
             end_time,
             Directions
             
-        } = <span class="cstat-no" title="statement not covered" >req.body;</span>
+        } = req.body;
 &nbsp;
-        const imagePaths = <span class="cstat-no" title="statement not covered" >req.files.map(<span class="fstat-no" title="function not covered" >fi</span>le =&gt; <span class="cstat-no" title="statement not covered" >file.path)</span>;</span>
-        const newAd = <span class="cstat-no" title="statement not covered" >new commercial_rent_model({</span>
+        const imagePaths = req.files.map(file =&gt; file.path);
+        const newAd = new commercial_rent_model({
             property_type,
             building_type ,
             floors,
@@ -348,12 +348,12 @@ exports.commercialRent = <span class="fstat-no" title="function not covered" >as
             ownerId: req.userId,
         });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        await newAd.save();</span>
+        await newAd.save();
 &nbsp;
-        const property = <span class="cstat-no" title="statement not covered" >await commercial_rent_model.findOne().sort({_id: -1});</span>
-<span class="cstat-no" title="statement not covered" >        await owners.updateOne({ _id: req.userId }, {$push: {postedProperties: [property._id]}});</span>
+        const property = await commercial_rent_model.findOne().sort({_id: -1});
+        await owners.updateOne({ _id: req.userId }, {$push: {postedProperties: [property._id]}});
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        res.status(201).json({ message: 'Property Posted Successfully' });</span>
+        res.status(201).json({ message: 'Property Posted Successfully' });
 &nbsp;
     }catch(error){
 <span class="cstat-no" title="statement not covered" >        console.error(error);</span>
@@ -367,7 +367,7 @@ exports.commercialRent = <span class="fstat-no" title="function not covered" >as
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-04T16:17:39.878Z
+                at 2025-05-04T21:22:10.814Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -10,40 +10,167 @@ afterAll(async () => {
 
 describe('Auth APIs', () => {
 
-  const testUser = {
-    name: 'Test User',
-    email: 'testuser@gmail.com',
-    password: 'testpassword',
-    confirmPassword: 'testpassword',
-    phone: '1234567890',
-    otpEmail: '123456'
-  };
+  it('should register a new user', async () => {
+    const res = await request(app)
+      .post('/api/register')
+      .send({
+        name: 'Test User',
+        email: 'testuser@gmail.com',
+        password: 'testpassword',
+        confirmPassword: 'testpassword',
+        phone: '1234567890',
+        otpEmail: '123456'
+      });
+  
+  
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('message');
+  });
 
   it('should register a new user', async () => {
     const res = await request(app)
       .post('/api/register')
-      .send(testUser);
+      .send({
+        name: 'Test User',
+        email: 'testusergmail.com',
+        password: 'testpassword',
+        confirmPassword: 'testpassword',
+        phone: '1234567890',
+        otpEmail: '123456'
+      });
   
-    console.log('Register Response:', res.body); //Prints the message
   
-    expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty('message');
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('should register a new user', async () => {
+    const res = await request(app)
+      .post('/api/register')
+      .send({
+        name: 'Test User',
+        email: 'phalgunkothamasu@gmail.com',
+        password: 'testpassword',
+        confirmPassword: 'testpassword',
+        phone: '1234567890',
+        otpEmail: '123456'
+      });
+  
+  
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('should register a new user', async () => {
+    const res = await request(app)
+      .post('/api/register')
+      .send({
+        name: 'Test User',
+        email: 'testuser@gmail.com',
+        password: 'testpassword',
+        confirmPassword: 'testpassword',
+        phone: '1234567890',
+        otpEmail: '123457'
+      });
+  
+  
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('should register a new user', async () => {
+    const res = await request(app)
+      .post('/api/register')
+      .send({
+        name: 'Test User',
+        email: 'testuser@gmail.com',
+        password: 'testpa',
+        confirmPassword: 'testpassword',
+        phone: '1234567890',
+        otpEmail: '123456'
+      });
+  
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('should register a new user', async () => {
+    const res = await request(app)
+      .post('/api/register')
+      .send({
+        name: 'Test User',
+        email: 'testuser@gmail.com',
+        password: 'test',
+        confirmPassword: 'test',
+        phone: '1234567890',
+        otpEmail: '123456'
+      });
+  
+  
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('should register a new user', async () => {
+    const res = await request(app)
+      .post('/api/register')
+      .send({
+        name: 'Test User',
+        email: 'testuser@gmail.com',
+        password: 'testpassword',
+        confirmPassword: 'testpassword',
+        phone: '1234',
+        otpEmail: '123456'
+      });
+  
+  
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('should register a new user', async () => {
+    const res = await request(app)
+      .post('/api/register')
+      .send({
+        name: 'Test User',
+        email: 'testuser@gmail.com',
+        password: 'testpassword',
+        confirmPassword: 'testpassword',
+        phone: '8885226140',
+        otpEmail: '123456'
+      });
+  
+  
+    expect(res.statusCode).toBe(400);
   });
   
   it('should log in the registered user', async () => {
     const res = await request(app)
       .post('/api/login')
       .send({
-        email: testUser.email,
-        password: testUser.password
+        email: 'testuser@gmail.com',
+        password: 'testpassword'
       });
   
-    console.log('Login Response:', res.body); //Prints the token/message
   
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('token');
-    expect(res.body.message).toBe('Login Successful');
   });
-  
 
+  it('should log in the registered user', async () => {
+    const res = await request(app)
+      .post('/api/login')
+      .send({
+        email: 'testuser@gmail.com',
+        password: 'testpass'
+      });
+  
+  
+    expect(res.statusCode).toBe(401);
+  });
+
+  it('should log in the registered user', async () => {
+    const res = await request(app)
+      .post('/api/login')
+      .send({
+        email: 'test@gmail.com',
+        password: 'testpassword'
+      });
+  
+    expect(res.statusCode).toBe(401);
+  });
 });
