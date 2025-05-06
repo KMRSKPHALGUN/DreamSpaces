@@ -79,6 +79,14 @@ const swaggerOptions = {
         servers:[{
             url: 'http://localhost:5000',
             description: 'Local Server'
+        },
+        {
+            url: 'https://dreamspaces.onrender.com',
+            description: 'Production Server',
+        },
+        {
+            url: 'https://dream-spaces.vercel.com',
+            description: 'Production Server',
         }]
     },
 
